@@ -8,7 +8,7 @@ using AOT;
 
 public class TextManager : MonoBehaviour {
 
-	private string voice = "Dutch Female";
+	private string _voice = "Dutch Female";
 
 	// whether the agent is currently paused, initialised to false.
 	private bool _isSpeaking = false;
@@ -18,15 +18,22 @@ public class TextManager : MonoBehaviour {
 	// most recent boundary character encountered while speaking text.
 	private static int _lastWordIndex = 0;
 
-	//delegate declarations for callback functions
+	// delegate declarations for javascript text to speech callback functions
+	// TODO not sure if needed, probably for dynamic linking
 	public delegate void StartDelegate();
 	public delegate void EndDelegate();
+	public delegate void BoundaryDelegate(int lastword);
 
 	Button btn;
 
+	// These are javascript functions in WebGLTemplates/.../TemplateData/textToSpeech.js
+	// They can be dynamically linked to this c# code through Plugins/WebGL/MyPlugin.jslib
 	#if UNITY_WEBGL
 	[DllImport("__Internal")]
-	private static extern string Speak(string text, string voice, StartDelegate startCallback, EndDelegate endCallback );
+	private static extern string Speak(
+		string text, string voice,
+		StartDelegate startCallback, EndDelegate endCallback, BoundaryDelegate boundaryCallback
+		);
 
 	[DllImport("__Internal")]
 	private static extern string Stop();
@@ -79,25 +86,23 @@ public class TextManager : MonoBehaviour {
 		Debug.Log(getSystemVoices());
 	}
 
-	public void setVoice(string voice){
-		this.voice = voice;
+	public void setVoice(string newVoice){
+		_voice = newVoice;
 	}
 
 	public void startSpeach(string text) {
 		_textInput = text;
 		_isSpeaking = true;
-		//TODO add onboundary callback function here instead of using TalkingCoachAPI
-		if( Application.platform == RuntimePlatform.WebGLPlayer){
-			Speak(text, this.voice, callbackStart, callbackEnd);
-		}	
+		// start speech, animation started with callback functions
+		Speak(text, this._voice, callbackStart, callbackEnd, callbackBoundary);
 	}
 
 	public void stopSpeach() {
 		_textInput = null;
 		_isSpeaking = false;
-		if( Application.platform == RuntimePlatform.WebGLPlayer){
-			Stop();
-		}
+		//stop speech
+		Stop();
+		//stop animation
 		ApplicationManager.instance.StopAnimation();
 	}
 
@@ -134,22 +139,8 @@ public class TextManager : MonoBehaviour {
 		_isSpeaking = true;
 		
 		// resume speaking with remainder of text after pause.
-		Speak(_textInput, voice, callbackStart, callbackEnd);
+		Speak(_textInput, _voice, callbackStart, callbackEnd, callbackBoundary);
 		Debug.Log("Resumed Speech!");
-	}
-
-	/// <summary>
-	/// Updates the index of the most recently encountered word while speaking.
-	/// Index is the place of the word's first character in the text.
-	/// </summary>
-	/// <param name="lastWord">Index of the most recently encountered word while speaking.</param>
-	public void lastWordIndex(int lastWord) {
-		//TODO check if there is a timing risk here
-		// don't update index while paused
-		//if (_isPaused) return;
-		
-		_lastWordIndex = lastWord;
-		Debug.Log("Last Boundary Char: " + lastWord);
 	}
 
 	[MonoPInvokeCallback(typeof(StartDelegate))]
@@ -162,5 +153,21 @@ public class TextManager : MonoBehaviour {
 	public static void callbackEnd(){
 		Debug.Log("callback ended");
 		ApplicationManager.instance.StopAnimation();
+	}
+
+	/// <summary>
+	/// Update the index of the most recently encountered word while speaking.
+	/// Index is the place of the word's first character in the text.
+	/// 
+	/// This is a callback function for the javascript Web Speech API. It is
+	/// attached to the onboundary event, fired at the start of each word.
+	/// </summary>
+	/// <param name="lastWord">
+	/// Index of the most recently encountered word while speaking.
+	/// </param>
+	[MonoPInvokeCallback(typeof(BoundaryDelegate))]
+	public static void callbackBoundary(int lastWord) {
+		_lastWordIndex = lastWord;
+		Debug.Log("Last Boundary Char = " + lastWord);
 	}
 }

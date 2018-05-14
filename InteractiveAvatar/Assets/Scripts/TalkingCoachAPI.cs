@@ -63,13 +63,4 @@ public class TalkingCoachAPI : MonoBehaviour {
 	public void resumeSpeech() {
 		TextManager.instance.resumeSpeech();
 	}
-
-	/// <summary>
-	/// Updates the most recent boundary char encountered while speaking.
-	/// </summary>
-	public void boundaryChar(int lastChar) {
-		TextManager.instance.lastWordIndex(lastChar);
-	}
-	
-	
 }

@@ -92,7 +92,10 @@ if (typeof textToSpeach != 'undefined') {
             console.log("voices" + voices);
             return voices;
         }
-
+        
+        // self.speak is also defined in Plugins/WebGL/MyPlugins.jslib which lets 
+        // the Unity WebGL Build Process link it to this one. 
+        // It is dynamically included in and called from Scripts/TextManager.cs
     	self.speak = function (text, voicename, parameters){
 
             self.msgtext = text;
@@ -122,9 +125,9 @@ if (typeof textToSpeach != 'undefined') {
                 msg.onpause = parameters.onpause;
                 msg.onresume = parameters.onresume;
                 msg.onmark = parameters.onmark;
-                // this event fires for every word or sentence boundary.
-                // boundaryChar is a function defined in ../UnityInteraction.js
-                msg.onboundary = boundaryChar;
+                // this event fires at the start of each word.
+                //TODO find out if iOS check like speech_onstart is needed
+                msg.onboundary = parameters.onboundary;
             } else {
                 msg.onend = self.speech_onend;
                 msg.onerror = function (e) {

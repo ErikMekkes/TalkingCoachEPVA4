@@ -45,14 +45,8 @@ function moveAvatarVertical(){
 	SendMessage('TalkingCoach', 'moveAvatarVertical', 5);
 }
 
-/**
- * Callback function for the Web Speech API's onBoundary event.
- * Attached to speech synthesis in TemplateData/textToSpeech.js
- */
-function boundaryChar(event) {
-	var index = event.charIndex;
-    SendMessage('TalkingCoach', 'boundaryChar', index);
-}
+//TODO use callback functions instead of messaging for pause / resume
+//low priority, tested and difference is negligible, no efficiency gain
 
 /**
  * Call the pauseSpeech function attached to the TalkingCoach Object. This
