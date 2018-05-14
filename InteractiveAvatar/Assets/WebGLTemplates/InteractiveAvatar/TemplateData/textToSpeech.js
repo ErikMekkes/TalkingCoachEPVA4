@@ -100,7 +100,7 @@ if (typeof textToSpeach != 'undefined') {
             self.msgparameters = parameters || {};
 
     		var msg = new SpeechSynthesisUtterance();
-			msg.lang = 'nl-BE'
+			msg.lang = 'en-US';
             msg.text = text;
             msg.volume = 1;
             msg.rate = 1;
@@ -111,26 +111,27 @@ if (typeof textToSpeach != 'undefined') {
             self.msgparameters.onendcalled = false;
 
             if (parameters != null) {
+                msg.onend = self.speech_onend;
+                msg.addEventListener('end',self.speech_onend);
 
-                            msg.onend = self.speech_onend;
-                            msg.addEventListener('end',self.speech_onend);
-
-                        msg.onerror = parameters.onerror || function (e) {
-                            console.log('TTS: Error');
-                            console.log(e);
-                        };
-                        
-                        msg.onpause = parameters.onpause;
-                        msg.onresume = parameters.onresume;
-                        msg.onmark = parameters.onmark;
-                        msg.onboundary = parameters.onboundary;
-                    } else {
-                        msg.onend = self.speech_onend;
-                        msg.onerror = function (e) {
-                            console.log('RV: Error');
-                            console.log(e);
-                        };
-                    }
+                msg.onerror = parameters.onerror || function (e) {
+                    console.log('TTS: Error');
+                    console.log(e);
+                };
+                
+                msg.onpause = parameters.onpause;
+                msg.onresume = parameters.onresume;
+                msg.onmark = parameters.onmark;
+                // this event fires for every word or sentence boundary.
+                // boundaryChar is a function defined in ../UnityInteraction.js
+                msg.onboundary = boundaryChar;
+            } else {
+                msg.onend = self.speech_onend;
+                msg.onerror = function (e) {
+                    console.log('RV: Error');
+                    console.log(e);
+                };
+            }
 
 			window.speechSynthesis.speak(msg);
     	}

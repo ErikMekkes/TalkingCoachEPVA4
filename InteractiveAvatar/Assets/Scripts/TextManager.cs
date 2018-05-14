@@ -10,6 +10,15 @@ public class TextManager : MonoBehaviour {
 
 	private string voice = "Dutch Female";
 
+	// whether the agent is currently paused, initialised to false.
+	private bool _isSpeaking = false;
+	private bool _isPaused = false;
+	// current text string to be spoken.
+	private string _textInput = null;
+	// most recent boundary character encountered while speaking text.
+	private static int _lastWordIndex = 0;
+
+	//delegate declarations for callback functions
 	public delegate void StartDelegate();
 	public delegate void EndDelegate();
 
@@ -74,17 +83,73 @@ public class TextManager : MonoBehaviour {
 		this.voice = voice;
 	}
 
-	public void startSpeach(string text){
+	public void startSpeach(string text) {
+		_textInput = text;
+		_isSpeaking = true;
+		//TODO add onboundary callback function here instead of using TalkingCoachAPI
 		if( Application.platform == RuntimePlatform.WebGLPlayer){
 			Speak(text, this.voice, callbackStart, callbackEnd);
 		}	
 	}
 
-	public void stopSpeach(){
+	public void stopSpeach() {
+		_textInput = null;
+		_isSpeaking = false;
 		if( Application.platform == RuntimePlatform.WebGLPlayer){
 			Stop();
 		}
 		ApplicationManager.instance.StopAnimation();
+	}
+
+	/// <summary>
+	/// Pauses speech synthesis and animation from a speaking state.
+	/// </summary>
+	public void pauseSpeech() {
+		// if not speaking do nothing
+		if (!_isSpeaking) return;
+		
+		_isPaused = true;
+		_isSpeaking = false;
+		
+		// store remainder of text for pause.
+		_textInput = _textInput.Substring(_lastWordIndex);
+		_lastWordIndex = 0;
+		
+		// stop speaking
+		Stop();
+		// stop animation
+		ApplicationManager.instance.StopAnimation();
+		
+		Debug.Log("Paused Speech!");
+	}
+
+	/// <summary>
+	/// Resumes speech synthesis and animation from a paused state.
+	/// </summary>
+	public void resumeSpeech() {
+		// if not paused do nothing
+		if (!_isPaused) return;
+		
+		_isPaused = false;
+		_isSpeaking = true;
+		
+		// resume speaking with remainder of text after pause.
+		Speak(_textInput, voice, callbackStart, callbackEnd);
+		Debug.Log("Resumed Speech!");
+	}
+
+	/// <summary>
+	/// Updates the index of the most recently encountered word while speaking.
+	/// Index is the place of the word's first character in the text.
+	/// </summary>
+	/// <param name="lastWord">Index of the most recently encountered word while speaking.</param>
+	public void lastWordIndex(int lastWord) {
+		//TODO check if there is a timing risk here
+		// don't update index while paused
+		//if (_isPaused) return;
+		
+		_lastWordIndex = lastWord;
+		Debug.Log("Last Boundary Char: " + lastWord);
 	}
 
 	[MonoPInvokeCallback(typeof(StartDelegate))]
