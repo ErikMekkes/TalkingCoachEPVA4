@@ -28,7 +28,7 @@ public class TextManager : MonoBehaviour {
 
 	Button btn;
 
-//	#if UNITY_WEBGL
+	#if UNITY_WEBGL
 	/// <summary>
 	/// Start speaking a given text in a given voice, executing callbacks at the start and at the end of the speech.
 	/// </summary>
@@ -53,7 +53,7 @@ public class TextManager : MonoBehaviour {
 	/// <returns>Gets all the system voices.</returns>
 	[DllImport("__Internal")]
 	private static extern string getSystemVoices();
-//	#endif
+	#endif
 
 	/// <summary>
 	/// The Singleton instance of the class.
