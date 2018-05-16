@@ -1,19 +1,33 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 public class ScriptBatch
 {
+    private static List<string> args = new List<string>();
+
     [MenuItem("MyTools/Windows Build With Postprocess")]
     public static void BuildGame()
     {
-        UnityEngine.Debug.Log("Building haha");
-        System.Diagnostics.Debug.WriteLine("Building");
+        // Get command line arguments
+        string[] args_array = Environment.GetCommandLineArgs();
+        foreach (string arg in args_array)
+        {
+            args.Add(arg);
+        }
+        
         // Get filename.
-        string path = EditorUtility.SaveFolderPanel("Choose Location of Built Site", "", "");
-        UnityEngine.Debug.Log(path);
-//        string[] scenes = new string[] {"Assets/_Scenes/InteractiveAvatar.unity"};
-
+        string path = "Build";
+        Debug.Log(path);
+        string[] scenes = new string[] {"Assets/_Scenes/InteractiveAvatar.unity"};
+        
         // Build player.
-//        BuildPipeline.BuildPlayer(scenes, path, BuildTarget.WebGL, BuildOptions.None);
+        BuildOptions options = BuildOptions.None;
+        if (args.Contains("--ia-run"))
+        {
+            options = BuildOptions.AutoRunPlayer;
+        }
+        BuildPipeline.BuildPlayer(scenes, path, BuildTarget.WebGL, options);
     }
 }
