@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ApplicationManager : MonoBehaviour {
 	// public attributes: Unity editor interface fields for ApplicationManager
@@ -33,6 +34,10 @@ public class ApplicationManager : MonoBehaviour {
 	private string talk;
 	// list of  of all included viseme animations
 	private string[] _visemes;
+
+	private List<int> _visemeList;
+	private int _currentViseme = -1;
+	private int _visemeCount = -1;
 
 	// initial coach avatar selected from prefabs.
 	private int _coachNumber = 0;
@@ -93,16 +98,11 @@ public class ApplicationManager : MonoBehaviour {
 		Destroy(new_coach);
 		_coachNumber = 1;
 		load_coach();
-		// play animations forever
-		_animation.wrapMode = WrapMode.Loop;
-		// make the viseme running a base layer animation
-		_animation[_visemes[0]].layer = 0;
-		// talk
-		// Can choose to stop all animations beforehand, or stop all in same layer
-		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
-		// talk and run at the same time
-		// PlayViseme stops all in the same layer beforehand
-		playViseme(0);
+		_animation.Stop();
+		// make a list of 5 viseme animations
+		List<int> visList = new List<int> {0, 1, 2, 3, 4, 5};
+		// play the list of animations sequentially
+		playVisemeList(visList);
 	}
 
 	private void on_load(){
@@ -178,17 +178,46 @@ public class ApplicationManager : MonoBehaviour {
 	/// animation layer, when playing a new viseme, previous animations in the
 	/// same layer as the new animation are stopped.
 	///
-	/// Animations are set to loop continuously when called.
+	/// Animations are set to play once when called.
 	/// </summary>
 	/// <param name="visNumber">
 	/// Number of viseme Animation to play.
 	/// </param>
 	public void playViseme(int visNumber) {
 		// loop animations endlessly
-		_animation.wrapMode = WrapMode.Loop;
+		_animation.wrapMode = WrapMode.Once;
 		// play the given viseme animation without fading in, stopping previous
 		// animations in the same layer beforehand (other visemes)
 		_animation.CrossFade(_visemes[visNumber], 0.0f, PlayMode.StopSameLayer);
+	}
+
+	/// <summary>
+	/// Plays the list of viseme animations sequentially. Animations are played
+	/// once, when an animation ends the next one in the list is played until
+	/// there are no remaining visemes in the list.
+	/// </summary>
+	/// <param name="visList">
+	/// List of viseme animation numbers to play sequentially.
+	/// </param>
+	public void playVisemeList(List<int> visList) {
+		// save list of visemes to play
+		_visemeList = visList;
+		_visemeCount = _visemeList.Count;
+		// set the currently playing viseme
+		_currentViseme = 0;
+		// play the viseme
+		nextViseme();
+	}
+
+	// called when viseme animation finished
+	public void nextViseme() {
+		// increment the currently playing viseme
+		_currentViseme++;
+		// if there are more visemes to play
+		if (_currentViseme < _visemeCount) {
+			// play the next viseme animation
+			playViseme(_currentViseme);
+		}
 	}
 
 	public void PlayAnimation(){
