@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 using AOT;
@@ -27,6 +29,11 @@ public class TextManager : MonoBehaviour {
 	#endif
 
 	private static TextManager _instance;
+	
+	private float timeOutTimer = 0.0f;
+	private Boolean talking = false;
+	private float[] animationTiming;
+	private float animationDuration = 0.0575757575757576f;
 
 	//Singleton Initiation
 	public static TextManager instance
@@ -40,6 +47,25 @@ public class TextManager : MonoBehaviour {
 			}
 			return _instance;
 		}
+	}
+
+	void Update()
+	{
+		timeOutTimer += Time.deltaTime;
+
+		if (talking)
+		{
+			for (int i = 0; i < animationTiming.Length - 1; i++)
+			{
+				if (timeOutTimer >= animationTiming[i] && timeOutTimer < animationTiming[i + 1])
+				{
+					animationTiming[i] = float.MaxValue;
+					ApplicationManager.instance.changeCoach();
+					break;
+				}
+			}
+		}		
+		
 	}
 		
 //	public void SpeakTTS_Click(){
@@ -75,7 +101,16 @@ public class TextManager : MonoBehaviour {
 	}
 
 	public void startSpeach(string text){
-		if( Application.platform == RuntimePlatform.WebGLPlayer){
+		if( Application.platform == RuntimePlatform.WebGLPlayer)
+		{
+			timeOutTimer = 0;
+			talking = true;
+			animationTiming = new float[text.Length];
+			float j = 0.0f;
+			for (int i = 0; i < animationTiming.Length; i++)
+			{
+				animationTiming[i] = j + i * animationDuration;
+			}
 			Speak(text, this.voice, callbackStart, callbackEnd);
 		}	
 	}

@@ -110,16 +110,6 @@ if (typeof textToSpeach != 'undefined') {
 
             self.msgparameters.onendcalled = false;
             
-            var ts = 0.0575757575757576;
-            var bs = 0.0575757575757576;
-            var splittedText = text.split("");
-            
-            
-            var i;
-            for (i = 0; i < splittedText.length; i++) {
-                console.log(splittedText[i] + " => " + (bs + i * ts));
-            } 
-            
             if (parameters != null) {
 
                             msg.onend = self.speech_onend;
