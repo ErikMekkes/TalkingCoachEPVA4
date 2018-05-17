@@ -36,8 +36,9 @@ public class ApplicationManager : MonoBehaviour {
 	private string[] _visemes;
 
 	private List<int> _visemeList;
-	private int _currentViseme = -1;
-	private int _visemeCount = -1;
+	private int _visemeListIndex = -1;
+	private int _visemeNumber = -1;
+	private int _visemeListCount = -1;
 
 	// initial coach avatar selected from prefabs.
 	private int _coachNumber = 0;
@@ -202,22 +203,27 @@ public class ApplicationManager : MonoBehaviour {
 	public void playVisemeList(List<int> visList) {
 		// save list of visemes to play
 		_visemeList = visList;
-		_visemeCount = _visemeList.Count;
+		_visemeListCount = _visemeList.Count;
 		// set the currently playing viseme
-		_currentViseme = 0;
-		// play the viseme
+		_visemeListIndex = 0;
+		// play the first viseme animation
 		nextViseme();
 	}
 
-	// called when viseme animation finished
+	/// <summary>
+	/// Plays the next viseme from the sequential list of visemes to play.
+	/// </summary>
 	public void nextViseme() {
-		// increment the currently playing viseme
-		_currentViseme++;
-		// if there are more visemes to play
-		if (_currentViseme < _visemeCount) {
-			// play the next viseme animation
-			playViseme(_currentViseme);
+		// stop if there are no more visemes to play
+		if (_visemeListIndex >= _visemeListCount) {
+			return;
 		}
+		// find the viseme number to play
+		_visemeNumber = _visemeList[_visemeListIndex];
+		// play the next viseme animation
+		playViseme(_visemeNumber);
+		// increment the visemeListIndex
+		_visemeListIndex++;
 	}
 
 	public void PlayAnimation(){
