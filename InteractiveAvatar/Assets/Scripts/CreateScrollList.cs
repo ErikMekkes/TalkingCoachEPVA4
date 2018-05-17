@@ -5,17 +5,17 @@ using UnityEngine.EventSystems;
 using UnityEngine.Audio;
 using System.Collections.Generic;
 using System.IO;
-//
-//[System.Serializable]
-//public class Item {
-//	public string name;
-//	public AudioClip audioClip;
-//
-//	public Item(string name, AudioClip aClip){
-//		this.name = name;
-//		this.audioClip = aClip;
-//	}
-//}
+
+[System.Serializable]
+public class Item {
+	public string name;
+	public AudioClip audioClip;
+
+	public Item(string name, AudioClip aClip){
+		this.name = name;
+		this.audioClip = aClip;
+	}
+}
 
 public class CreateScrollList : MonoBehaviour {
 
