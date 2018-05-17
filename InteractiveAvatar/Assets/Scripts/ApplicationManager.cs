@@ -117,12 +117,12 @@ public class ApplicationManager : MonoBehaviour {
 		_animation.wrapMode = WrapMode.Loop;
 		// make the viseme running a base layer animation
 		_animation[_visemes[0]].layer = 0;
-		// run
-		PlayViseme(0);
-		// talk and run at the same time
+		// talk
 		// Can choose to stop all animations beforehand, or stop all in same layer
+		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
+		// talk and run at the same time
 		// PlayViseme stops all in the same layer beforehand
-		_animation.CrossFade (talk, 0.0f, PlayMode.StopSameLayer);
+		PlayViseme(0);
 	}
 
 	private void on_load(){
