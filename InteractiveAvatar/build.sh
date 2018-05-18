@@ -1,6 +1,6 @@
 #!/bin/bash
 # CONFIGURE YOUR SYSTEM
-VERSION="0.1.0"
+VERSION="0.2.0"
 UNITY_INSTALL="C:\Program Files\Unity\Editor\Unity.exe"
 
 # CONFIGURE YOUR SYSTEM ABOVE THIS LINE
@@ -47,11 +47,16 @@ else
 		ARGS+="--ia-run "
 	fi
 
-	# echo $UNITY_INSTALL -quit -batchmode -executeMethod ScriptBatch.BuildGame $ARGS
+	echo "Building with command"
+	echo "${UNITY_INSTALL} -quit -batchmode -executeMethod ScriptBatch.BuildGame ${ARGS}"
 
 	echo 
 	echo 
 	echo "Building now"
 
-	# "${UNITY_INSTALL}" -quit -batchmode -executeMethod ScriptBatch.BuildGame "${ARGS}"
+	"${UNITY_INSTALL}" -quit -batchmode -executeMethod ScriptBatch.BuildGame "${ARGS}"
+
+	echo
+	echo "Build finished"
+	pause
 fi
