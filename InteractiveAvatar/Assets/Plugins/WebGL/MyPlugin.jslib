@@ -19,7 +19,7 @@ var MyPlugin = {
         textToSpeach.speak(Pointer_stringify(textMessage), Pointer_stringify(voiceType), {
             onstart: function(){Runtime.dynCall('v', callbackStart, 0)},
             onend: function(){Runtime.dynCall('v', callbackEnd, 0)},
-            onboundary: function(event){Runtime.dynCall("vi", callbackBoundary, [event.charIndex])}
+            onboundary: function(event){Runtime.dynCall("vif", callbackBoundary, [event.charIndex, event.elapsedTime])}
         });
     },
     

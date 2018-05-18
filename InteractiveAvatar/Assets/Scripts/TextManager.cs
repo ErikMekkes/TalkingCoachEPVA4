@@ -29,7 +29,7 @@ public class TextManager : MonoBehaviour {
 	/// The callback when the speech ends.
 	/// </summary>
 	public delegate void EndDelegate();
-	public delegate void BoundaryDelegate(int lastword);
+	public delegate void BoundaryDelegate(int lastword, float elapsedTime);
 
 	Button btn;
 
@@ -201,8 +201,8 @@ public class TextManager : MonoBehaviour {
 	/// Index of the most recently encountered word while speaking.
 	/// </param>
 	[MonoPInvokeCallback(typeof(BoundaryDelegate))]
-	public static void callbackBoundary(int lastWord) {
+	public static void callbackBoundary(int lastWord, float elapsedTime) {
 		_lastWordIndex = lastWord;
-		Debug.Log("Last Boundary Char = " + lastWord);
+		Debug.Log("Last Boundary Char = " + lastWord + " at time : " + elapsedTime);
 	}
 }
