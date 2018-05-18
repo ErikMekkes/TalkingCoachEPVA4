@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = System.Object;
 
 /// <summary>
-/// The API of the Talking Coach.
+/// API for controlling the TalkingCoach Object
+/// 
+/// These functions are attached to the TalkingCoach object in the Unity
+/// scene. They are exposed and can be called by using SendMessage from within
+/// Unity scripts or javascript with WebGL.
+/// 
+/// Functions called by WebGLTemplates/InteractiveAvatar/UnityInteraction.js
 /// </summary>
 public class TalkingCoachAPI : MonoBehaviour {
 
@@ -73,5 +80,19 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// <param name="vertical">The value to move the avatar by.</param>
 	public void moveAvatarVertical(int vertical){
 		ApplicationManager.instance.moveCoah(0,vertical);
+	}
+
+	/// <summary>
+	/// Sends the instruction to pause speech to the TextManager script in Unity.
+	/// </summary>
+	public void pauseSpeech() {
+		TextManager.instance.pauseSpeech();
+	}
+
+	/// <summary>
+	/// Sends the instruction to pause speech to the TextManager script in Unity.
+	/// </summary>
+	public void resumeSpeech() {
+		TextManager.instance.resumeSpeech();
 	}
 }
