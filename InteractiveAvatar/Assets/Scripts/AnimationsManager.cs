@@ -35,9 +35,13 @@ public class AnimationsManager : MonoBehaviour {
 	// list of viseme animation names.
 	[SerializeField] private string[] _Visemes_English_56 = new string[56];
 
+	// The Singleton instance of the class.
 	private static AnimationsManager _instance;
 
-	//Singleton Initiation
+	/// <summary>
+	/// The initiation of the singleton: either returns the instance if it
+	/// already exists or instantiates and returns an instance otherwise.
+	/// </summary>
 	public static AnimationsManager instance
 	{
 		get
@@ -51,14 +55,26 @@ public class AnimationsManager : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Return the name of the idle animation.
+	/// </summary>
+	/// <returns>The idle animation's name.</returns>
 	public string getIdle(){
 		return idle;
 	}
 
+	/// <summary>
+	/// Return the name of the talk animation.
+	/// </summary>
+	/// <returns>The talk animation's name.</returns>
 	public string getTalk(){
 		return talk;
 	}
 
+	/// <summary>
+	/// Return the name of the talkmix animation.
+	/// </summary>
+	/// <returns>The talkmix animation's name.</returns>
 	public string getTalkmix(){
 		return talkmix;
 	}

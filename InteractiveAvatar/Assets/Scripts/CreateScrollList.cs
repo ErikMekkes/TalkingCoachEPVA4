@@ -17,6 +17,9 @@ public class Item {
 	}
 }
 
+/// <summary>
+/// This class creates a list for audioclips.
+/// </summary>
 public class CreateScrollList : MonoBehaviour {
 
 	private Animation animation;
@@ -43,7 +46,9 @@ public class CreateScrollList : MonoBehaviour {
 	public float timeOut = 30.0f; // Time Out Setting in Seconds
 	private float timeOutTimer = 0.0f;
 
-
+	/// <summary>
+	/// Initializes cameras and idle/talk animations.
+	/// </summary>
 	void Start () {
 
 		cams = Camera.allCameras;
@@ -65,6 +70,9 @@ public class CreateScrollList : MonoBehaviour {
 
 	}
 
+	/// <summary>
+	/// The update function executed every Time.deltaTime milliseconds.
+	/// </summary>
 	void Update(){
 		timeOutTimer += Time.deltaTime;
 		// If screen is tapped, reset timer
@@ -95,6 +103,9 @@ public class CreateScrollList : MonoBehaviour {
 		}	
 	}
 
+	/// <summary>
+	/// Add audioclips to a temporarylist and instantiate start, stop, coach change and background change buttons.
+	/// </summary>
 	void populateList(){
 		this.audio = this.GetComponent<AudioSource>();
 		Object[] audioClips = Resources.LoadAll("Audioclips");
@@ -144,6 +155,10 @@ public class CreateScrollList : MonoBehaviour {
 
 	}
 
+	/// <summary>
+	/// Plays the audioclip assigned to an AudioButton.
+	/// </summary>
+	/// <param name="button">The AudioButton to play the clip of.</param>
 	public void playSound(AudioButton button){
 
 		this.audio.clip = button.audioClip;
@@ -156,6 +171,10 @@ public class CreateScrollList : MonoBehaviour {
 		button.nameLabel.text = "Replay";
 	}
 
+	/// <summary>
+	/// Stops the audioclip assigned to an AudioButton.
+	/// </summary>
+	/// <param name="button">The AudioButton to stop the clip of.</param>
 	public void stopSound(AudioButton button){
 		this.audio.clip = button.audioClip;
 		float clipLength = button.audioClip.length;
@@ -166,7 +185,11 @@ public class CreateScrollList : MonoBehaviour {
 		this.start.nameLabel.text = "Start";
 	}
 
-
+	/// <summary>
+	/// Wait a given amount of seconds before going ide.
+	/// </summary>
+	/// <param name="waitTime">The amount of seconds to wait.</param>
+	/// <returns>The IEnumerator for waiting.</returns>
 	IEnumerator waitForAudioToFinish(float waitTime){
 		yield return new WaitForSeconds(waitTime);
 		//this.animation.PlayQueued(idle);

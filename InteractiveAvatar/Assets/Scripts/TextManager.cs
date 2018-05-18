@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using AOT;
 
+/// <summary>
+/// This class handles all text to speech processes.
+/// </summary>
 public class TextManager : MonoBehaviour {
 
 	private string _voice = "Dutch Female";
@@ -21,6 +24,10 @@ public class TextManager : MonoBehaviour {
 	// delegate declarations for javascript text to speech callback functions
 	// TODO not sure if needed, probably for dynamic linking
 	public delegate void StartDelegate();
+	
+	/// <summary>
+	/// The callback when the speech ends.
+	/// </summary>
 	public delegate void EndDelegate();
 	public delegate void BoundaryDelegate(int lastword, float elapsedTime);
 
@@ -29,22 +36,44 @@ public class TextManager : MonoBehaviour {
 	// These are javascript functions in WebGLTemplates/.../TemplateData/textToSpeech.js
 	// They can be dynamically linked to this c# code through Plugins/WebGL/MyPlugin.jslib
 	#if UNITY_WEBGL
+	/// <summary>
+	/// Start speaking a given text in a given voice, executing callbacks at the start and at the end of the speech.
+	/// </summary>
+	/// <param name="text">The text to pronounce.</param>
+	/// <param name="voice">The boice to pronounce in.</param>
+	/// <param name="startCallback">The function to call when speech starts.</param>
+	/// <param name="endCallback">The function to call when speech ends.</param>
+	/// <returns>The state of the TTS.</returns>
 	[DllImport("__Internal")]
 	private static extern string Speak(
 		string text, string voice,
 		StartDelegate startCallback, EndDelegate endCallback, BoundaryDelegate boundaryCallback
 		);
 
+	/// <summary>
+	/// Stops the speech.
+	/// </summary>
+	/// <returns>The state of the TTS.</returns>
 	[DllImport("__Internal")]
 	private static extern string Stop();
 
+	/// <summary>
+	/// Returns system voices.
+	/// </summary>
+	/// <returns>Gets all the system voices.</returns>
 	[DllImport("__Internal")]
 	private static extern string getSystemVoices();
 	#endif
 
+	/// <summary>
+	/// The Singleton instance of the class.
+	/// </summary>
 	private static TextManager _instance;
 
-	//Singleton Initiation
+	/// <summary>
+	/// The initiation of the singleton: either returns the instance of it already exists and creates an instantiates
+	/// an instance otherwise.
+	/// </summary>
 	public static TextManager instance
 	{
 		get
@@ -81,6 +110,9 @@ public class TextManager : MonoBehaviour {
 //		}
 //	}
 
+	/// <summary>
+	/// Get the available system voices.
+	/// </summary>
 	public void getVoices(){
 		Debug.Log("Get Voices");
 		Debug.Log(getSystemVoices());
@@ -149,6 +181,9 @@ public class TextManager : MonoBehaviour {
 		ApplicationManager.instance.PlayAnimation();
 	}
 		
+	/// <summary>
+	/// The end of the callback when talking ends.
+	/// </summary>
 	[MonoPInvokeCallback(typeof(EndDelegate))]
 	public static void callbackEnd(){
 		Debug.Log("callback ended");

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ApplicationManager : MonoBehaviour {
 	// public attributes: Unity editor interface fields for ApplicationManager
+	// field for prefab avatar objects
 	public List<GameObject> coach_prefabs;
+	// field for scene component that should hold the avatar object
 	public GameObject coach_holder;
+	// field for scene component that should hold the background object
 	public GameObject background_holder;
-	// Main Camera
+	// field for Main Camera
 	public Camera avatarCamera;
-	// Time Out Setting in Seconds
+	// field for screensaver timeOut setting in seconds
 	public float timeOut = 30.0f;
 	
 	
@@ -24,7 +27,7 @@ public class ApplicationManager : MonoBehaviour {
 	private Animation _animation;
 	private AnimationsManager _animationsManager;
 	
-	// background texture and renderer
+	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
 	SpriteRenderer backgroundSprite;
 
@@ -49,7 +52,10 @@ public class ApplicationManager : MonoBehaviour {
 	// Singleton Instance
 	private static ApplicationManager _instance;
 
-	// Singleton Initiation
+	/// <summary>
+	/// Constructs an instance of ApplicationManager if it doesn't exist and
+	/// returns the instance if it already exists.
+	/// </summary>
 	public static ApplicationManager instance
 	{
 		get
@@ -81,7 +87,7 @@ public class ApplicationManager : MonoBehaviour {
 	/// of the Update methods are called the first time. It runs after Awake().
 	/// </summary>
 	void Start () {
-		// ensure screensaves camera is disabled on start (see Update())
+		// ensure screensaver camera is disabled on start (see Update())
 		cams = Camera.allCameras;
 		foreach( Camera cam in cams){
 			if(cam.gameObject.name == "InactiveCamera"){
@@ -94,9 +100,8 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 	private void runningDemo() {
-		// hihi puns, it runs...
-		// demonstrate calling animation by name, second coach runs
-		// change coach, viseme[0] is set as a running animation in Unity for coach 2
+		// demonstrate calling a sequence of viseme animations with the prefab
+		// demo coach that was added with coach number 1
 		Destroy(new_coach);
 		_coachNumber = 1;
 		load_coach();
@@ -106,28 +111,49 @@ public class ApplicationManager : MonoBehaviour {
 		// play the list of animations sequentially
 		playVisemeList(visList);
 	}
-
+	
+	/// <summary>
+	/// Load the application by setting the background sprite, loading 
+	/// background textures and loading the coach.
+	/// </summary>
 	private void on_load(){
 		backgroundSprite =  background_holder.GetComponent<SpriteRenderer>();
 		load_background();
 		load_coach();
 	}
 
+	/// <summary>
+	/// Load the background texture.
+	/// </summary>
 	private void load_background(){
 		backgroundTexture = Resources.LoadAll<Sprite>("Textures");
 	}
 
+	/// <summary>
+	/// Zoom the camera for the avatar by a given value.
+	/// </summary>
+	/// <param name="zoomValue">The value to zoom by.</param>
 	public void zoomAvatarCamera(int zoomValue){
 		Vector3 changeZoom = new Vector3(0,0,zoomValue);
 		avatarCamera.transform.transform.position += changeZoom;	
 	}
 
+	/// <summary>
+	/// Move the coach horizontally and vertically.
+	/// </summary>
+	/// <param name="moveHorizontal">The horizontal movement.</param>
+	/// <param name="moveVertical">The vertical movement.</param>
 	public void moveCoah(int moveHorizontal, int moveVertical){
 		Vector3 changePosition = new Vector3(moveHorizontal, moveVertical, 0);
 		new_coach.transform.position += changePosition;
 	}
 	
-	//load all the coach/avatar
+	/// <summary>
+	/// Load the coach based on the current coach number and the coach prefabs.
+	/// Will also set the position, rotation and scale of the coach.
+	/// 
+	/// Also loads the animations for the coach.
+	/// </summary>
 	private void load_coach() {
 		new_coach = GameObject.Instantiate(coach_prefabs[_coachNumber]);
 		new_coach.transform.parent = coach_holder.transform;
@@ -139,11 +165,19 @@ public class ApplicationManager : MonoBehaviour {
 		loadAnimations();
 	}
 
+	/// <summary>
+	/// Will increase the current background number by 1 and load a new
+	/// background sprite based on the new value.
+	/// </summary>
 	public void changeBackground(){
 		_backgroundNumber = (_backgroundNumber + 1) % backgroundTexture.Length;
 		backgroundSprite.sprite = backgroundTexture[_backgroundNumber];
 	}
 
+	/// <summary>
+	/// Will increase the current coach number by 1 and load the new coach based
+	/// on the new value.
+	/// </summary>
 	public void changeCoach(){
 		Vector3 oldCoachPosition = new_coach.transform.position;
 		_coachNumber = (_coachNumber + 1) % coach_prefabs.Count;
@@ -153,6 +187,13 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 
+	/// <summary>
+	/// Loads the animations included with the current coach by accessing them
+	/// through the AnimationsManager interface.
+	///
+	/// Also ensures attributes such as animation layer, wrapmode and speed are
+	/// set properly.
+	/// </summary>
 	private void loadAnimations() {
 		// Get animation manager script attached to current avatar GameObject
 		_animationsManager = new_coach.GetComponent<AnimationsManager>();
@@ -289,15 +330,26 @@ public class ApplicationManager : MonoBehaviour {
 		}*/
 	}
 
+	/// <summary>
+	/// Play the loaded animation on the coach.
+	/// </summary>
 	public void PlayAnimation(){
 		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
 		_animation.Blend(idle);
 	}
 
+	/// <summary>
+	/// Stop the loaded animation on the coach.
+	/// </summary>
 	public void StopAnimation(){
 		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
+	/// <summary>
+	/// This function is called for every frame rendered in Unity. It is
+	/// currently used to check for activity and start a screensaver if a
+	/// set amount of time passes without activity.
+	/// </summary>
 	void Update(){
 		timeOutTimer += Time.deltaTime;
 		// If screen is tapped, reset timer
