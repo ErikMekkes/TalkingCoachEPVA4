@@ -34,12 +34,13 @@ public class ApplicationManager : MonoBehaviour {
 	private string talk;
 	// list of  of all included viseme animations
 	private string[] _visemeNames;
-
+	
+	// list of viseme numbers that are playing
 	private List<int> _visemeList;
-	private int _visemeListIndex = -1;
-	private int _visemeNumber = -1;
-	private int _visemeListCount = -1;
-
+	
+	// layer for viseme (speech) animation
+	private const int Viseme_Layer = 2;
+	
 	// initial coach avatar selected from prefabs.
 	private int _coachNumber = 0;
 	// initial background selected.
@@ -175,7 +176,7 @@ public class ApplicationManager : MonoBehaviour {
 		foreach (string viseme in _visemeNames) {
 			if (!string.IsNullOrEmpty(viseme)) {
 				// set visime animation layer
-				_animation[viseme].layer = 2;
+				_animation[viseme].layer = Viseme_Layer;
 				// set visime animation speed
 				_animation[viseme].speed = 1;
 				// set viseme animations to play once.
@@ -253,8 +254,8 @@ public class ApplicationManager : MonoBehaviour {
 	/// List of viseme numbers to play sequentially.
 	/// </param>
 	public void playVisemeList(List<int> visList) {
-		// TODO stop previously playing animations in viseme layer
-		
+		// stop previously playing animations in viseme layer
+		stopAnimationLayer(Viseme_Layer);
 		// save list of visemes to play
 		_visemeList = visList;
 		// loop through the set of viseme numbers
@@ -269,6 +270,23 @@ public class ApplicationManager : MonoBehaviour {
 				transitionTime,
 				QueueMode.CompleteOthers);
 		}
+	}
+	/// <summary>
+	/// Stops all animations in the specified animation layer
+	/// </summary>
+	/// <param name="layer">
+	/// Animation layer to stop animations in.
+	/// </param>
+	private void stopAnimationLayer( int layer ) {
+		_animation.Stop();
+		/*
+		// TODO find more efficient working version of this...
+		foreach ( AnimationState animState in _animation ) {
+			Debug.Log("Stopped animation " + animState.name);
+			if (animState.layer == layer) {
+				_animation.Blend(animState.name, 0.0f, 0.1f);
+			}
+		}*/
 	}
 
 	public void PlayAnimation(){
