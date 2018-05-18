@@ -82,32 +82,8 @@ public class AnimationsManager : MonoBehaviour {
 	/// This function is designed to handle the end of a viseme animation.
 	/// It calls the nextViseme method, playing the next animation if there are
 	/// animations remaining.
-	///
-	/// TODO investigate animation queueing for Unity
 	/// </summary>
 	public void visemeFinished() {
-		// check if the ApplicationManager instance is loaded.
-		if (!_appManager) {
-			// load the instance if it isn't loaded.
-			loadAppmanager();
-		}
-		// call the method to play next visime
-		_appManager.nextViseme();
-	}
-
-	/// <summary>
-	/// Loads the instance of the ApplicationManager script while Unity is
-	/// running. Returns an error if no instance was found.
-	/// </summary>
-	private static void loadAppmanager() {
-		// find the manager game object
-		GameObject manager = GameObject.Find("ApplicationManager");
-		if (manager) {
-			// find the script attached to the manager game object
-			_appManager = manager.GetComponent<ApplicationManager>();
-			return;
-		}
-		// log error if unable to find script
-		Debug.LogError("Unable to find instance for ApplicationManager script");
+		Debug.Log("visemeFinished");
 	}
 }

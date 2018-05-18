@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class ApplicationManager : MonoBehaviour {
 	// public attributes: Unity editor interface fields for ApplicationManager
@@ -33,7 +33,7 @@ public class ApplicationManager : MonoBehaviour {
 	private string idle;
 	private string talk;
 	// list of  of all included viseme animations
-	private string[] _visemes;
+	private string[] _visemeNames;
 
 	private List<int> _visemeList;
 	private int _visemeListIndex = -1;
@@ -156,84 +156,127 @@ public class ApplicationManager : MonoBehaviour {
 		// Get animation manager script attached to current avatar GameObject
 		_animationsManager = new_coach.GetComponent<AnimationsManager>();
 		// get names of viseme animations
-		_visemes = _animationsManager.getEnglishVisemes56();
+		_visemeNames = _animationsManager.getEnglishVisemes56();
 		// get names of idle, talk and talkmix animations
 		idle = _animationsManager.getIdle();
 		talk = _animationsManager.getTalk();
 		// Get Unity Animation component attached to current avatar GameObject
 		_animation = new_coach.GetComponent<Animation>();
+		// default for animations is play once
+		_animation.wrapMode = WrapMode.Once;
 		// Set layers for animation, higher layers are overlayed on the lower.
 		// e.g. idle (full body) first, talk (mouth) overlayed on idle.
 		// TODO discuss layers with other team
 		_animation[idle].layer = 1;
+		_animation[idle].wrapMode = WrapMode.Loop;
 		_animation[talk].layer = 2;
-		foreach (string viseme in _visemes) {
+		
+		// ensure viseme animations have the right properties
+		foreach (string viseme in _visemeNames) {
 			if (!string.IsNullOrEmpty(viseme)) {
+				// set visime animation layer
 				_animation[viseme].layer = 2;
+				// set visime animation speed
+				_animation[viseme].speed = 1;
+				// set viseme animations to play once.
+				_animation[viseme].wrapMode = WrapMode.Once;
 			}
 		}
+	}
+
+	/// <summary>
+	/// This function adds an event to the loaded viseme animation specified by
+	/// name. It adds an event at the end of the animation, which calls the
+	/// visemeFinished function.
+	///
+	/// If there already is such an event at the end end of the animation, no
+	/// changes are made. 
+	/// Existing events in the animation are left unmodified.
+	/// Returns without changes if specified animation was not found.
+	///
+	/// This allows a function to be called once an animation finishes.
+	///
+	/// Warning: Using variants of crossFade for smoothing animation transitions
+	/// modifies the end / start frames for the transition, events during these
+	/// frames might not be called.
+	/// </summary>
+	/// <param name="viseme"></param>
+	public void addAnimationEvent(string viseme) {
+		// find the loaded animation identified by the name
+		AnimationClip clip = _animation[viseme].clip;
+		// return if no animation was found
+		if (clip == null) {
+			return;
+		}
+		// check if animation already has a finished event, return if it does
+		int length = clip.events.Length;
+		if (length > 0 && (clip.events[length-1].time == _animation[viseme].length
+		    || clip.events[length-1].functionName.Equals("visemeFinished"))) {
+			return;
+		}
+		// retrieve events already in animations and copy to larger array
+		AnimationEvent[] events = 
+			AnimationUtility.GetAnimationEvents(clip);
+		AnimationEvent[] evts = new AnimationEvent[length+1];
+		for (int i=0; i< length; i++) {
+			evts[i] = events[i];
+		}
+		// add new visemeFinished event to array of events copy
+		evts[length] = new AnimationEvent {
+			time = _animation[viseme].length,
+			functionName = "visemeFinished"
+		};
+		// set extended array to be the new set of AnimationEvents
+		AnimationUtility.SetAnimationEvents(clip, evts);
 	}
 
 	/// <summary>
 	/// Plays the numbered viseme animation. Viseme animations have their own
 	/// animation layer, when playing a new viseme, previous animations in the
 	/// same layer as the new animation are stopped.
-	///
-	/// Animations are set to play once when called.
 	/// </summary>
 	/// <param name="visNumber">
 	/// Number of viseme Animation to play.
 	/// </param>
 	public void playViseme(int visNumber) {
-		// loop animations endlessly
-		_animation.wrapMode = WrapMode.Once;
 		// play the given viseme animation without fading in, stopping previous
 		// animations in the same layer beforehand (other visemes)
-		_animation.CrossFade(_visemes[visNumber], 0.0f, PlayMode.StopSameLayer);
+		_animation.CrossFade(_visemeNames[visNumber], 0.0f, PlayMode.StopSameLayer);
 	}
 
 	/// <summary>
-	/// Plays the list of viseme animations sequentially. Animations are played
-	/// once, when an animation ends the next one in the list is played until
-	/// there are no remaining visemes in the list.
+	/// Plays the specified list of viseme numbers sequentially. Animations are
+	/// played once, when an animation ends the next one in the list is played
+	/// until there are no remaining visemes in the list.
 	/// </summary>
 	/// <param name="visList">
-	/// List of viseme animation numbers to play sequentially.
+	/// List of viseme numbers to play sequentially.
 	/// </param>
 	public void playVisemeList(List<int> visList) {
+		// TODO stop previously playing animations in viseme layer
+		
 		// save list of visemes to play
 		_visemeList = visList;
-		_visemeListCount = _visemeList.Count;
-		// set the currently playing viseme
-		_visemeListIndex = 0;
-		// play the first viseme animation
-		nextViseme();
-	}
-
-	/// <summary>
-	/// Plays the next viseme from the sequential list of visemes to play.
-	/// </summary>
-	public void nextViseme() {
-		// stop if there are no more visemes to play
-		if (_visemeListIndex >= _visemeListCount) {
-			return;
+		// loop through the set of viseme numbers
+		foreach (int visNumber in visList) {
+			// TODO api to set transition time, finding the right time to set
+			float transitionTime = 0.3f;
+			
+			// look up the animation for the specified number, add it to the
+			// queue using the set transition time to smooth out animation
+			_animation.CrossFadeQueued(
+				_visemeNames[visNumber],
+				transitionTime,
+				QueueMode.CompleteOthers);
 		}
-		// find the viseme number to play
-		_visemeNumber = _visemeList[_visemeListIndex];
-		// play the next viseme animation
-		playViseme(_visemeNumber);
-		// increment the visemeListIndex
-		_visemeListIndex++;
 	}
 
 	public void PlayAnimation(){
-		_animation.wrapMode = WrapMode.Loop;
 		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
 		_animation.Blend(idle);
 	}
 
 	public void StopAnimation(){
-		_animation.wrapMode = WrapMode.Loop;
 		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
