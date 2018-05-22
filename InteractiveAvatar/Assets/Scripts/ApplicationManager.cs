@@ -95,7 +95,7 @@ public class ApplicationManager : MonoBehaviour {
 		}
 		
 		//TODO REMOVE THIS DEMO OF RUNNING ANIMATION
-		runningDemo();
+		//runningDemo();
 	}
 
 	private void runningDemo() {
@@ -116,6 +116,11 @@ public class ApplicationManager : MonoBehaviour {
 		//visList = new List<int> {5,3,1,4,5,2,3,4,1,0,2,3,1,0,4,5,2,2,3,1,4,5,2};
 		// play the list of animations sequentially
 		//playVisemeList(visList);
+		// make a list of 5 viseme animations
+		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+			0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50,0};
+		// play the list of animations sequentially
+		playVisemeList(fox);
 	}
 	
 	/// <summary>
@@ -209,7 +214,6 @@ public class ApplicationManager : MonoBehaviour {
 		idle = _animationsManager.getIdle();
 		talk = _animationsManager.getTalk();
 		// Get Unity Animation component attached to current avatar GameObject
-		// Get Unity Animation component attached to current avatar GameObject
 		_animation = new_coach.GetComponent<Animation>();
 		// default for animations is play once
 		_animation.wrapMode = WrapMode.Once;
@@ -297,25 +301,20 @@ public class ApplicationManager : MonoBehaviour {
 		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
+	public void animateFox() {
+		// make a list of 5 viseme animations
+		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50,0};
+		// play the list of animations sequentially
+		playVisemeList(fox);
+	}
+
 	/// <summary>
 	/// This function is called for every frame rendered in Unity. It is
 	/// currently used to check for activity and start a screensaver if a
 	/// set amount of time passes without activity.
 	/// </summary>
 	void Update(){
-
-		if (Input.GetKeyDown("space"))
-		{
-			Destroy(new_coach);
-			_coachNumber = 1;
-			load_coach();
-			// make a list of 5 viseme animations
-			List<int> fox = new List<int> {37, 6, 49, 41, 0};
-			// play the list of animations sequentially
-			playVisemeList(fox);
-			TextManager.instance.startSpeach("The quick brown fox jumps over the lazy dog");
-		}
-		
 		timeOutTimer += Time.deltaTime;
 		// If screen is tapped, reset timer
 		if (Input.anyKeyDown

@@ -123,6 +123,7 @@ public class TextManager : MonoBehaviour {
 	}
 
 	public void startSpeach(string text) {
+		text = "The quick brown fox jumps over the lazy dog.";
 		_textInput = text;
 		_isSpeaking = true;
 		// start speech, animation started with callback functions
@@ -178,7 +179,9 @@ public class TextManager : MonoBehaviour {
 	[MonoPInvokeCallback(typeof(StartDelegate))]
 	public static void callbackStart(){
 		Debug.Log("callback start");
-		ApplicationManager.instance.PlayAnimation();
+		
+		ApplicationManager.instance.animateFox();
+//		ApplicationManager.instance.PlayAnimation();
 	}
 		
 	/// <summary>
@@ -187,7 +190,7 @@ public class TextManager : MonoBehaviour {
 	[MonoPInvokeCallback(typeof(EndDelegate))]
 	public static void callbackEnd(){
 		Debug.Log("callback ended");
-		ApplicationManager.instance.StopAnimation();
+		//ApplicationManager.instance.StopAnimation();
 	}
 
 	/// <summary>
