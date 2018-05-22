@@ -1,61 +1,11 @@
 ﻿using UnityEngine;
 
-
-
-//using UnityEditor;
-//
-//[System.Serializable]
-//public class VisemeArray : PropertyAttribute {
-//    public int _size;
-//    public readonly string[] Names;
-//    public AnimationClip[] Clips;
-//     
-//    public VisemeArray(int size) {
-//        _size = size;
-//        Names = new string[size];
-//        Clips = new AnimationClip[size];
-//    }
-//}
-//[CustomPropertyDrawer(typeof(VisemeArray))]
-//public class VisemeArrayDrawer : PropertyDrawer {
-//    private VisemeArray visemeArray { get { return (VisemeArray)attribute; } }
-//    
-//    public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label) {
-//        Rect pos = position;
-//        EditorGUI.ObjectField(pos, prop, new GUIContent("Viseme " + 0));
-//        pos = new Rect(pos.x, pos.y +15, pos.width, pos.height);
-//        EditorGUI.ObjectField(pos, prop, new GUIContent("Viseme " + 1));
-////        for (int i = 0; i < visemeArray._size; i++) {
-////            pos = new Rect(pos.x, pos.y +15, pos.width, pos.height);
-////            EditorGUI.ObjectField(pos, prop, new GUIContent("Viseme " + i));
-////        }
-//    }
-//    
-//    public override float GetPropertyHeight(SerializedProperty property,
-//        GUIContent label) {
-//        return 15 * 2;
-//    }
-//}
-
-
-// this one looks best, but it is horrendously coded.
+// this interface for adding animations looks best, but it is horrendously coded.
 // there has to be a cool way to do this, but I have no idea how to create a
 // custom display for arrays within the Unity Interface.
-
+// TODO find h
 [System.Serializable]
 public class VisemeList {
-#if UNITY_EDITOR
-    [InterfaceInfo("With the entries in this list you can specify which" +
-                   "animation should be used for which viseme in the English" +
-                   " language.\n" +
-                   "Check the documentation at ... for more information on " +
-                   "which motion each viseme number represents.")]
-    public int help;
-#endif
-//    [SerializeField]
-//    private VisemeArray visArray = new VisemeArray(56);
-    
-    
     [SerializeField] private AnimationClip Viseme0;
     [SerializeField] private AnimationClip Viseme1;
     [SerializeField] private AnimationClip Viseme2;
