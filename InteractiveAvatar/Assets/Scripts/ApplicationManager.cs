@@ -209,23 +209,8 @@ public class ApplicationManager : MonoBehaviour {
 		// get names of idle, talk and talkmix animations
 		idle = _animationsManager.getIdle();
 		talk = _animationsManager.getTalk();
-		// Get Unity Animation component attached to current avatar
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		//
-		// +GameObject
+		// Get Unity Animation component attached to current avatar GameObject
+		// Get Unity Animation component attached to current avatar GameObject
 		_animation = new_coach.GetComponent<Animation>();
 		// default for animations is play once
 		_animation.wrapMode = WrapMode.Once;
@@ -251,65 +236,6 @@ public class ApplicationManager : MonoBehaviour {
 				_animation[clip.name].wrapMode = WrapMode.Once;
 			}
 		}
-	}
-
-	/// <summary>
-	/// This function adds an event to the loaded viseme animation specified by
-	/// name. It adds an event at the end of the animation, which calls the
-	/// visemeFinished function.
-	///
-	/// If there already is such an event at the end end of the animation, no
-	/// changes are made. 
-	/// Existing events in the animation are left unmodified.
-	/// Returns without changes if specified animation was not found.
-	///
-	/// This allows a function to be called once an animation finishes.
-	///
-	/// Warning: Using variants of crossFade for smoothing animation transitions
-	/// modifies the end / start frames for the transition, events during these
-	/// frames might not be called.
-	/// </summary>
-	/// <param name="viseme"></param>
-	public void addAnimationEvent(string viseme) {
-		// find the loaded animation identified by the name
-		AnimationClip clip = _animation[viseme].clip;
-		// return if no animation was found
-		if (clip == null) {
-			return;
-		}
-		// check if animation already has a finished event, return if it does
-		int length = clip.events.Length;
-		if (length > 0 && (clip.events[length-1].time == _animation[viseme].length
-		    || clip.events[length-1].functionName.Equals("visemeFinished"))) {
-			return;
-		}
-		// retrieve events already in animations and copy to larger array
-		AnimationEvent[] events = clip.events;
-		AnimationEvent[] evts = new AnimationEvent[length+1];
-		for (int i=0; i< length; i++) {
-			evts[i] = events[i];
-		}
-		// add new visemeFinished event to array of events copy
-		evts[length] = new AnimationEvent {
-			time = _animation[viseme].length,
-			functionName = "visemeFinished"
-		};
-		// set extended array to be the new set of AnimationEvents
-		clip.events = evts;
-	}
-
-	/// <summary>
-	/// Plays the numbered viseme animation. Viseme animations have their own
-	/// animation layer, when playing a new viseme, previous animations in the
-	/// same layer as the new animation are stopped.
-	/// </summary>
-	/// <param name="visNumber">
-	/// Number of viseme Animation to play.
-	/// </param>
-	public void playViseme(int visNumber) {
-		// play the given viseme animation without fading in, stopping previous
-		// animations in the same layer beforehand (other visemes)
-		_animation.CrossFade(_visemeAnimations[visNumber].name, 0.0f, PlayMode.StopSameLayer);
 	}
 
 	/// <summary>
@@ -355,31 +281,6 @@ public class ApplicationManager : MonoBehaviour {
 			// stop the animation by blending to weight 0 over 0 seconds.
 			_animation.Stop(clip.name);
 		}
-	}
-	
-	/// <summary>
-	/// Stops all animations in the specified animation layer
-	/// </summary>
-	/// <param name="layer">
-	/// Animation layer to stop animations in.
-	/// </param>
-	private void stopAnimationLayer( int layer ) {
-		//_animation.Stop();
-		
-		foreach ( int visNumber in _visemeList) {
-			AnimationClip clip = _visemeAnimations[visNumber];
-			if (clip != null && _animation[clip.name].layer == layer) {
-				_animation.Blend(clip.name, 0.0f, 0.0f);
-			}
-		}
-		/*
-		// TODO find more efficient working version of this...
-		foreach ( AnimationState animState in _animation ) {
-			Debug.Log("Stopped animation " + animState.name);
-			if (animState.layer == layer) {
-				_animation.Blend(animState.name, 0.0f, 0.1f);
-			}
-		}*/
 	}
 
 	/// <summary>

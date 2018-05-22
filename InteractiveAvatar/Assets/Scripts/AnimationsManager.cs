@@ -65,18 +65,8 @@ public class AnimationsManager : MonoBehaviour {
 	public string Help;
 #endif
 
-	// list of viseme animation names.
-	// looks poor, have to type names of animations manually,
-	// size of array is changable, no clear labels on elements
-	[SerializeField] private string[] _Visemes_English_56 = new string[56];
-	
-	// this looks somewhat better
-	// entries are of animation type, easier to enter, size of array is still
-	// modifiable, still no clear labels
-	[SerializeField]
-	private AnimationClip[] _visemeArrayEnglish = new AnimationClip[56];
-
-	// this looks perfect, but the behind the scenes in VisemeList.cs is horrid.
+	// list of viseme animations, it looks really nice in the interface,
+	// but the behind the scenes in VisemeList.cs is horrid.
 	[SerializeField] private VisemeList VisemesEnglish;
 
 
@@ -125,21 +115,6 @@ public class AnimationsManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Returns an array of viseme animation names. These are the names of the
-	/// animations as included with the selected model in Unity. Empty string
-	/// or null indicates the specific viseme has no included animation.
-	///
-	/// See //TODO viseme documentation for details.
-	/// </summary>
-	/// <returns>
-	/// Array of 56 viseme animation names for English speech. starting with
-	/// The SI (silent) viseme as entry 0.
-	/// </returns>
-	public string[] getEnglishVisemes56() {
-		return _Visemes_English_56;
-	}
-
-	/// <summary>
 	/// Returns an array of viseme animations. These are the animations as
 	/// included with the selected model in Unity. Null indicates the specific
 	/// viseme has no included animation.
@@ -152,14 +127,5 @@ public class AnimationsManager : MonoBehaviour {
 	/// </returns>
 	public AnimationClip[] getEnglishVisemes() {
 		return VisemesEnglish.GetVisemes();
-	}
-
-	/// <summary>
-	/// This function is designed to handle the end of a viseme animation.
-	/// It calls the nextViseme method, playing the next animation if there are
-	/// animations remaining.
-	/// </summary>
-	public void visemeFinished() {
-		Debug.Log("visemeFinished");
 	}
 }
