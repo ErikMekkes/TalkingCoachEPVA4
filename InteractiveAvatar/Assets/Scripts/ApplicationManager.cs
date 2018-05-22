@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ApplicationManager : MonoBehaviour {
@@ -26,6 +25,8 @@ public class ApplicationManager : MonoBehaviour {
 	// Animation components and manager
 	private Animation _animation;
 	private AnimationsManager _animationsManager;
+	// Array of viseme Animations
+	private AnimationClip[] _visemeAnimations;
 	
 	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
@@ -35,8 +36,6 @@ public class ApplicationManager : MonoBehaviour {
 	// TODO find out what happens with same names
 	private string idle;
 	private string talk;
-	// list of  of all included viseme animations
-	private string[] _visemeNames;
 	
 	// list of viseme numbers that are playing
 	private List<int> _visemeList;
@@ -105,9 +104,14 @@ public class ApplicationManager : MonoBehaviour {
 		Destroy(new_coach);
 		_coachNumber = 1;
 		load_coach();
-		_animation.Stop();
 		// make a list of 5 viseme animations
 		List<int> visList = new List<int> {0, 1, 2, 3, 4, 5};
+		// play the list of animations sequentially
+		playVisemeList(visList);
+		// can be used to show stopping current speech animations works
+		//visList = new List<int> {5};
+		// can be used to show a random much longer order works
+		visList = new List<int> {5,3,1,4,5,2,3,4,1,0,2,3,1,0,4,5,2,2,3,1,4,5,2};
 		// play the list of animations sequentially
 		playVisemeList(visList);
 	}
@@ -197,12 +201,28 @@ public class ApplicationManager : MonoBehaviour {
 	private void loadAnimations() {
 		// Get animation manager script attached to current avatar GameObject
 		_animationsManager = new_coach.GetComponent<AnimationsManager>();
-		// get names of viseme animations
-		_visemeNames = _animationsManager.getEnglishVisemes56();
+		// get viseme animations
+		_visemeAnimations = _animationsManager.getEnglishVisemes();
 		// get names of idle, talk and talkmix animations
 		idle = _animationsManager.getIdle();
 		talk = _animationsManager.getTalk();
-		// Get Unity Animation component attached to current avatar GameObject
+		// Get Unity Animation component attached to current avatar
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		//
+		// +GameObject
 		_animation = new_coach.GetComponent<Animation>();
 		// default for animations is play once
 		_animation.wrapMode = WrapMode.Once;
@@ -214,14 +234,18 @@ public class ApplicationManager : MonoBehaviour {
 		_animation[talk].layer = 2;
 		
 		// ensure viseme animations have the right properties
-		foreach (string viseme in _visemeNames) {
-			if (!string.IsNullOrEmpty(viseme)) {
+		foreach (AnimationClip clip in _visemeAnimations) {
+			if (clip != null) {
+				// enable legacy mode for manual animation management.
+				clip.legacy = true;
+				// add clip to animation component
+				_animation.AddClip(clip, clip.name);
 				// set visime animation layer
-				_animation[viseme].layer = Viseme_Layer;
+				_animation[clip.name].layer = Viseme_Layer;
 				// set visime animation speed
-				_animation[viseme].speed = 1;
+				_animation[clip.name].speed = 1;
 				// set viseme animations to play once.
-				_animation[viseme].wrapMode = WrapMode.Once;
+				_animation[clip.name].wrapMode = WrapMode.Once;
 			}
 		}
 	}
@@ -257,8 +281,7 @@ public class ApplicationManager : MonoBehaviour {
 			return;
 		}
 		// retrieve events already in animations and copy to larger array
-		AnimationEvent[] events = 
-			AnimationUtility.GetAnimationEvents(clip);
+		AnimationEvent[] events = clip.events;
 		AnimationEvent[] evts = new AnimationEvent[length+1];
 		for (int i=0; i< length; i++) {
 			evts[i] = events[i];
@@ -269,7 +292,7 @@ public class ApplicationManager : MonoBehaviour {
 			functionName = "visemeFinished"
 		};
 		// set extended array to be the new set of AnimationEvents
-		AnimationUtility.SetAnimationEvents(clip, evts);
+		clip.events = evts;
 	}
 
 	/// <summary>
@@ -283,7 +306,7 @@ public class ApplicationManager : MonoBehaviour {
 	public void playViseme(int visNumber) {
 		// play the given viseme animation without fading in, stopping previous
 		// animations in the same layer beforehand (other visemes)
-		_animation.CrossFade(_visemeNames[visNumber], 0.0f, PlayMode.StopSameLayer);
+		_animation.CrossFade(_visemeAnimations[visNumber].name, 0.0f, PlayMode.StopSameLayer);
 	}
 
 	/// <summary>
@@ -296,22 +319,41 @@ public class ApplicationManager : MonoBehaviour {
 	/// </param>
 	public void playVisemeList(List<int> visList) {
 		// stop previously playing animations in viseme layer
-		stopAnimationLayer(Viseme_Layer);
+		stopVisemeAnimations();
 		// save list of visemes to play
 		_visemeList = visList;
 		// loop through the set of viseme numbers
 		foreach (int visNumber in visList) {
 			// TODO api to set transition time, finding the right time to set
 			float transitionTime = 0.3f;
+
+			string clipName = _visemeAnimations[visNumber].name;
+			//_animation[clipName].enabled = false;
 			
 			// look up the animation for the specified number, add it to the
 			// queue using the set transition time to smooth out animation
 			_animation.CrossFadeQueued(
-				_visemeNames[visNumber],
+				clipName,
 				transitionTime,
 				QueueMode.CompleteOthers);
 		}
 	}
+	
+	/// <summary>
+	/// Stops all currently playing viseme animations
+	/// </summary>
+	private void stopVisemeAnimations() {
+		// return if no animations playing
+		if (_visemeList == null) return;
+		// loop through currently playing viseme numbers
+		foreach (int visNumber in _visemeList) {
+			// find the animation
+			AnimationClip clip = _visemeAnimations[visNumber];
+			// stop the animation by blending to weight 0 over 0 seconds.
+			_animation.Stop(clip.name);
+		}
+	}
+	
 	/// <summary>
 	/// Stops all animations in the specified animation layer
 	/// </summary>
@@ -319,7 +361,14 @@ public class ApplicationManager : MonoBehaviour {
 	/// Animation layer to stop animations in.
 	/// </param>
 	private void stopAnimationLayer( int layer ) {
-		_animation.Stop();
+		//_animation.Stop();
+		
+		foreach ( int visNumber in _visemeList) {
+			AnimationClip clip = _visemeAnimations[visNumber];
+			if (clip != null && _animation[clip.name].layer == layer) {
+				_animation.Blend(clip.name, 0.0f, 0.0f);
+			}
+		}
 		/*
 		// TODO find more efficient working version of this...
 		foreach ( AnimationState animState in _animation ) {
