@@ -85,7 +85,7 @@ public class ApplicationManager : MonoBehaviour {
 	/// Start is called on the frame when a script is enabled just before any
 	/// of the Update methods are called the first time. It runs after Awake().
 	/// </summary>
-	void Start () {
+	void Start() {
 		// ensure screensaver camera is disabled on start (see Update())
 		cams = Camera.allCameras;
 		foreach( Camera cam in cams){
@@ -111,9 +111,11 @@ public class ApplicationManager : MonoBehaviour {
 		// can be used to show stopping current speech animations works
 		//visList = new List<int> {5};
 		// can be used to show a random much longer order works
-		visList = new List<int> {5,3,1,4,5,2,3,4,1,0,2,3,1,0,4,5,2,2,3,1,4,5,2};
+		
+		
+		//visList = new List<int> {5,3,1,4,5,2,3,4,1,0,2,3,1,0,4,5,2,2,3,1,4,5,2};
 		// play the list of animations sequentially
-		playVisemeList(visList);
+		//playVisemeList(visList);
 	}
 	
 	/// <summary>
