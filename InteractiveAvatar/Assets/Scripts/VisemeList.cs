@@ -44,13 +44,14 @@
 
 [System.Serializable]
 public class VisemeList {
+#if UNITY_EDITOR
     [InterfaceInfo("With the entries in this list you can specify which" +
                    "animation should be used for which viseme in the English" +
                    " language.\n" +
                    "Check the documentation at ... for more information on " +
                    "which motion each viseme number represents.")]
     public int help;
-    
+#endif
 //    [SerializeField]
 //    private VisemeArray visArray = new VisemeArray(56);
     
