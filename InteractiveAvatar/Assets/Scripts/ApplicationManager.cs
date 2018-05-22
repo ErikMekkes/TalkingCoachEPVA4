@@ -76,6 +76,7 @@ public class ApplicationManager : MonoBehaviour {
 		// disable capturing keyboard input in browser.
 		#if !UNITY_EDITOR && UNITY_WEBGL
 		WebGLInput.captureAllKeyboardInput = false;
+		tabindex="1";
 		#endif
 		// run the on_load function
 		on_load();
@@ -95,7 +96,7 @@ public class ApplicationManager : MonoBehaviour {
 		}
 		
 		//TODO REMOVE THIS DEMO OF RUNNING ANIMATION
-		runningDemo();
+		//runningDemo();
 	}
 
 	private void runningDemo() {
@@ -396,6 +397,20 @@ public class ApplicationManager : MonoBehaviour {
 		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
+	public void foxRun()
+	{
+		Destroy(new_coach);
+		_coachNumber = 1;
+		load_coach();
+		// make a list of 5 viseme animations
+		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+			0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50,0};
+		// play the list of animations sequentially
+		//TextManager.instance.startSpeach("The quick brown fox jumps over the lazy dog");
+			
+		playVisemeList(fox);
+	}
+
 	/// <summary>
 	/// This function is called for every frame rendered in Unity. It is
 	/// currently used to check for activity and start a screensaver if a
@@ -405,14 +420,16 @@ public class ApplicationManager : MonoBehaviour {
 
 		if (Input.GetKeyDown("space"))
 		{
-			Destroy(new_coach);
-			_coachNumber = 1;
-			load_coach();
+			//Destroy(new_coach);
+			//_coachNumber = 1;
+			//load_coach();
 			// make a list of 5 viseme animations
-			List<int> fox = new List<int> {37, 6, 49, 41, 0};
+			//List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+			//	0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50,0};
 			// play the list of animations sequentially
-			playVisemeList(fox);
 			TextManager.instance.startSpeach("The quick brown fox jumps over the lazy dog");
+			
+			//playVisemeList(fox);
 		}
 		
 		timeOutTimer += Time.deltaTime;

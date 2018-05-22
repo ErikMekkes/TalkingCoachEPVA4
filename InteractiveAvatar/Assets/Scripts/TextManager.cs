@@ -40,7 +40,7 @@ public class TextManager : MonoBehaviour {
 	/// Start speaking a given text in a given voice, executing callbacks at the start and at the end of the speech.
 	/// </summary>
 	/// <param name="text">The text to pronounce.</param>
-	/// <param name="voice">The boice to pronounce in.</param>
+	/// <param name="voice">The voice to pronounce in.</param>
 	/// <param name="startCallback">The function to call when speech starts.</param>
 	/// <param name="endCallback">The function to call when speech ends.</param>
 	/// <returns>The state of the TTS.</returns>
@@ -177,8 +177,9 @@ public class TextManager : MonoBehaviour {
 
 	[MonoPInvokeCallback(typeof(StartDelegate))]
 	public static void callbackStart(){
-		Debug.Log("callback start");
-		ApplicationManager.instance.PlayAnimation();
+		ApplicationManager.instance.foxRun();
+//		Debug.Log("callback start");
+//		ApplicationManager.instance.PlayAnimation();
 	}
 		
 	/// <summary>
@@ -186,8 +187,8 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
 	[MonoPInvokeCallback(typeof(EndDelegate))]
 	public static void callbackEnd(){
-		Debug.Log("callback ended");
-		ApplicationManager.instance.StopAnimation();
+//		Debug.Log("callback ended");
+//		ApplicationManager.instance.StopAnimation();
 	}
 
 	/// <summary>
