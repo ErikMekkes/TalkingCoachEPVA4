@@ -402,6 +402,19 @@ public class ApplicationManager : MonoBehaviour {
 	/// set amount of time passes without activity.
 	/// </summary>
 	void Update(){
+
+		if (Input.GetKeyDown("space"))
+		{
+			Destroy(new_coach);
+			_coachNumber = 1;
+			load_coach();
+			// make a list of 5 viseme animations
+			List<int> fox = new List<int> {37, 6, 49, 41, 0};
+			// play the list of animations sequentially
+			playVisemeList(fox);
+			TextManager.instance.startSpeach("The quick brown fox jumps over the lazy dog");
+		}
+		
 		timeOutTimer += Time.deltaTime;
 		// If screen is tapped, reset timer
 		if (Input.anyKeyDown
