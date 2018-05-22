@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 
 
@@ -24,6 +26,8 @@ public class InterfaceInfoDrawer : PropertyDrawer {
 		return 30;
 	}
 }
+#endif
+
 
 /// <summary>
 /// This script acts as an interface for the Unity editor. Entries are generated
@@ -51,12 +55,15 @@ public class AnimationsManager : MonoBehaviour {
 	// talkmix animation name
 	[SerializeField] private string talkmix;
 
+	
+#if UNITY_EDITOR 
 	[InterfaceInfo("With the Viseme List below you can specify which" +
 	               "animation should be used for which viseme in the English" +
 	               " language.\n" +
 	               "Check the documentation at ... for more information on " +
 	               "which motion each viseme number represents.")]
 	public string Help;
+#endif
 
 	// list of viseme animation names.
 	// looks poor, have to type names of animations manually,
