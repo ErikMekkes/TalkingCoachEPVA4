@@ -95,7 +95,7 @@ public class ApplicationManager : MonoBehaviour {
 		}
 		
 		//TODO REMOVE THIS DEMO OF RUNNING ANIMATION
-		runningDemo();
+		//runningDemo();
 	}
 
 	private void runningDemo() {
