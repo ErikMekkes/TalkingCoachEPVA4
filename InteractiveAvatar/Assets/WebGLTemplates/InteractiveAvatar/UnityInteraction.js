@@ -14,7 +14,6 @@
  */
 
 function startTalk(){
-
 	var text = document.getElementById("textForSpeech").value;
 	SendMessage('TalkingCoach', 'convertToSpeach', text);
 }
@@ -65,4 +64,12 @@ function pauseSpeech() {
 function resumeSpeech() {
     SendMessage('TalkingCoach', 'resumeSpeech');
     //TODO : could make this work like startTalk if not in paused state.
+}
+
+/**
+ * Call the startDemo function attached to the TalkingCoach Object. This
+ * Should start the prepared demo sentence with speech animation.
+ */
+function startDemo() {
+    SendMessage('TalkingCoach', 'startDemo');
 }

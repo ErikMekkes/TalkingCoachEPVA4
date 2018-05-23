@@ -23,12 +23,12 @@ public class TextManager : MonoBehaviour {
 
 	// delegate declarations for javascript text to speech callback functions
 	// TODO not sure if needed, probably for dynamic linking
-	public delegate void StartDelegate();
+	public delegate void StartDelegate(float elapsedTime);
 	
 	/// <summary>
 	/// The callback when the speech ends.
 	/// </summary>
-	public delegate void EndDelegate();
+	public delegate void EndDelegate(float elapsedTime);
 	public delegate void BoundaryDelegate(int lastword, float elapsedTime);
 
 	Button btn;
@@ -123,11 +123,18 @@ public class TextManager : MonoBehaviour {
 	}
 
 	public void startSpeach(string text) {
-		text = "The quick brown fox jumps over the lazy dog.";
 		_textInput = text;
 		_isSpeaking = true;
 		// start speech, animation started with callback functions
 		Speak(text, this._voice, callbackStart, callbackEnd, callbackBoundary);
+	}
+
+	public void startDemo() {
+		Debug.Log("startDemo()");
+		_textInput = "The quick brown fox jumps over the lazy dog.";
+		_isSpeaking = true;
+		// start speech, animation started with callback functions
+		Speak(_textInput, _voice, callbackDemoStart, callbackEnd, callbackBoundary);
 	}
 
 	public void stopSpeach() {
@@ -177,19 +184,25 @@ public class TextManager : MonoBehaviour {
 	}
 
 	[MonoPInvokeCallback(typeof(StartDelegate))]
-	public static void callbackStart(){
-		Debug.Log("callback start");
+	public static void callbackStart(float elapsedTime){
+		Debug.Log("callback start at : " + elapsedTime);
+		
+		ApplicationManager.instance.PlayAnimation();
+	}
+	
+	[MonoPInvokeCallback(typeof(StartDelegate))]
+	public static void callbackDemoStart(float elapsedTime){
+		Debug.Log("callback Demo start at : " + elapsedTime);
 		
 		ApplicationManager.instance.animateFox();
-//		ApplicationManager.instance.PlayAnimation();
 	}
-		
+	
 	/// <summary>
 	/// The end of the callback when talking ends.
 	/// </summary>
 	[MonoPInvokeCallback(typeof(EndDelegate))]
-	public static void callbackEnd(){
-		Debug.Log("callback ended");
+	public static void callbackEnd(float elapsedTime){
+		Debug.Log("callback end at : " + elapsedTime);
 		//ApplicationManager.instance.StopAnimation();
 	}
 

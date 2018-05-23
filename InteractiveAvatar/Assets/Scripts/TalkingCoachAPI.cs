@@ -38,6 +38,14 @@ public class TalkingCoachAPI : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Convert text to speech.
+	/// </summary>
+	/// <param name="text">The convertable text.</param>
+	public void startDemo(){
+		TextManager.instance.startDemo();
+	}
+
+	/// <summary>
 	/// Stop the speech.
 	/// </summary>
 	public void stopSpeach(){

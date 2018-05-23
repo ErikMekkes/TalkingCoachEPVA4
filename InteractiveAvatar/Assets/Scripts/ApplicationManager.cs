@@ -95,7 +95,7 @@ public class ApplicationManager : MonoBehaviour {
 		}
 		
 		//TODO REMOVE THIS DEMO OF RUNNING ANIMATION
-		//runningDemo();
+		runningDemo();
 	}
 
 	private void runningDemo() {
@@ -118,7 +118,7 @@ public class ApplicationManager : MonoBehaviour {
 		//playVisemeList(visList);
 		// make a list of 5 viseme animations
 		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
-			0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50,0};
+			0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
 		// play the list of animations sequentially
 		playVisemeList(fox);
 	}
@@ -257,7 +257,7 @@ public class ApplicationManager : MonoBehaviour {
 		// loop through the set of viseme numbers
 		foreach (int visNumber in visList) {
 			// TODO api to set transition time, finding the right time to set
-			float transitionTime = 0.3f;
+			float transitionTime = 0;
 
 			string clipName = _visemeAnimations[visNumber].name;
 			//_animation[clipName].enabled = false;
@@ -302,9 +302,12 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 	public void animateFox() {
+		Debug.Log("animateFox");
 		// make a list of 5 viseme animations
-		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
-		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50,0};
+//		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+//		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
+		List<int> fox = new List<int> {40, 9, 49, 24, 2, 49, 46, 26, 8, 32, 37, 6, 49, 41, 
+			35, 25, 9, 31, 45, 41, 11, 38, 21, 40, 9, 27, 3, 42, 1, 35, 6, 50};
 		// play the list of animations sequentially
 		playVisemeList(fox);
 	}
