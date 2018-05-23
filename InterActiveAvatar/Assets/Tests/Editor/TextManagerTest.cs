@@ -2,16 +2,20 @@
 using UnityEngine;
 using UnityEditor;
 using NUnit.Framework;
-using System.Runtime.InteropServices;
+using NMock3;
+using NMockTests;
 
-public class TextManagerTest {
+public class TextManagerTest
+{
 
     //TextManager tm = GameObject.FindObjectOfType<TextManager>();
     private TextManager tm;
 
-	[Test]
+    [Test]
     public void StartSpeechTest()
     {
+        MockFactory mockFactory = new MockFactory();
+
         tm = new TextManager();
         Assert.IsFalse(tm.getIsSpeaking());
         tm.startSpeach("This is a string that is used for testing the start speech function");
