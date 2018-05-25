@@ -1,12 +1,10 @@
 <!doctype html>
 <html lang="en-us">
-
-<head>
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script src="UnityInteraction.js"></script>
     <link rel="stylesheet" href="UnityInteraction.css">
-    <!-- Filled in during by Unity the build process: -->
     <title>%UNITY_WEB_NAME%</title>
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
@@ -15,13 +13,6 @@
 </head>
 
 <body class="template">
-    <div class="template-wrap clear">
-        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
-        <br>
-        <div class="fullscreen">
-            <img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" />
-        </div>
-    </div>
     
     <div class="html-template">
         <input type="button" onclick=changeBackground() value="Change Background"/>
@@ -42,7 +33,11 @@
     </div>
     
     <!-- Filled in during by Unity the build process: -->
-    %UNITY_WEBGL_LOADER_GLUE% 
+    <div class="template-wrap">
+        <div id="gameContainer" style="height:600px;width:960px"></div>
+    </div>
+    
+    <script src="%UNITY_WEBGL_LOADER_URL%"></script>
+    <script> var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");</script>
 </body>
-
 </html>
