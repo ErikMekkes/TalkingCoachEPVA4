@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 using NUnit.Framework;
+using NMock;
 
 public class ApplicationManagerTest {
 
-    ApplicationManager am = GameObject.FindObjectOfType<ApplicationManager>();
+    ApplicationManager application = GameObject.FindObjectOfType<ApplicationManager>();
+    private MockFactory _factory = new MockFactory();
 
+    /// <summary>
+    /// Default test by Unity.
+    /// </summary>
     [Test]
 	public void EditorTest() {
 		//Arrange
@@ -21,9 +27,4 @@ public class ApplicationManagerTest {
 		Assert.AreEqual(newGameObjectName, gameObject.name);
 	}
 
-    [Test]
-    public void AwakeTest()
-    {
-        
-    }
 }
