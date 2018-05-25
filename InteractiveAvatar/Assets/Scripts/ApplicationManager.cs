@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ApplicationManager : MonoBehaviour {
@@ -224,52 +223,6 @@ public class ApplicationManager : MonoBehaviour {
 				_animation[viseme].wrapMode = WrapMode.Once;
 			}
 		}
-	}
-
-	/// <summary>
-	/// This function adds an event to the loaded viseme animation specified by
-	/// name. It adds an event at the end of the animation, which calls the
-	/// visemeFinished function.
-	///
-	/// If there already is such an event at the end end of the animation, no
-	/// changes are made. 
-	/// Existing events in the animation are left unmodified.
-	/// Returns without changes if specified animation was not found.
-	///
-	/// This allows a function to be called once an animation finishes.
-	///
-	/// Warning: Using variants of crossFade for smoothing animation transitions
-	/// modifies the end / start frames for the transition, events during these
-	/// frames might not be called.
-	/// </summary>
-	/// <param name="viseme"></param>
-	public void addAnimationEvent(string viseme) {
-		// find the loaded animation identified by the name
-		AnimationClip clip = _animation[viseme].clip;
-		// return if no animation was found
-		if (clip == null) {
-			return;
-		}
-		// check if animation already has a finished event, return if it does
-		int length = clip.events.Length;
-		if (length > 0 && (clip.events[length-1].time == _animation[viseme].length
-		    || clip.events[length-1].functionName.Equals("visemeFinished"))) {
-			return;
-		}
-		// retrieve events already in animations and copy to larger array
-		AnimationEvent[] events = 
-			AnimationUtility.GetAnimationEvents(clip);
-		AnimationEvent[] evts = new AnimationEvent[length+1];
-		for (int i=0; i< length; i++) {
-			evts[i] = events[i];
-		}
-		// add new visemeFinished event to array of events copy
-		evts[length] = new AnimationEvent {
-			time = _animation[viseme].length,
-			functionName = "visemeFinished"
-		};
-		// set extended array to be the new set of AnimationEvents
-		AnimationUtility.SetAnimationEvents(clip, evts);
 	}
 
 	/// <summary>
