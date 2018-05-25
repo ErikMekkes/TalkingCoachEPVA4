@@ -13,36 +13,39 @@
  * This messaging functionality is enabled by the Unity WebGL Build process. 
  */
 
+var gameInstance = UnityLoader.instantiate("gameContainer", "Build/mybuild.json", {onProgress: UnityProgress});
+
+
 function startTalk(){
 
 	var text = document.getElementById("textForSpeech").value;
-	SendMessage('TalkingCoach', 'convertToSpeach', text);
+    gameInstance.SendMessage('TalkingCoach', 'convertToSpeach', text);
 }
 
 function stopTalk(){
-	SendMessage('TalkingCoach', 'stopSpeach');
+    gameInstance.SendMessage('TalkingCoach', 'stopSpeach');
 }
 
 function changeBackground(){
-	SendMessage('TalkingCoach', 'changeBackround');
+    gameInstance.SendMessage('TalkingCoach', 'changeBackround');
 }
 
 function changeCoach(){
-	SendMessage('TalkingCoach', 'changeCoach');
+    gameInstance.SendMessage('TalkingCoach', 'changeCoach');
 }
 
 function zoomIn(){
-	SendMessage('TalkingCoach', 'zoom', -5);
+    gameInstance.SendMessage('TalkingCoach', 'zoom', -5);
 }
 function zoomOut(){
-	SendMessage('TalkingCoach', 'zoom', 5);
+    gameInstance.SendMessage('TalkingCoach', 'zoom', 5);
 }
 
 function moveAvatarHorizontal(){
-	SendMessage('TalkingCoach', 'moveAvatarHorizontal', 5);
+    gameInstance.SendMessage('TalkingCoach', 'moveAvatarHorizontal', 5);
 }
 function moveAvatarVertical(){
-	SendMessage('TalkingCoach', 'moveAvatarVertical', 5);
+    gameInstance.SendMessage('TalkingCoach', 'moveAvatarVertical', 5);
 }
 
 //TODO use callback functions instead of messaging for pause / resume
@@ -54,7 +57,7 @@ function moveAvatarVertical(){
  * is no ongoing speech synthesis.
  */
 function pauseSpeech() {
-    SendMessage('TalkingCoach', 'pauseSpeech');
+    gameInstance.SendMessage('TalkingCoach', 'pauseSpeech');
 }
 
 /**
@@ -63,6 +66,10 @@ function pauseSpeech() {
  * speech synthesis is not in a paused state.
  */
 function resumeSpeech() {
-    SendMessage('TalkingCoach', 'resumeSpeech');
+    gameInstance.SendMessage('TalkingCoach', 'resumeSpeech');
     //TODO : could make this work like startTalk if not in paused state.
+}
+
+function startDemo() {
+    gameInstance.SendMessage('TalkingCoach', 'startDemo');
 }

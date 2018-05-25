@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: b8e27664ed9e4fa4489d51a073d60980
-timeCreated: 1527072478
+guid: aa4b802b177e6cd4a8a88e56a68b43e6
+timeCreated: 1526976020
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -398,7 +398,7 @@ ModelImporter:
     4300020: feet
     4300022: head
     4300024: nails
-    7400000: Take 001
+    7400000: 14 UW
     9500000: //RootNode
     13700000: chest
     13700002: feet
@@ -433,7 +433,415 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: 14 UW
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: geo
+        weight: 1
+      - path: geo/chest
+        weight: 1
+      - path: geo/feet
+        weight: 1
+      - path: geo/hands
+        weight: 1
+      - path: geo/head
+        weight: 1
+      - path: geo/L_eye
+        weight: 1
+      - path: geo/L_eyelash
+        weight: 1
+      - path: geo/legs
+        weight: 1
+      - path: geo/lower_teeth
+        weight: 1
+      - path: geo/nails
+        weight: 1
+      - path: geo/R_eye
+        weight: 1
+      - path: geo/R_eyelash
+        weight: 1
+      - path: geo/tongue
+        weight: 1
+      - path: geo/upper_teeth
+        weight: 1
+      - path: SH_ROOTJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_lHipJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_lHipJ/SH_lKneeJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_lHipJ/SH_lKneeJ/SH_lAnkleJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_lHipJ/SH_lKneeJ/SH_lAnkleJ/SH_lBallJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_lHipJ/SH_lKneeJ/SH_lAnkleJ/SH_lBallJ/SH_lToeJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_rHipJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_rHipJ/SH_rKneeJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_rHipJ/SH_rKneeJ/SH_rAnkleJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_rHipJ/SH_rKneeJ/SH_rAnkleJ/SH_rBallJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_rHipJ/SH_rKneeJ/SH_rAnkleJ/SH_rBallJ/SH_rToeJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger1J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger1J1/SH_lFinger1J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger1J1/SH_lFinger1J2/SH_lFinger1J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger1J1/SH_lFinger1J2/SH_lFinger1J3/SH_lFinger1JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger2J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger2J1/SH_lFinger2J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger2J1/SH_lFinger2J2/SH_lFinger2J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger2J1/SH_lFinger2J2/SH_lFinger2J3/SH_lFinger2JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger3J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger3J1/SH_lFinger3J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger3J1/SH_lFinger3J2/SH_lFinger3J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger3J1/SH_lFinger3J2/SH_lFinger3J3/SH_lFinger3JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger4J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger4J1/SH_lFinger4J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger4J1/SH_lFinger4J2/SH_lFinger4J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lPalmJ/SH_lFinger4J1/SH_lFinger4J2/SH_lFinger4J3/SH_lFinger4JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lThumbJ1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lThumbJ1/SH_lThumbJ2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lThumbJ1/SH_lThumbJ2/SH_lThumbJ3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_lClavicleJ/SH_lShoulderJ/SH_lShoulderJ_bind_2/SH_lShoulderJ_bind_3/SH_lElbowJ/SH_lElbowJ_bind_2/SH_lElbowJ_bind_3/SH_lElbowJ_bind_4/SH_lWristJ/SH_lThumbJ1/SH_lThumbJ2/SH_lThumbJ3/SH_lThumbJTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/l_eyeBrow_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/cn_brow_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/cn_nose_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/jawJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/jawJnt_bn/jawJnt_end_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_cheekPuff_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_cheekPuff_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_cheekPuff_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_cornerLip_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_6_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_crease_ctrlJnt_7_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_earCtrl_jnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_eyeBrow_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_eyeBrow_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_eyeBrow_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_eyeBrow_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_eyeJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_eyeJnt_bn/l_eyePupilJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_lowerLid_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_lowerLid_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_lowerLid_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_noseAla_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_nostril_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_nostril_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperCheek_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperCheek_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperCheek_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperLid_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperLid_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperLid_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperLid_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/l_upperLid_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_6_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_7_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_8_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerLip_ctrlJnt_9_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/lowerTeethJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_cheekPuff_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_cheekPuff_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_cheekPuff_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_cornerLip_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_6_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_crease_ctrlJnt_7_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_earCtrl_jnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyeBrow_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyeBrow_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyeBrow_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyeBrow_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyeBrow_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyeJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_eyePupilJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_lowerLid_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_lowerLid_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_lowerLid_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_noseAla_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_nostril_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_nostril_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperCheek_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperCheek_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperCheek_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperLid_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperLid_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperLid_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperLid_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/r_upperLid_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/tongueJnt_01_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/tongueJnt_01_bn/tongueJnt_02_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/tongueJnt_01_bn/tongueJnt_02_bn/tongueJnt_03_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/tongueJnt_01_bn/tongueJnt_02_bn/tongueJnt_03_bn/tongueJnt_04_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_1_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_2_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_3_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_4_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_5_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_6_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_7_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_8_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_9_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_10_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperLip_ctrlJnt_11_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_Neck01J/SH_Neck02J/head_jnt_bn/upperTeethJnt_bn
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger1J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger1J1/SH_rFinger1J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger1J1/SH_rFinger1J2/SH_rFinger1J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger1J1/SH_rFinger1J2/SH_rFinger1J3/SH_rFinger1JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger2J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger2J1/SH_rFinger2J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger2J1/SH_rFinger2J2/SH_rFinger2J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger2J1/SH_rFinger2J2/SH_rFinger2J3/SH_rFinger2JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger3J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger3J1/SH_rFinger3J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger3J1/SH_rFinger3J2/SH_rFinger3J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger3J1/SH_rFinger3J2/SH_rFinger3J3/SH_rFinger3JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger4J1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger4J1/SH_rFinger4J2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger4J1/SH_rFinger4J2/SH_rFinger4J3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rPalmJ/SH_rFinger4J1/SH_rFinger4J2/SH_rFinger4J3/SH_rFinger4JTip
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rThumbJ1
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rThumbJ1/SH_rThumbJ2
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rThumbJ1/SH_rThumbJ2/SH_rThumbJ3
+        weight: 1
+      - path: SH_ROOTJ/SH_ROOT02J/SH_Spine01J/SH_Spine02J/SH_Spine03J/SH_SpineTopJ/SH_rClavicleJ/SH_rShoulderJ/SH_rShoulderJ_bind_2/SH_rShoulderJ_bind_3/SH_rElbowJ/SH_rElbowJ_bind_2/SH_rElbowJ_bind_3/SH_rElbowJ_bind_4/SH_rWristJ/SH_rThumbJ1/SH_rThumbJ2/SH_rThumbJ3/SH_rThumbJTip
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

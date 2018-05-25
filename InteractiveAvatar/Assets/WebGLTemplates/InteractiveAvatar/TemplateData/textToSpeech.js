@@ -114,8 +114,8 @@ if (typeof textToSpeach != 'undefined') {
             self.msgparameters.onendcalled = false;
 
             if (parameters != null) {
-                msg.onend = self.speech_onend;
-                msg.addEventListener('end',self.speech_onend);
+                //msg.onend = self.speech_onend;
+                //msg.addEventListener('end',self.speech_onend);
 
                 msg.onerror = parameters.onerror || function (e) {
                     console.log('TTS: Error');
@@ -125,6 +125,8 @@ if (typeof textToSpeach != 'undefined') {
                 msg.onpause = parameters.onpause;
                 msg.onresume = parameters.onresume;
                 msg.onmark = parameters.onmark;
+                msg.onstart = parameters.onstart;
+                msg.onend = parameters.onend;
                 // this event fires at the start of each word.
                 //TODO find out if iOS check like speech_onstart is needed
                 msg.onboundary = parameters.onboundary;
