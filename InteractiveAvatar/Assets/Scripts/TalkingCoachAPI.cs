@@ -33,8 +33,8 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// Convert text to speech.
 	/// </summary>
 	/// <param name="text">The convertable text.</param>
-	public void convertToSpeach(string text){
-		TextManager.instance.startSpeach(text);
+	public void convertToSpeech(string text){
+		TextManager.instance.startSpeech(text);
 	}
 
 	/// <summary>
@@ -48,8 +48,8 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// <summary>
 	/// Stop the speech.
 	/// </summary>
-	public void stopSpeach(){
-		TextManager.instance.stopSpeach();
+	public void stopSpeech(){
+		TextManager.instance.stopSpeech();
 	}
 
 	/// <summary>
