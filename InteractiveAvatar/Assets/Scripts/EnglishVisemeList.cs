@@ -1,11 +1,22 @@
 ﻿using UnityEngine;
 
-// this interface for adding animations looks best, but it is horrendously coded.
-// there has to be a cool way to do this, but I have no idea how to create a
-// custom display for arrays within the Unity Interface.
-// TODO find h
+/// <summary>
+/// This class represents a list for 56 English Visemes, to be included within a
+/// Unity Interface Component.
+///
+/// The code is ugly, and it's not very flexible.
+///
+/// Some other options were attempted, such as arrays and lists, while they work
+/// and look better in the code, they don't appear as nice as this class within
+/// the Editor.
+///
+/// There should be an approach to modify the way Unity renders a specific array
+/// or list, but there's very little documentation available. Probably requires
+/// wrapping within another object, it doesn't seem possibe to modify array or
+/// list rendering directly. 
+/// </summary>
 [System.Serializable]
-public class VisemeList {
+public class EnglishVisemeList {
     [SerializeField] private AnimationClip Viseme0;
     [SerializeField] private AnimationClip Viseme1;
     [SerializeField] private AnimationClip Viseme2;
@@ -68,7 +79,7 @@ public class VisemeList {
     [SerializeField] private AnimationClip Viseme54;
     [SerializeField] AnimationClip Viseme55;
     
-    public AnimationClip[] GetVisemes() {
+    public AnimationClip[] getVisemes() {
         AnimationClip[] clips = new AnimationClip[56];
         
         clips[0] = Viseme0;

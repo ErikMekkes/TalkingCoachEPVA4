@@ -1,29 +1,51 @@
 ﻿using UnityEngine;
 
+// This class specifies certain components that are specific for the Unity
+// Interface. As such, we only want these components to be executed when run
+// with the Unity Interface. This is achieved with this preprocessor directive.
 #if UNITY_EDITOR
 using UnityEditor;
 
-
-// for drawing info window
+/// <summary>
+/// This class represents an info interface element for the Unity Editor.
+///
+/// When added to the interface as component it draws a box with a small info
+/// icon and the specified text. 
+/// </summary>
 public class InterfaceInfo : PropertyAttribute {
+	// info text
 	public readonly string info;
-     
+    
+	// constructor
 	public InterfaceInfo(string infoText) {
 		info = infoText;
 	}
 }
-// for drawing info window
+/// <summary>
+/// This class specifies custom draw instructions for the Unity Interface, for
+/// objects of type InterfaceInfo
+///
+/// It instructs the Unity Interface to draw a HelpBox object with type 'info'
+/// and the text specified within the InterfaceInfo Object.
+/// The positioning is relative to the previous elements added by the script
+/// that adds the InterfaceInfo Object.
+/// </summary>
 [CustomPropertyDrawer(typeof(InterfaceInfo))]
 public class InterfaceInfoDrawer : PropertyDrawer {
+	// get info text from object
 	private InterfaceInfo interfaceInfo { get { return (InterfaceInfo)attribute; } }
     
+	// specify custom draw instructions
 	public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label) {
+		// draw help box of type info using info text
 		EditorGUI.HelpBox(position, interfaceInfo.info, MessageType.Info);
 	}
 	
+	// specify custom height for this element
 	public override float GetPropertyHeight(SerializedProperty property,
 		GUIContent label) {
-		return 30;
+		// TODO : less magic number
+		return 60;
 	}
 }
 #endif
@@ -52,22 +74,18 @@ public class AnimationsManager : MonoBehaviour {
 	// talk animation name
 	[SerializeField] private string talk;
 
-	// talkmix animation name
-	[SerializeField] private string talkmix;
-
-	
-#if UNITY_EDITOR 
+	// interface only component	
+	#if UNITY_EDITOR
 	[InterfaceInfo("With the Viseme List below you can specify which" +
 	               "animation should be used for which viseme in the English" +
 	               " language.\n" +
 	               "Check the documentation at ... for more information on " +
 	               "which motion each viseme number represents.")]
 	public string Help;
-#endif
+	#endif
 
-	// list of viseme animations, it looks really nice in the interface,
-	// but the behind the scenes in VisemeList.cs is horrid.
-	[SerializeField] private VisemeList VisemesEnglish;
+	// List of english viseme animations
+	[SerializeField] private EnglishVisemeList _visemesEnglish;
 
 
 	// The Singleton instance of the class.
@@ -107,14 +125,6 @@ public class AnimationsManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Return the name of the talkmix animation.
-	/// </summary>
-	/// <returns>The talkmix animation's name.</returns>
-	public string getTalkmix(){
-		return talkmix;
-	}
-
-	/// <summary>
 	/// Returns an array of viseme animations. These are the animations as
 	/// included with the selected model in Unity. Null indicates the specific
 	/// viseme has no included animation.
@@ -126,6 +136,6 @@ public class AnimationsManager : MonoBehaviour {
 	/// The SI (silent) viseme as entry 0.
 	/// </returns>
 	public AnimationClip[] getEnglishVisemes() {
-		return VisemesEnglish.GetVisemes();
+		return _visemesEnglish.getVisemes();
 	}
 }

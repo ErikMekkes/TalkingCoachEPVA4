@@ -79,7 +79,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="horizontal">The value to move the avatar by.</param>
 	public void moveAvatarHorizontal(int horizontal){
-		ApplicationManager.instance.moveCoah(horizontal,0);
+		ApplicationManager.instance.moveCoach(horizontal,0);
 	}
 
 	/// <summary>
@@ -87,7 +87,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="vertical">The value to move the avatar by.</param>
 	public void moveAvatarVertical(int vertical){
-		ApplicationManager.instance.moveCoah(0,vertical);
+		ApplicationManager.instance.moveCoach(0,vertical);
 	}
 
 	/// <summary>

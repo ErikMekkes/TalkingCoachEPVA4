@@ -22,7 +22,7 @@ public class ApplicationManager : MonoBehaviour {
 	// Avatar model
 	private GameObject new_coach;
 
-	// Animation components and manager
+	// Unity Animation component and manager script instance
 	private Animation _animation;
 	private AnimationsManager _animationsManager;
 	// Array of viseme Animations
@@ -32,16 +32,15 @@ public class ApplicationManager : MonoBehaviour {
 	Sprite[] backgroundTexture;
 	SpriteRenderer backgroundSprite;
 
-	// Only thing required to find an animation in Untiy is a name
-	// TODO find out what happens with same names
+	// idle and talk animations are referenced by name from Unity
 	private string idle;
 	private string talk;
 	
-	// list of viseme numbers that are playing
+	// list of viseme numbers that are currently playing
 	private List<int> _visemeList;
 	
 	// layer for viseme (speech) animation
-	private const int Viseme_Layer = 2;
+	private const int VisemeLayer = 2;
 	
 	// initial coach avatar selected from prefabs.
 	private int _coachNumber = 0;
@@ -93,38 +92,10 @@ public class ApplicationManager : MonoBehaviour {
 				cam.enabled = false;
 			}
 		}
-		
-		//TODO REMOVE THIS DEMO OF RUNNING ANIMATION
-		//runningDemo();
-	}
-
-	private void runningDemo() {
-		// demonstrate calling a sequence of viseme animations with the prefab
-		// demo coach that was added with coach number 1
-		Destroy(new_coach);
-		_coachNumber = 1;
-		load_coach();
-		// make a list of 5 viseme animations
-		List<int> visList = new List<int> {0, 1, 2, 3, 4, 5};
-		// play the list of animations sequentially
-		playVisemeList(visList);
-		// can be used to show stopping current speech animations works
-		//visList = new List<int> {5};
-		// can be used to show a random much longer order works
-		
-		
-		//visList = new List<int> {5,3,1,4,5,2,3,4,1,0,2,3,1,0,4,5,2,2,3,1,4,5,2};
-		// play the list of animations sequentially
-		//playVisemeList(visList);
-		// make a list of 5 viseme animations
-		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
-			0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
-		// play the list of animations sequentially
-		playVisemeList(fox);
 	}
 	
 	/// <summary>
-	/// Load the application by setting the background sprite, loading 
+	/// Load the application by setting the background image renderer, loading 
 	/// background textures and loading the coach.
 	/// </summary>
 	private void on_load(){
@@ -134,9 +105,10 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Load the background texture.
+	/// Load the background texture sprites from Unity.
 	/// </summary>
 	private void load_background(){
+		// load all background texture sprites from Unity
 		backgroundTexture = Resources.LoadAll<Sprite>("Textures");
 	}
 
@@ -145,7 +117,9 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="zoomValue">The value to zoom by.</param>
 	public void zoomAvatarCamera(int zoomValue){
+		// represent camera position change as vector for Z-axis
 		Vector3 changeZoom = new Vector3(0,0,zoomValue);
+		// update camera position by adding the position vector.
 		avatarCamera.transform.transform.position += changeZoom;	
 	}
 
@@ -154,8 +128,10 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="moveHorizontal">The horizontal movement.</param>
 	/// <param name="moveVertical">The vertical movement.</param>
-	public void moveCoah(int moveHorizontal, int moveVertical){
+	public void moveCoach(int moveHorizontal, int moveVertical){
+		// represent coach position change as vector
 		Vector3 changePosition = new Vector3(moveHorizontal, moveVertical, 0);
+		// update object position by adding the position vector.
 		new_coach.transform.position += changePosition;
 	}
 	
@@ -166,13 +142,15 @@ public class ApplicationManager : MonoBehaviour {
 	/// Also loads the animations for the coach.
 	/// </summary>
 	private void load_coach() {
+		// create new coach Unity Gameobject
 		new_coach = GameObject.Instantiate(coach_prefabs[_coachNumber]);
+		// add the new coach object to the Unity parent container (CoachHolder)
 		new_coach.transform.parent = coach_holder.transform;
-
+		// set default coach position
 		new_coach.transform.localPosition = new Vector3(0, 0, 0);
 		new_coach.transform.localRotation = Quaternion.identity;
 		new_coach.transform.localScale = new Vector3(1, 1, 1);
-
+		// load animations for new coach object
 		loadAnimations();
 	}
 
@@ -181,7 +159,9 @@ public class ApplicationManager : MonoBehaviour {
 	/// background sprite based on the new value.
 	/// </summary>
 	public void changeBackground(){
+		// increment background number
 		_backgroundNumber = (_backgroundNumber + 1) % backgroundTexture.Length;
+		// set new background image for background image renderer
 		backgroundSprite.sprite = backgroundTexture[_backgroundNumber];
 	}
 
@@ -190,10 +170,15 @@ public class ApplicationManager : MonoBehaviour {
 	/// on the new value.
 	/// </summary>
 	public void changeCoach(){
+		// store old coach object position
 		Vector3 oldCoachPosition = new_coach.transform.position;
+		// increment coach number
 		_coachNumber = (_coachNumber + 1) % coach_prefabs.Count;
+		// destroy current coach object
 		Destroy(new_coach);
+		// load new coach object (using coach number)
 		load_coach();
+		// update position of new coach object using the old position
 		new_coach.transform.position = oldCoachPosition;
 	}
 
@@ -219,7 +204,6 @@ public class ApplicationManager : MonoBehaviour {
 		_animation.wrapMode = WrapMode.Once;
 		// Set layers for animation, higher layers are overlayed on the lower.
 		// e.g. idle (full body) first, talk (mouth) overlayed on idle.
-		// TODO discuss layers with other team
 		_animation[idle].layer = 1;
 		_animation[idle].wrapMode = WrapMode.Loop;
 		_animation[talk].layer = 2;
@@ -232,7 +216,7 @@ public class ApplicationManager : MonoBehaviour {
 				// add clip to animation component
 				_animation.AddClip(clip, clip.name);
 				// set visime animation layer
-				_animation[clip.name].layer = Viseme_Layer;
+				_animation[clip.name].layer = VisemeLayer;
 				// set visime animation speed
 				_animation[clip.name].speed = 1;
 				// set viseme animations to play once.
@@ -258,12 +242,12 @@ public class ApplicationManager : MonoBehaviour {
 		foreach (int visNumber in visList) {
 			// TODO api to set transition time, finding the right time to set
 			float transitionTime = 0;
-
+			// find the animation clip using the viseme number
 			string clipName = _visemeAnimations[visNumber].name;
-			//_animation[clipName].enabled = false;
 			
-			// look up the animation for the specified number, add it to the
-			// queue using the set transition time to smooth out animation
+			// Add the animation clip to the queue using the specified
+			// transition time to smooth out animation. Animations added to the
+			// queueu are set to let other animations complete before playing.
 			_animation.CrossFadeQueued(
 				clipName,
 				transitionTime,
@@ -287,27 +271,32 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Play the loaded animation on the coach.
+	/// Plays the idle and talk animations on the coach.
+	///
+	/// Will be deprecated with next iteration.
 	/// </summary>
 	public void PlayAnimation(){
+		// fade in the talk animation over 0 seconds, stopping others
 		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
+		// blend the idle animation with the currently playing talk animation.
 		_animation.Blend(idle);
 	}
 
 	/// <summary>
-	/// Stop the loaded animation on the coach.
+	/// Stop all currently playing animations and play the idle animation.
+	///
+	/// Will be deprecated with next iteration.
 	/// </summary>
 	public void StopAnimation(){
+		// fade in the idle animation over 0 seconds and stop other animations
 		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
 	public void animateFox() {
-		Debug.Log("animateFox");
-		// make a list of 5 viseme animations
+		// make a list of visemes for the sentenc:
+		// "The quick brown fox jumps over the lazy dog"
 		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
 		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
-//		List<int> fox = new List<int> {40, 9, 49, 24, 2, 49, 46, 26, 8, 32, 37, 6, 49, 41, 
-//			35, 25, 9, 31, 45, 41, 11, 38, 21, 40, 9, 27, 3, 42, 1, 35, 6, 50};
 		// play the list of animations sequentially
 		playVisemeList(fox);
 	}
@@ -326,7 +315,6 @@ public class ApplicationManager : MonoBehaviour {
 			timeOutTimer = 0.0f;
 			//Dont active screensaver
 			foreach( Camera cam in cams){
-				//Debug.Log("main camera : " + Camera.current);
 				if(cam.gameObject.name == "InactiveCamera"){
 					cam.enabled = false;
 				}else{
