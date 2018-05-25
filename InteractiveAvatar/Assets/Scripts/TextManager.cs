@@ -122,7 +122,7 @@ public class TextManager : MonoBehaviour {
 		_voice = newVoice;
 	}
 
-	public void startSpeach(string text) {
+	public void startSpeech(string text) {
 		_textInput = text;
 		_isSpeaking = true;
 		// start speech, animation started with callback functions
@@ -137,7 +137,7 @@ public class TextManager : MonoBehaviour {
 		Speak(_textInput, _voice, callbackDemoStart, callbackEnd, callbackBoundary);
 	}
 
-	public void stopSpeach() {
+	public void stopSpeech() {
 		_textInput = null;
 		_isSpeaking = false;
 		//stop speech

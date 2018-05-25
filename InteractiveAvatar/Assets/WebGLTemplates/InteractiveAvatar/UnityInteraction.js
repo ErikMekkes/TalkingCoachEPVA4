@@ -19,11 +19,11 @@ var gameInstance = UnityLoader.instantiate("gameContainer", "Build/mybuild.json"
 function startTalk(){
 
 	var text = document.getElementById("textForSpeech").value;
-    gameInstance.SendMessage('TalkingCoach', 'convertToSpeach', text);
+    gameInstance.SendMessage('TalkingCoach', 'convertToSpeech', text);
 }
 
 function stopTalk(){
-    gameInstance.SendMessage('TalkingCoach', 'stopSpeach');
+    gameInstance.SendMessage('TalkingCoach', 'stopSpeech');
 }
 
 function changeBackground(){
