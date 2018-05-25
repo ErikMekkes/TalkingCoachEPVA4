@@ -32,7 +32,9 @@
     </div>
     
     <!-- Filled in during by Unity the build process: -->
-    <div id="gameContainer" style="height:600px;width:960px"></div>
+    <div class="template-wrap">
+        <div id="gameContainer" style="height:600px;width:960px"></div>
+    </div>
     
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
     <script> var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");</script>
