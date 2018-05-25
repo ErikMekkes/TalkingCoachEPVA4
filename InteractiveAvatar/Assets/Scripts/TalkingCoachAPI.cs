@@ -33,15 +33,23 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// Convert text to speech.
 	/// </summary>
 	/// <param name="text">The convertable text.</param>
-	public void convertToSpeach(string text){
-		TextManager.instance.startSpeach(text);
+	public void convertToSpeech(string text){
+		TextManager.instance.startSpeech(text);
+	}
+
+	/// <summary>
+	/// Convert text to speech.
+	/// </summary>
+	/// <param name="text">The convertable text.</param>
+	public void startDemo(){
+		TextManager.instance.startDemo();
 	}
 
 	/// <summary>
 	/// Stop the speech.
 	/// </summary>
-	public void stopSpeach(){
-		TextManager.instance.stopSpeach();
+	public void stopSpeech(){
+		TextManager.instance.stopSpeech();
 	}
 
 	/// <summary>
@@ -71,7 +79,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="horizontal">The value to move the avatar by.</param>
 	public void moveAvatarHorizontal(int horizontal){
-		ApplicationManager.instance.moveCoah(horizontal,0);
+		ApplicationManager.instance.moveCoach(horizontal,0);
 	}
 
 	/// <summary>
@@ -79,7 +87,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="vertical">The value to move the avatar by.</param>
 	public void moveAvatarVertical(int vertical){
-		ApplicationManager.instance.moveCoah(0,vertical);
+		ApplicationManager.instance.moveCoach(0,vertical);
 	}
 
 	/// <summary>

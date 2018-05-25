@@ -23,12 +23,12 @@ public class TextManager : MonoBehaviour {
 
 	// delegate declarations for javascript text to speech callback functions
 	// TODO not sure if needed, probably for dynamic linking
-	public delegate void StartDelegate();
+	public delegate void StartDelegate(float elapsedTime);
 	
 	/// <summary>
 	/// The callback when the speech ends.
 	/// </summary>
-	public delegate void EndDelegate();
+	public delegate void EndDelegate(float elapsedTime);
 	public delegate void BoundaryDelegate(int lastword, float elapsedTime);
 
 	Button btn;
@@ -122,14 +122,22 @@ public class TextManager : MonoBehaviour {
 		_voice = newVoice;
 	}
 
-	public void startSpeach(string text) {
+	public void startSpeech(string text) {
 		_textInput = text;
 		_isSpeaking = true;
 		// start speech, animation started with callback functions
 		Speak(text, this._voice, callbackStart, callbackEnd, callbackBoundary);
 	}
 
-	public void stopSpeach() {
+	public void startDemo() {
+		Debug.Log("startDemo()");
+		_textInput = "The quick brown fox jumps over the lazy dog.";
+		_isSpeaking = true;
+		// start speech, animation started with callback functions
+		Speak(_textInput, _voice, callbackDemoStart, callbackEnd, callbackBoundary);
+	}
+
+	public void stopSpeech() {
 		_textInput = null;
 		_isSpeaking = false;
 		//stop speech
@@ -176,18 +184,26 @@ public class TextManager : MonoBehaviour {
 	}
 
 	[MonoPInvokeCallback(typeof(StartDelegate))]
-	public static void callbackStart(){
-		Debug.Log("callback start");
+	public static void callbackStart(float elapsedTime){
+		Debug.Log("callback start at : " + elapsedTime);
+		
 		ApplicationManager.instance.PlayAnimation();
 	}
+	
+	[MonoPInvokeCallback(typeof(StartDelegate))]
+	public static void callbackDemoStart(float elapsedTime){
+		Debug.Log("callback Demo start at : " + elapsedTime);
 		
+		ApplicationManager.instance.animateFox();
+	}
+	
 	/// <summary>
 	/// The end of the callback when talking ends.
 	/// </summary>
 	[MonoPInvokeCallback(typeof(EndDelegate))]
-	public static void callbackEnd(){
-		Debug.Log("callback ended");
-		ApplicationManager.instance.StopAnimation();
+	public static void callbackEnd(float elapsedTime){
+		Debug.Log("callback end at : " + elapsedTime);
+		//ApplicationManager.instance.StopAnimation();
 	}
 
 	/// <summary>
@@ -205,4 +221,20 @@ public class TextManager : MonoBehaviour {
 		_lastWordIndex = lastWord;
 		Debug.Log("Last Boundary Char = " + lastWord + " at time : " + elapsedTime);
 	}
+
+    /// <summary>
+	/// Returns true if speaking and false if not. This function is used for testing.
+	/// </summary>
+    public bool getIsSpeaking()
+    {
+        return _isSpeaking;
+    }
+
+    /// <summary>
+	/// Returns true if speaking and false if not. This function is used for testing.
+	/// </summary>
+    public bool getIsPaused()
+    {
+        return _isPaused;
+    }
 }

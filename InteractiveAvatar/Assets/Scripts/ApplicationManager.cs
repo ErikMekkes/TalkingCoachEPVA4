@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ApplicationManager : MonoBehaviour {
@@ -23,26 +22,25 @@ public class ApplicationManager : MonoBehaviour {
 	// Avatar model
 	private GameObject new_coach;
 
-	// Animation components and manager
+	// Unity Animation component and manager script instance
 	private Animation _animation;
 	private AnimationsManager _animationsManager;
+	// Array of viseme Animations
+	private AnimationClip[] _visemeAnimations;
 	
 	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
 	SpriteRenderer backgroundSprite;
 
-	// Only thing required to find an animation in Untiy is a name
-	// TODO find out what happens with same names
+	// idle and talk animations are referenced by name from Unity
 	private string idle;
 	private string talk;
-	// list of  of all included viseme animations
-	private string[] _visemeNames;
 	
-	// list of viseme numbers that are playing
+	// list of viseme numbers that are currently playing
 	private List<int> _visemeList;
 	
 	// layer for viseme (speech) animation
-	private const int Viseme_Layer = 2;
+	private const int VisemeLayer = 2;
 	
 	// initial coach avatar selected from prefabs.
 	private int _coachNumber = 0;
@@ -86,7 +84,7 @@ public class ApplicationManager : MonoBehaviour {
 	/// Start is called on the frame when a script is enabled just before any
 	/// of the Update methods are called the first time. It runs after Awake().
 	/// </summary>
-	void Start () {
+	void Start() {
 		// ensure screensaver camera is disabled on start (see Update())
 		cams = Camera.allCameras;
 		foreach( Camera cam in cams){
@@ -94,26 +92,10 @@ public class ApplicationManager : MonoBehaviour {
 				cam.enabled = false;
 			}
 		}
-		
-		//TODO REMOVE THIS DEMO OF RUNNING ANIMATION
-		runningDemo();
-	}
-
-	private void runningDemo() {
-		// demonstrate calling a sequence of viseme animations with the prefab
-		// demo coach that was added with coach number 1
-		Destroy(new_coach);
-		_coachNumber = 1;
-		load_coach();
-		_animation.Stop();
-		// make a list of 5 viseme animations
-		List<int> visList = new List<int> {0, 1, 2, 3, 4, 5};
-		// play the list of animations sequentially
-		playVisemeList(visList);
 	}
 	
 	/// <summary>
-	/// Load the application by setting the background sprite, loading 
+	/// Load the application by setting the background image renderer, loading 
 	/// background textures and loading the coach.
 	/// </summary>
 	private void on_load(){
@@ -123,9 +105,10 @@ public class ApplicationManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Load the background texture.
+	/// Load the background texture sprites from Unity.
 	/// </summary>
 	private void load_background(){
+		// load all background texture sprites from Unity
 		backgroundTexture = Resources.LoadAll<Sprite>("Textures");
 	}
 
@@ -134,7 +117,9 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="zoomValue">The value to zoom by.</param>
 	public void zoomAvatarCamera(int zoomValue){
+		// represent camera position change as vector for Z-axis
 		Vector3 changeZoom = new Vector3(0,0,zoomValue);
+		// update camera position by adding the position vector.
 		avatarCamera.transform.transform.position += changeZoom;	
 	}
 
@@ -143,8 +128,10 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="moveHorizontal">The horizontal movement.</param>
 	/// <param name="moveVertical">The vertical movement.</param>
-	public void moveCoah(int moveHorizontal, int moveVertical){
+	public void moveCoach(int moveHorizontal, int moveVertical){
+		// represent coach position change as vector
 		Vector3 changePosition = new Vector3(moveHorizontal, moveVertical, 0);
+		// update object position by adding the position vector.
 		new_coach.transform.position += changePosition;
 	}
 	
@@ -155,13 +142,15 @@ public class ApplicationManager : MonoBehaviour {
 	/// Also loads the animations for the coach.
 	/// </summary>
 	private void load_coach() {
+		// create new coach Unity Gameobject
 		new_coach = GameObject.Instantiate(coach_prefabs[_coachNumber]);
+		// add the new coach object to the Unity parent container (CoachHolder)
 		new_coach.transform.parent = coach_holder.transform;
-
+		// set default coach position
 		new_coach.transform.localPosition = new Vector3(0, 0, 0);
 		new_coach.transform.localRotation = Quaternion.identity;
 		new_coach.transform.localScale = new Vector3(1, 1, 1);
-
+		// load animations for new coach object
 		loadAnimations();
 	}
 
@@ -170,7 +159,9 @@ public class ApplicationManager : MonoBehaviour {
 	/// background sprite based on the new value.
 	/// </summary>
 	public void changeBackground(){
+		// increment background number
 		_backgroundNumber = (_backgroundNumber + 1) % backgroundTexture.Length;
+		// set new background image for background image renderer
 		backgroundSprite.sprite = backgroundTexture[_backgroundNumber];
 	}
 
@@ -179,10 +170,15 @@ public class ApplicationManager : MonoBehaviour {
 	/// on the new value.
 	/// </summary>
 	public void changeCoach(){
+		// store old coach object position
 		Vector3 oldCoachPosition = new_coach.transform.position;
+		// increment coach number
 		_coachNumber = (_coachNumber + 1) % coach_prefabs.Count;
+		// destroy current coach object
 		Destroy(new_coach);
+		// load new coach object (using coach number)
 		load_coach();
+		// update position of new coach object using the old position
 		new_coach.transform.position = oldCoachPosition;
 	}
 
@@ -197,8 +193,8 @@ public class ApplicationManager : MonoBehaviour {
 	private void loadAnimations() {
 		// Get animation manager script attached to current avatar GameObject
 		_animationsManager = new_coach.GetComponent<AnimationsManager>();
-		// get names of viseme animations
-		_visemeNames = _animationsManager.getEnglishVisemes56();
+		// get viseme animations
+		_visemeAnimations = _animationsManager.getEnglishVisemes();
 		// get names of idle, talk and talkmix animations
 		idle = _animationsManager.getIdle();
 		talk = _animationsManager.getTalk();
@@ -208,82 +204,25 @@ public class ApplicationManager : MonoBehaviour {
 		_animation.wrapMode = WrapMode.Once;
 		// Set layers for animation, higher layers are overlayed on the lower.
 		// e.g. idle (full body) first, talk (mouth) overlayed on idle.
-		// TODO discuss layers with other team
 		_animation[idle].layer = 1;
 		_animation[idle].wrapMode = WrapMode.Loop;
 		_animation[talk].layer = 2;
 		
 		// ensure viseme animations have the right properties
-		foreach (string viseme in _visemeNames) {
-			if (!string.IsNullOrEmpty(viseme)) {
+		foreach (AnimationClip clip in _visemeAnimations) {
+			if (clip != null) {
+				// enable legacy mode for manual animation management.
+				clip.legacy = true;
+				// add clip to animation component
+				_animation.AddClip(clip, clip.name);
 				// set visime animation layer
-				_animation[viseme].layer = Viseme_Layer;
+				_animation[clip.name].layer = VisemeLayer;
 				// set visime animation speed
-				_animation[viseme].speed = 1;
+				_animation[clip.name].speed = 1;
 				// set viseme animations to play once.
-				_animation[viseme].wrapMode = WrapMode.Once;
+				_animation[clip.name].wrapMode = WrapMode.Once;
 			}
 		}
-	}
-
-	/// <summary>
-	/// This function adds an event to the loaded viseme animation specified by
-	/// name. It adds an event at the end of the animation, which calls the
-	/// visemeFinished function.
-	///
-	/// If there already is such an event at the end end of the animation, no
-	/// changes are made. 
-	/// Existing events in the animation are left unmodified.
-	/// Returns without changes if specified animation was not found.
-	///
-	/// This allows a function to be called once an animation finishes.
-	///
-	/// Warning: Using variants of crossFade for smoothing animation transitions
-	/// modifies the end / start frames for the transition, events during these
-	/// frames might not be called.
-	/// </summary>
-	/// <param name="viseme"></param>
-	public void addAnimationEvent(string viseme) {
-		// find the loaded animation identified by the name
-		AnimationClip clip = _animation[viseme].clip;
-		// return if no animation was found
-		if (clip == null) {
-			return;
-		}
-		// check if animation already has a finished event, return if it does
-		int length = clip.events.Length;
-		if (length > 0 && (clip.events[length-1].time == _animation[viseme].length
-		    || clip.events[length-1].functionName.Equals("visemeFinished"))) {
-			return;
-		}
-		// retrieve events already in animations and copy to larger array
-		AnimationEvent[] events = 
-			AnimationUtility.GetAnimationEvents(clip);
-		AnimationEvent[] evts = new AnimationEvent[length+1];
-		for (int i=0; i< length; i++) {
-			evts[i] = events[i];
-		}
-		// add new visemeFinished event to array of events copy
-		evts[length] = new AnimationEvent {
-			time = _animation[viseme].length,
-			functionName = "visemeFinished"
-		};
-		// set extended array to be the new set of AnimationEvents
-		AnimationUtility.SetAnimationEvents(clip, evts);
-	}
-
-	/// <summary>
-	/// Plays the numbered viseme animation. Viseme animations have their own
-	/// animation layer, when playing a new viseme, previous animations in the
-	/// same layer as the new animation are stopped.
-	/// </summary>
-	/// <param name="visNumber">
-	/// Number of viseme Animation to play.
-	/// </param>
-	public void playViseme(int visNumber) {
-		// play the given viseme animation without fading in, stopping previous
-		// animations in the same layer beforehand (other visemes)
-		_animation.CrossFade(_visemeNames[visNumber], 0.0f, PlayMode.StopSameLayer);
 	}
 
 	/// <summary>
@@ -296,53 +235,70 @@ public class ApplicationManager : MonoBehaviour {
 	/// </param>
 	public void playVisemeList(List<int> visList) {
 		// stop previously playing animations in viseme layer
-		stopAnimationLayer(Viseme_Layer);
+		stopVisemeAnimations();
 		// save list of visemes to play
 		_visemeList = visList;
 		// loop through the set of viseme numbers
 		foreach (int visNumber in visList) {
 			// TODO api to set transition time, finding the right time to set
-			float transitionTime = 0.3f;
+			float transitionTime = 0;
+			// find the animation clip using the viseme number
+			string clipName = _visemeAnimations[visNumber].name;
 			
-			// look up the animation for the specified number, add it to the
-			// queue using the set transition time to smooth out animation
+			// Add the animation clip to the queue using the specified
+			// transition time to smooth out animation. Animations added to the
+			// queueu are set to let other animations complete before playing.
 			_animation.CrossFadeQueued(
-				_visemeNames[visNumber],
+				clipName,
 				transitionTime,
 				QueueMode.CompleteOthers);
 		}
 	}
+	
 	/// <summary>
-	/// Stops all animations in the specified animation layer
+	/// Stops all currently playing viseme animations
 	/// </summary>
-	/// <param name="layer">
-	/// Animation layer to stop animations in.
-	/// </param>
-	private void stopAnimationLayer( int layer ) {
-		_animation.Stop();
-		/*
-		// TODO find more efficient working version of this...
-		foreach ( AnimationState animState in _animation ) {
-			Debug.Log("Stopped animation " + animState.name);
-			if (animState.layer == layer) {
-				_animation.Blend(animState.name, 0.0f, 0.1f);
-			}
-		}*/
+	private void stopVisemeAnimations() {
+		// return if no animations playing
+		if (_visemeList == null) return;
+		// loop through currently playing viseme numbers
+		foreach (int visNumber in _visemeList) {
+			// find the animation
+			AnimationClip clip = _visemeAnimations[visNumber];
+			// stop the animation by blending to weight 0 over 0 seconds.
+			_animation.Stop(clip.name);
+		}
 	}
 
 	/// <summary>
-	/// Play the loaded animation on the coach.
+	/// Plays the idle and talk animations on the coach.
+	///
+	/// Will be deprecated with next iteration.
 	/// </summary>
 	public void PlayAnimation(){
+		// fade in the talk animation over 0 seconds, stopping others
 		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
+		// blend the idle animation with the currently playing talk animation.
 		_animation.Blend(idle);
 	}
 
 	/// <summary>
-	/// Stop the loaded animation on the coach.
+	/// Stop all currently playing animations and play the idle animation.
+	///
+	/// Will be deprecated with next iteration.
 	/// </summary>
 	public void StopAnimation(){
+		// fade in the idle animation over 0 seconds and stop other animations
 		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
+	}
+
+	public void animateFox() {
+		// make a list of visemes for the sentenc:
+		// "The quick brown fox jumps over the lazy dog"
+		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
+		// play the list of animations sequentially
+		playVisemeList(fox);
 	}
 
 	/// <summary>
@@ -359,7 +315,6 @@ public class ApplicationManager : MonoBehaviour {
 			timeOutTimer = 0.0f;
 			//Dont active screensaver
 			foreach( Camera cam in cams){
-				//Debug.Log("main camera : " + Camera.current);
 				if(cam.gameObject.name == "InactiveCamera"){
 					cam.enabled = false;
 				}else{
