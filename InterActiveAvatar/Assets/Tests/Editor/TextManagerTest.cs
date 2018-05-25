@@ -7,7 +7,7 @@ using NMock;
 public class TextManagerTest
 {
 
-    TextManager text = GameObject.FindObjectOfType<TextManager>();
+    //TextManager text = GameObject.FindObjectOfType<TextManager>();
     private MockFactory _factory = new MockFactory();
 
     /// <summary>

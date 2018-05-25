@@ -6,7 +6,7 @@ using NMock;
 
 public class ApplicationManagerTest {
 
-    ApplicationManager application = GameObject.FindObjectOfType<ApplicationManager>();
+    //ApplicationManager application = GameObject.FindObjectOfType<ApplicationManager>();
     private MockFactory _factory = new MockFactory();
 
     /// <summary>

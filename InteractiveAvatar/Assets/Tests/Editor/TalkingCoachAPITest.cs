@@ -7,7 +7,7 @@ public class TalkingCoachAPITest {
 
     // The TalkingCoachAPI makes a lot of calls to TextManager and ApplicationManager.
 
-    TalkingCoachAPI talkingCoach = GameObject.FindObjectOfType<TalkingCoachAPI>();
+    //TalkingCoachAPI talkingCoach = GameObject.FindObjectOfType<TalkingCoachAPI>();
     private MockFactory _factory = new MockFactory();
 
     /// <summary>

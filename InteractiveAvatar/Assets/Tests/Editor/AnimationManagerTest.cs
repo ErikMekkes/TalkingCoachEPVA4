@@ -7,7 +7,7 @@ using NMock;
 public class AnimationManagerTest
 {
 
-    AnimationsManager animations = GameObject.FindObjectOfType<AnimationsManager>();
+    //AnimationsManager animations = GameObject.FindObjectOfType<AnimationsManager>();
     private MockFactory _factory = new MockFactory();
 
     /// <summary>
