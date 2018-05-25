@@ -221,4 +221,20 @@ public class TextManager : MonoBehaviour {
 		_lastWordIndex = lastWord;
 		Debug.Log("Last Boundary Char = " + lastWord + " at time : " + elapsedTime);
 	}
+
+    /// <summary>
+	/// Returns true if speaking and false if not. This function is used for testing.
+	/// </summary>
+    public bool getIsSpeaking()
+    {
+        return _isSpeaking;
+    }
+
+    /// <summary>
+	/// Returns true if speaking and false if not. This function is used for testing.
+	/// </summary>
+    public bool getIsPaused()
+    {
+        return _isPaused;
+    }
 }
