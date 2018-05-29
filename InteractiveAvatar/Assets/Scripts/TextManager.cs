@@ -72,11 +72,6 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
 	private static TextManager _instance;
 	
-	private float timeOutTimer = 0.0f;
-	private Boolean talking = false;
-	private float[] animationTiming;
-	private float animationDuration = 0.0575757575757576f;
-
 	/// <summary>
 	/// The initiation of the singleton: either returns the instance of it already exists and creates an instantiates
 	/// an instance otherwise.
@@ -94,25 +89,6 @@ public class TextManager : MonoBehaviour {
 		}
 	}
 
-	void Update()
-	{
-		timeOutTimer += Time.deltaTime;
-
-		if (talking)
-		{
-			for (int i = 0; i < animationTiming.Length - 1; i++)
-			{
-				if (timeOutTimer >= animationTiming[i] && timeOutTimer < animationTiming[i + 1])
-				{
-					animationTiming[i] = float.MaxValue;
-					ApplicationManager.instance.changeCoach();
-					break;
-				}
-			}
-		}		
-		
-	}
-		
 //	public void SpeakTTS_Click(){
 //
 //		this.getVoices();

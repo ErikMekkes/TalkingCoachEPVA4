@@ -83,9 +83,19 @@ public class AnimationsManager : MonoBehaviour {
 	               "which motion each viseme number represents.")]
 	public string Help;
 	#endif
+	
+	
 
 	// List of english viseme animations
 	[SerializeField] private EnglishVisemeList _visemesEnglish;
+	
+	// interface only component	
+	#if UNITY_EDITOR
+		[InterfaceInfo("With the file below, you can specify which lengths of visemes" +
+					   "should be used. The default is set to the English visemes lengths.")]
+	#endif
+
+	[SerializeField] private VisemeTimingCalculator _visemeDurations;
 
 
 	// The Singleton instance of the class.
