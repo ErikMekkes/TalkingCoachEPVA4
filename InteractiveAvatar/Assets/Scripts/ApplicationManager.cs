@@ -1,55 +1,59 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
-[System.Serializable]
-public class Item {
-	public string name;
-	public AudioClip audioClip;
-
-	public Item(string name, AudioClip aClip){
-		this.name = name;
-		this.audioClip = aClip;
-	}
-}
 
 public class ApplicationManager : MonoBehaviour {
-
+	// public attributes: Unity editor interface fields for ApplicationManager
+	// field for prefab avatar objects
 	public List<GameObject> coach_prefabs;
+	// field for scene component that should hold the avatar object
 	public GameObject coach_holder;
-	public GameObject backround_holder;
-
+	// field for scene component that should hold the background object
+	public GameObject background_holder;
+	// field for Main Camera
 	public Camera avatarCamera;
-
+	// field for screensaver timeOut setting in seconds
+	public float timeOut = 30.0f;
+	
+	
+	// cameras
+	private Camera[] cams;
+	// elapsed time for time out
+	private float timeOutTimer = 0.0f;
+	// Avatar model
 	private GameObject new_coach;
 
-	private Animation animation;
-
+	// Unity Animation component and manager script instance
+	private Animation _animation;
+	private AnimationsManager _animationsManager;
+	// Array of viseme Animations
+	private AnimationClip[] _visemeAnimations;
+	
+	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
-	SpriteRenderer backgroundSprit;
+	SpriteRenderer backgroundSprite;
 
-	//[SerializeField]
+	// idle and talk animations are referenced by name from Unity
 	private string idle;
-
-	//[SerializeField]
 	private string talk;
+	
+	// list of viseme numbers that are currently playing
+	private List<int> _visemeList;
+	
+	// layer for viseme (speech) animation
+	private const int VisemeLayer = 2;
+	
+	// initial coach avatar selected from prefabs.
+	private int _coachNumber = 0;
+	// initial background selected.
+	private int _backgroundNumber = 0;
 
-	private string talkmix;
-
-	public List<Item> itemList;
-	public Transform contentPanel;
-	public AudioSource audio_source;
-	public GameObject audioButton;
-
-	private GameObject changeModelButton;
-
-	private AudioButton start;
-	private AudioButton stop;
-
+	// Singleton Instance
 	private static ApplicationManager _instance;
 
-	//Singleton Initiation
+	/// <summary>
+	/// Constructs an instance of ApplicationManager if it doesn't exist and
+	/// returns the instance if it already exists.
+	/// </summary>
 	public static ApplicationManager instance
 	{
 		get
@@ -62,17 +66,26 @@ public class ApplicationManager : MonoBehaviour {
 			return _instance;
 		}
 	}
-
-	private Camera[] cams;
-	public float timeOut = 30.0f; // Time Out Setting in Seconds
-	private float timeOutTimer = 0.0f;
-
-	int coach_number = 0;
-	int backround_number;
-	private CoachType coach_type;
-
-	void Start () {
-
+	
+	/// <summary>
+	/// Awake is called when this script instance is being loaded.
+	/// </summary>
+	void Awake()
+	{
+		// disable capturing keyboard input in browser.
+		#if !UNITY_EDITOR && UNITY_WEBGL
+		WebGLInput.captureAllKeyboardInput = false;
+		#endif
+		// run the on_load function
+		on_load();
+	}
+	
+	/// <summary>
+	/// Start is called on the frame when a script is enabled just before any
+	/// of the Update methods are called the first time. It runs after Awake().
+	/// </summary>
+	void Start() {
+		// ensure screensaver camera is disabled on start (see Update())
 		cams = Camera.allCameras;
 		foreach( Camera cam in cams){
 			if(cam.gameObject.name == "InactiveCamera"){
@@ -80,192 +93,228 @@ public class ApplicationManager : MonoBehaviour {
 			}
 		}
 	}
-
-	//Awake function
-	void Awake()
-	{
-		#if !UNITY_EDITOR && UNITY_WEBGL
-		WebGLInput.captureAllKeyboardInput = false;
-		#endif
-		this.on_load();
-	}
-
+	
+	/// <summary>
+	/// Load the application by setting the background image renderer, loading 
+	/// background textures and loading the coach.
+	/// </summary>
 	private void on_load(){
-		backgroundSprit =  backround_holder.GetComponent<SpriteRenderer>();
-		this.load_background();
-		this.load_coach();
-		this.populateList();
+		backgroundSprite =  background_holder.GetComponent<SpriteRenderer>();
+		load_background();
+		load_coach();
 	}
 
+	/// <summary>
+	/// Load the background texture sprites from Unity.
+	/// </summary>
 	private void load_background(){
+		// load all background texture sprites from Unity
 		backgroundTexture = Resources.LoadAll<Sprite>("Textures");
 	}
 
+	/// <summary>
+	/// Zoom the camera for the avatar by a given value.
+	/// </summary>
+	/// <param name="zoomValue">The value to zoom by.</param>
 	public void zoomAvatarCamera(int zoomValue){
+		// represent camera position change as vector for Z-axis
 		Vector3 changeZoom = new Vector3(0,0,zoomValue);
+		// update camera position by adding the position vector.
 		avatarCamera.transform.transform.position += changeZoom;	
 	}
 
-	public void moveCoah(int moveHorizontal, int moveVertical){
+	/// <summary>
+	/// Move the coach horizontally and vertically.
+	/// </summary>
+	/// <param name="moveHorizontal">The horizontal movement.</param>
+	/// <param name="moveVertical">The vertical movement.</param>
+	public void moveCoach(int moveHorizontal, int moveVertical){
+		// represent coach position change as vector
 		Vector3 changePosition = new Vector3(moveHorizontal, moveVertical, 0);
+		// update object position by adding the position vector.
 		new_coach.transform.position += changePosition;
 	}
-	//load all the coach/avatar
-	private void load_coach()
-	{
-		//int coach_number;
-//
-//		switch (this.coach_type)
-//		{
-//		case CoachType.F1:
-//			coach_number = 0;
-//			break;
-//		case CoachType.F2:
-//			coach_number = 1;
-//			break;
-//		case CoachType.F3:
-//			coach_number = 2;
-//			break;
-//		case CoachType.M1:
-//			coach_number = 3;
-//			break;
-//		case CoachType.M2:
-//			coach_number = 4;
-//			break;
-//		case CoachType.M3:
-//			coach_number = 5;
-//			break;
-//		default:
-//			coach_number = 0;
-//			break;
-//		}
-		//coach_number = 0;
-		new_coach = GameObject.Instantiate(coach_prefabs[coach_number]);
+	
+	/// <summary>
+	/// Load the coach based on the current coach number and the coach prefabs.
+	/// Will also set the position, rotation and scale of the coach.
+	/// 
+	/// Also loads the animations for the coach.
+	/// </summary>
+	private void load_coach() {
+		// create new coach Unity Gameobject
+		new_coach = GameObject.Instantiate(coach_prefabs[_coachNumber]);
+		// add the new coach object to the Unity parent container (CoachHolder)
 		new_coach.transform.parent = coach_holder.transform;
-
+		// set default coach position
 		new_coach.transform.localPosition = new Vector3(0, 0, 0);
 		new_coach.transform.localRotation = Quaternion.identity;
 		new_coach.transform.localScale = new Vector3(1, 1, 1);
-
-		this.loadAnimations(new_coach);
+		// load animations for new coach object
+		loadAnimations();
 	}
 
+	/// <summary>
+	/// Will increase the current background number by 1 and load a new
+	/// background sprite based on the new value.
+	/// </summary>
 	public void changeBackground(){
-		this.backround_number = (this.backround_number + 1) % backgroundTexture.Length;
-		backgroundSprit.sprite = backgroundTexture[this.backround_number];
+		// increment background number
+		_backgroundNumber = (_backgroundNumber + 1) % backgroundTexture.Length;
+		// set new background image for background image renderer
+		backgroundSprite.sprite = backgroundTexture[_backgroundNumber];
 	}
 
+	/// <summary>
+	/// Will increase the current coach number by 1 and load the new coach based
+	/// on the new value.
+	/// </summary>
 	public void changeCoach(){
+		// store old coach object position
 		Vector3 oldCoachPosition = new_coach.transform.position;
-		this.coach_number = (coach_number + 1) % coach_prefabs.Count;
-		Destroy(this.new_coach);
-		this.stopClip(this.stop);
-		this.load_coach();
+		// increment coach number
+		_coachNumber = (_coachNumber + 1) % coach_prefabs.Count;
+		// destroy current coach object
+		Destroy(new_coach);
+		// load new coach object (using coach number)
+		load_coach();
+		// update position of new coach object using the old position
 		new_coach.transform.position = oldCoachPosition;
 	}
 
 
-	public void loadAnimations(GameObject coach){
-		idle = coach.GetComponent<AnimationsManager>().getIdle();
-		talk = coach.GetComponent<AnimationsManager>().getTalk();
-		talkmix = coach.GetComponent<AnimationsManager>().getTalkmix();
-		this.animation = this.new_coach.GetComponent<Animation> () as Animation;
-		this.animation [idle].layer = 1;
-		this.animation [talk].layer = 2;
-		this.animation [talkmix].layer = 3;
-	}
-
-	void populateList(){
+	/// <summary>
+	/// Loads the animations included with the current coach by accessing them
+	/// through the AnimationsManager interface.
+	///
+	/// Also ensures attributes such as animation layer, wrapmode and speed are
+	/// set properly.
+	/// </summary>
+	private void loadAnimations() {
+		// Get animation manager script attached to current avatar GameObject
+		_animationsManager = new_coach.GetComponent<AnimationsManager>();
+		// get viseme animations
+		_visemeAnimations = _animationsManager.getEnglishVisemes();
+		// get names of idle, talk and talkmix animations
+		idle = _animationsManager.getIdle();
+		talk = _animationsManager.getTalk();
+		// Get Unity Animation component attached to current avatar GameObject
+		_animation = new_coach.GetComponent<Animation>();
+		// default for animations is play once
+		_animation.wrapMode = WrapMode.Once;
+		// Set layers for animation, higher layers are overlayed on the lower.
+		// e.g. idle (full body) first, talk (mouth) overlayed on idle.
+		_animation[idle].layer = 1;
+		_animation[idle].wrapMode = WrapMode.Loop;
+		_animation[talk].layer = 2;
 		
-		AudioClip[] audioClips = Resources.LoadAll<AudioClip>("Audioclips");
-		foreach(AudioClip audioClip in audioClips){
-			//if(audioClip.GetType() == typeof(AudioClip)){
-			Item item = new Item(audioClip.name, audioClip);
-			itemList.Add(item);
-			//}
+		// ensure viseme animations have the right properties
+		foreach (AnimationClip clip in _visemeAnimations) {
+			if (clip != null) {
+				// enable legacy mode for manual animation management.
+				clip.legacy = true;
+				// add clip to animation component
+				_animation.AddClip(clip, clip.name);
+				// set visime animation layer
+				_animation[clip.name].layer = VisemeLayer;
+				// set visime animation speed
+				_animation[clip.name].speed = 1;
+				// set viseme animations to play once.
+				_animation[clip.name].wrapMode = WrapMode.Once;
+			}
 		}
+	}
+
+	/// <summary>
+	/// Plays the specified list of viseme numbers sequentially. Animations are
+	/// played once, when an animation ends the next one in the list is played
+	/// until there are no remaining visemes in the list.
+	/// </summary>
+	/// <param name="visList">
+	/// List of viseme numbers to play sequentially.
+	/// </param>
+	public void playVisemeList(List<int> visList) {
+		// stop previously playing animations in viseme layer
+		stopVisemeAnimations();
+		// save list of visemes to play
+		_visemeList = visList;
+		// loop through the set of viseme numbers
+		foreach (int visNumber in visList) {
+			// TODO api to set transition time, finding the right time to set
+			float transitionTime = 0;
+			// find the animation clip using the viseme number
+			string clipName = _visemeAnimations[visNumber].name;
 			
-		GameObject startButton = Instantiate (audioButton) as GameObject;
-		start = startButton.GetComponent <AudioButton> ();
-		start.nameLabel.text = "Start";
-		start.audioClip = itemList[0].audioClip;
-		start.button.onClick.RemoveAllListeners();
-		start.button.onClick.AddListener(() => this.playClip(start));
-		startButton.transform.SetParent (contentPanel);
-
-
-		GameObject stopButton = Instantiate (audioButton) as GameObject;
-		stop = stopButton.GetComponent <AudioButton> ();
-		stop.nameLabel.text = "Stop";
-		stop.audioClip = itemList[0].audioClip;
-		stop.button.onClick.RemoveAllListeners();
-		stop.button.onClick.AddListener(() => this.stopClip(stop));
-		stopButton.transform.SetParent (contentPanel);
-
-		GameObject changeCoach = Instantiate (audioButton) as GameObject;
-		AudioButton changeButton = changeCoach.GetComponent <AudioButton> ();
-		changeButton.nameLabel.text = "Change Coach";
-		changeButton.button.onClick.RemoveAllListeners();
-		changeButton.button.onClick.AddListener(() => this.changeCoach());
-		changeCoach.transform.SetParent (contentPanel);
-
-		GameObject background = Instantiate (audioButton) as GameObject;
-		AudioButton changeBackground = background.GetComponent <AudioButton> ();
-		changeBackground.nameLabel.text = "Change Background";
-		changeBackground.button.onClick.RemoveAllListeners();
-		changeBackground.button.onClick.AddListener(() => this.changeBackground());
-		changeBackground.transform.SetParent (contentPanel);
+			// Add the animation clip to the queue using the specified
+			// transition time to smooth out animation. Animations added to the
+			// queueu are set to let other animations complete before playing.
+			_animation.CrossFadeQueued(
+				clipName,
+				transitionTime,
+				QueueMode.CompleteOthers);
+		}
 	}
-		
-	public void playClip(AudioButton button){
-
-		this.audio_source.clip = button.audioClip;
-		float clipLength = button.audioClip.length;
-		this.audio_source.Play();
-		this.new_coach.GetComponent<Animation>().wrapMode = WrapMode.Loop;
-		this.new_coach.GetComponent<Animation>().CrossFade (talk, 0.0f, PlayMode.StopAll);
-		this.new_coach.GetComponent<Animation>().Blend(idle);
-		this.new_coach.GetComponent<Animation>().Blend(talkmix);
-		this.StartCoroutine(waitForAudioToFinish(clipLength));
-		button.nameLabel.text = "Replay";
+	
+	/// <summary>
+	/// Stops all currently playing viseme animations
+	/// </summary>
+	private void stopVisemeAnimations() {
+		// return if no animations playing
+		if (_visemeList == null) return;
+		// loop through currently playing viseme numbers
+		foreach (int visNumber in _visemeList) {
+			// find the animation
+			AnimationClip clip = _visemeAnimations[visNumber];
+			// stop the animation by blending to weight 0 over 0 seconds.
+			_animation.Stop(clip.name);
+		}
 	}
 
-	public void stopClip(AudioButton button){
-		this.audio_source.clip = button.audioClip;
-		float clipLength = button.audioClip.length;
-		this.audio_source.Stop();
-		this.new_coach.GetComponent<Animation>().wrapMode = WrapMode.Loop;
-		this.new_coach.GetComponent<Animation>().CrossFade (idle, 0.0f, PlayMode.StopAll);
-		this.StartCoroutine(waitForAudioToFinish(clipLength));
-		this.start.nameLabel.text = "Start";
-	}
-
+	/// <summary>
+	/// Plays the idle and talk animations on the coach.
+	///
+	/// Will be deprecated with next iteration.
+	/// </summary>
 	public void PlayAnimation(){
-		this.new_coach.GetComponent<Animation>().wrapMode = WrapMode.Loop;
-		this.new_coach.GetComponent<Animation>().CrossFade (talk, 0.0f, PlayMode.StopAll);
-		this.new_coach.GetComponent<Animation>().Blend(idle);
+		// fade in the talk animation over 0 seconds, stopping others
+		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
+		// blend the idle animation with the currently playing talk animation.
+		_animation.Blend(idle);
 	}
 
+	/// <summary>
+	/// Stop all currently playing animations and play the idle animation.
+	///
+	/// Will be deprecated with next iteration.
+	/// </summary>
 	public void StopAnimation(){
-		this.new_coach.GetComponent<Animation>().wrapMode = WrapMode.Loop;
-		this.new_coach.GetComponent<Animation>().CrossFade (idle, 0.0f, PlayMode.StopAll);
+		// fade in the idle animation over 0 seconds and stop other animations
+		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
-
-	IEnumerator waitForAudioToFinish(float waitTime){
-		yield return new WaitForSeconds(waitTime);
-		//this.animation.PlayQueued(idle);
-		this.new_coach.GetComponent<Animation>().CrossFade (idle, 0.5f, PlayMode.StopAll);
+	public void animateFox() {
+		// make a list of visemes for the sentenc:
+		// "The quick brown fox jumps over the lazy dog"
+		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
+		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
+		// play the list of animations sequentially
+		playVisemeList(fox);
 	}
 
+	/// <summary>
+	/// This function is called for every frame rendered in Unity. It is
+	/// currently used to check for activity and start a screensaver if a
+	/// set amount of time passes without activity.
+	/// </summary>
 	void Update(){
 		timeOutTimer += Time.deltaTime;
 		// If screen is tapped, reset timer
-		if(Input.anyKeyDown || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0){
+		if (Input.anyKeyDown
+			|| Input.GetAxis("Mouse X") != 0
+		    || Input.GetAxis("Mouse Y") != 0) {
 			timeOutTimer = 0.0f;
 			//Dont active screensaver
 			foreach( Camera cam in cams){
-				//Debug.Log("main camera : " + Camera.current);
 				if(cam.gameObject.name == "InactiveCamera"){
 					cam.enabled = false;
 				}else{

@@ -92,7 +92,10 @@ if (typeof textToSpeach != 'undefined') {
             console.log("voices" + voices);
             return voices;
         }
-
+        
+        // self.speak is also defined in Plugins/WebGL/MyPlugins.jslib which lets 
+        // the Unity WebGL Build Process link it to this one. 
+        // It is dynamically included in and called from Scripts/TextManager.cs
     	self.speak = function (text, voicename, parameters){
 
             self.msgtext = text;
@@ -100,7 +103,7 @@ if (typeof textToSpeach != 'undefined') {
             self.msgparameters = parameters || {};
 
     		var msg = new SpeechSynthesisUtterance();
-			msg.lang = 'nl-BE'
+			msg.lang = 'en-US';
             msg.text = text;
             msg.volume = 1;
             msg.rate = 1;
@@ -111,26 +114,29 @@ if (typeof textToSpeach != 'undefined') {
             self.msgparameters.onendcalled = false;
             
             if (parameters != null) {
+                //msg.onend = self.speech_onend;
+                //msg.addEventListener('end',self.speech_onend);
 
-                            msg.onend = self.speech_onend;
-                            msg.addEventListener('end',self.speech_onend);
-
-                        msg.onerror = parameters.onerror || function (e) {
-                            console.log('TTS: Error');
-                            console.log(e);
-                        };
-                        
-                        msg.onpause = parameters.onpause;
-                        msg.onresume = parameters.onresume;
-                        msg.onmark = parameters.onmark;
-                        msg.onboundary = parameters.onboundary;
-                    } else {
-                        msg.onend = self.speech_onend;
-                        msg.onerror = function (e) {
-                            console.log('RV: Error');
-                            console.log(e);
-                        };
-                    }
+                msg.onerror = parameters.onerror || function (e) {
+                    console.log('TTS: Error');
+                    console.log(e);
+                };
+                
+                msg.onpause = parameters.onpause;
+                msg.onresume = parameters.onresume;
+                msg.onmark = parameters.onmark;
+                msg.onstart = parameters.onstart;
+                msg.onend = parameters.onend;
+                // this event fires at the start of each word.
+                //TODO find out if iOS check like speech_onstart is needed
+                msg.onboundary = parameters.onboundary;
+            } else {
+                msg.onend = self.speech_onend;
+                msg.onerror = function (e) {
+                    console.log('RV: Error');
+                    console.log(e);
+                };
+            }
 
 			window.speechSynthesis.speak(msg);
     	}
