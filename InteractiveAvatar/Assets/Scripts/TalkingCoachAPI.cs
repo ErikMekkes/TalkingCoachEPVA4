@@ -3,6 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = System.Object;
 
+public interface ITalkingCoachAPI
+{
+    void getVoices();
+
+    void setVoice(string voice);
+
+    void convertToSpeech(string text);
+
+    void startDemo();
+
+    void stopSpeech();
+
+    void changeBackround();
+
+    void changeCoach();
+
+    void zoom(int zoom);
+
+    void moveAvatarHorizontal(int horizontal);
+
+    void moveAvatarVertical(int vertical);
+
+    void pauseSpeech();
+
+    void resumeSpeech();
+}
+
 /// <summary>
 /// API for controlling the TalkingCoach Object
 /// 
@@ -12,7 +39,7 @@ using Object = System.Object;
 /// 
 /// Functions called by WebGLTemplates/InteractiveAvatar/UnityInteraction.js
 /// </summary>
-public class TalkingCoachAPI : MonoBehaviour {
+public class TalkingCoachAPI : MonoBehaviour, ITalkingCoachAPI {
 
 	/// <summary>
 	/// Get the voices.

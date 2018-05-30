@@ -7,8 +7,14 @@ using NMock;
 public class TextManagerTest
 {
 
-    //TextManager text = GameObject.FindObjectOfType<TextManager>();
-    private MockFactory _factory = new MockFactory();
+    MockFactory _factory;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _factory = new MockFactory();
+
+    }
 
     /// <summary>
     /// Test for the method StartSpeech.
@@ -17,11 +23,19 @@ public class TextManagerTest
     public void StartSpeechTest()
     {
         var mockTM = _factory.CreateMock<TextManager>();
-        //mockTM.Expects.One.GetProperty(_=>_.startSpeach).WillReturn("Hello");
-        //mockTM.Expects.One.SetPropertyTo(_ => _.startSpeach = "Test");
 
-        //var controller = new Controller(mockTM.MockObject);
-        //Assert.AreEqual("Hello Test", controller.PropActions("Test"));
+        //mockTM.Expects.One.GetProperty(t => t.getIsPaused()).Will(Return.Value(false));
+
+        Expect.On(mockTM.MockObject).One.GetProperty(t => t.IsSpeaking).Will(Return.Value(false));
+
+        //_factory.VerifyAllExpectationsHaveBeenMet();
+        
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _factory.VerifyAllExpectationsHaveBeenMet();
     }
 
 }

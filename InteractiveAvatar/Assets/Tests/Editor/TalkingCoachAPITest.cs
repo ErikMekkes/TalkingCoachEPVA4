@@ -6,9 +6,22 @@ using NMock;
 public class TalkingCoachAPITest {
 
     // The TalkingCoachAPI makes a lot of calls to TextManager and ApplicationManager.
+    
+    private MockFactory _factory;
+    Mock<ITextManager> textMock;
+    Mock<ApplicationManager> appMock;
 
-    //TalkingCoachAPI talkingCoach = GameObject.FindObjectOfType<TalkingCoachAPI>();
-    private MockFactory _factory = new MockFactory();
+    [SetUp]
+    public void SetUp()
+    {
+        _factory = new MockFactory();
+
+        textMock = _factory.CreateMock<ITextManager>();
+        appMock = _factory.CreateMock<ApplicationManager>();
+
+        // Somehow inject the dependency
+        //TalkingCoachAPI tcapi = new TalkingCoachAPI(textMock, appMock);
+    }
 
     /// <summary>
     /// Default test by Unity.
@@ -32,11 +45,18 @@ public class TalkingCoachAPITest {
     /// Test using mocks.
     /// </summary>
     [Test]
-    public void TestWithMocking()
+    public void TestGetVoices()
     {
-        var textMock = _factory.CreateMock<TextManager>();
-        var appMock = _factory.CreateMock<ApplicationManager>();
+        Expect.On(textMock).One.GetProperty(t => t.getVoices.Will(Return.Value(""));
+        Expect.On(textMock).One.Method( t => t.getVoices());
 
+        //Expect.On(talkingCoach).One.GetProperty(TextManager.instance => TextManager.Instance.getVoices());
         // TODO: Test the function calls of the mocks inside TalkingCoachAPI.
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _factory.VerifyAllExpectationsHaveBeenMet();
     }
 }

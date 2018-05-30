@@ -6,20 +6,68 @@ using UnityEngine;
 using UnityEngine.UI;
 using AOT;
 
+public interface ITextManager
+{
+    string Voice { get; set; }
+    bool IsSpeaking { get; set; }
+    bool IsPaused { get; set; }
+    string TextInput { get; set; }
+    int LastWordIndex { get; set; }
+
+    void getVoices();
+
+    void setVoice(string newVoice);
+
+    void startSpeech(string text);
+
+    void startDemo();
+
+    void stopSpeech();
+
+    void pauseSpeech();
+
+    void resumeSpeech();
+}
+
 /// <summary>
 /// This class handles all text to speech processes.
 /// </summary>
-public class TextManager : MonoBehaviour {
+public class TextManager : MonoBehaviour, ITextManager {
 
-	private string _voice = "Dutch Female";
+    private string _voice = "Dutch Female";
+    public string Voice {
+        get {return _voice;}
+        set { _voice = "Dutch Female";}
+    }
 
 	// whether the agent is currently paused, initialised to false.
 	private bool _isSpeaking = false;
+    public bool IsSpeaking
+    {
+        get { return _isSpeaking; }
+        set { _isSpeaking = false; }
+    }
+
 	private bool _isPaused = false;
+    public bool IsPaused
+    {
+        get { return _isPaused; }
+        set { _isPaused = false; }
+    }
 	// current text string to be spoken.
 	private string _textInput = null;
+    public string TextInput
+    {
+        get { return _textInput; }
+        set { _textInput = null; }
+    }
 	// most recent boundary character encountered while speaking text.
-	private static int _lastWordIndex = 0;
+	private static int _lastWordIndex;
+    public int LastWordIndex
+    {
+        get { return _lastWordIndex; }
+        set { _lastWordIndex = 0; }
+    }
 
 	// delegate declarations for javascript text to speech callback functions
 	// TODO not sure if needed, probably for dynamic linking
@@ -221,20 +269,4 @@ public class TextManager : MonoBehaviour {
 		_lastWordIndex = lastWord;
 		Debug.Log("Last Boundary Char = " + lastWord + " at time : " + elapsedTime);
 	}
-
-    /// <summary>
-	/// Returns true if speaking and false if not. This function is used for testing.
-	/// </summary>
-    public bool getIsSpeaking()
-    {
-        return _isSpeaking;
-    }
-
-    /// <summary>
-	/// Returns true if speaking and false if not. This function is used for testing.
-	/// </summary>
-    public bool getIsPaused()
-    {
-        return _isPaused;
-    }
 }
