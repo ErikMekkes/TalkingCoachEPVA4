@@ -73,6 +73,14 @@ public class AnimationsManager : MonoBehaviour {
 
 	// talk animation name
 	[SerializeField] private string talk;
+	
+	// interface only component	
+//	#if UNITY_EDITOR
+//		[InterfaceInfo("With the file below, you can specify which lengths of visemes" +
+//					   "should be used. The default is set to the English visemes lengths.")]
+//	#endif
+	
+	[SerializeField] private VisemeTimingCalculator _visemeDurations;
 
 	// interface only component	
 	#if UNITY_EDITOR
@@ -89,13 +97,7 @@ public class AnimationsManager : MonoBehaviour {
 	// List of english viseme animations
 	[SerializeField] private EnglishVisemeList _visemesEnglish;
 	
-	// interface only component	
-	#if UNITY_EDITOR
-		[InterfaceInfo("With the file below, you can specify which lengths of visemes" +
-					   "should be used. The default is set to the English visemes lengths.")]
-	#endif
-
-	[SerializeField] private VisemeTimingCalculator _visemeDurations;
+	
 
 
 	// The Singleton instance of the class.
