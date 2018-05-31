@@ -10,6 +10,9 @@
 # production
 /build
 
+# ignore Unity build
+/public/unity
+
 # misc
 .DS_Store
 .env.local
