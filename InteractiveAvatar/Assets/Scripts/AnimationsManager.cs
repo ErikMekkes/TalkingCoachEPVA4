@@ -81,30 +81,30 @@ public class AnimationsManager : MonoBehaviour {
 	               " language.\n" +
 	               "Check the documentation at ... for more information on " +
 	               "which motion each viseme number represents.")]
-	public string Help;
+	public string help;
 	#endif
 
 	// List of english viseme animations
-	[SerializeField] private EnglishVisemeList _visemesEnglish;
+	[SerializeField] private EnglishVisemeList visemesEnglish;
 
 
 	// The Singleton instance of the class.
-	private static AnimationsManager _instance;
+	private static AnimationsManager instance;
 
 /// <summary>
 	/// The initiation of the singleton: either returns the instance if it
 	/// already exists or instantiates and returns an instance otherwise.
 	/// </summary>
-	public static AnimationsManager instance
+	public static AnimationsManager amInstance
 	{
 		get
 		{
-			if (_instance == null)
+			if (instance == null)
 			{
-				_instance = GameObject.FindObjectOfType<AnimationsManager>();
-				DontDestroyOnLoad(_instance.gameObject);
+				instance = GameObject.FindObjectOfType<AnimationsManager>();
+				DontDestroyOnLoad(instance.gameObject);
 			}
-			return _instance;
+			return instance;
 		}
 	}
 
@@ -136,6 +136,6 @@ public class AnimationsManager : MonoBehaviour {
 	/// The SI (silent) viseme as entry 0.
 	/// </returns>
 	public AnimationClip[] getEnglishVisemes() {
-		return _visemesEnglish.getVisemes();
+		return visemesEnglish.getVisemes();
 	}
 }
