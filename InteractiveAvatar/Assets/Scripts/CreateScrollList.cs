@@ -7,9 +7,9 @@ public class Item {
 	public string name;
 	public AudioClip audioClip;
 
-	public Item(string itemName, AudioClip aClip){
-		name = itemName;
-		audioClip = aClip;
+	public Item(string name, AudioClip aClip){
+		this.name = name;
+		this.audioClip = aClip;
 	}
 }
 
@@ -40,7 +40,7 @@ public class CreateScrollList : MonoBehaviour {
 
 	private Camera[] cams;
 	public float timeOut = 30.0f; // Time Out Setting in Seconds
-	private float timeOutTimer;
+	private float timeOutTimer = 0.0f;
 
 	/// <summary>
 	/// Initializes cameras and idle/talk animations.

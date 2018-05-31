@@ -11,12 +11,12 @@ public class TextManager : MonoBehaviour {
 	private string voice = "Dutch Female";
 
 	// whether the agent is currently paused, initialised to false.
-	private bool isSpeaking;
-	private bool isPaused;
+	private bool isSpeaking = false;
+	private bool isPaused = false;
 	// current text string to be spoken.
-	private string textInput;
+	private string textInput = null;
 	// most recent boundary character encountered while speaking text.
-	private static int lastWordIndex;
+	private static int lastWordIndex = 0;
 
 	// delegate declarations for javascript text to speech callback functions
 	// TODO not sure if needed, probably for dynamic linking
@@ -72,13 +72,13 @@ public class TextManager : MonoBehaviour {
 	/// The initiation of the singleton: either returns the instance of it already exists and creates an instantiates
 	/// an instance otherwise.
 	/// </summary>
-	public static TextManager amInstance
+	public static TextManager tmInstance
 	{
 		get
 		{
 			if (instance == null)
 			{
-				instance = FindObjectOfType<TextManager>();
+				instance = GameObject.FindObjectOfType<TextManager>();
 				DontDestroyOnLoad(instance.gameObject);
 			}
 			return instance;

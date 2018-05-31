@@ -18,7 +18,7 @@ public class ApplicationManager : MonoBehaviour {
 	// cameras
 	private Camera[] cams;
 	// elapsed time for time out
-	private float timeOutTimer;
+	private float timeOutTimer = 0.0f;
 	// Avatar model
 	private GameObject newCoach;
 
@@ -43,9 +43,9 @@ public class ApplicationManager : MonoBehaviour {
 	private const int visemeLayer = 2;
 	
 	// initial coach avatar selected from prefabs.
-	private int coachNumber;
+	private int coachNumber = 0;
 	// initial background selected.
-	private int backgroundNumber;
+	private int backgroundNumber = 0;
 
 	// Singleton Instance
 	private static ApplicationManager instance;
@@ -60,7 +60,7 @@ public class ApplicationManager : MonoBehaviour {
 		{
 			if (instance == null)
 			{
-				instance = FindObjectOfType<ApplicationManager>();
+				instance = GameObject.FindObjectOfType<ApplicationManager>();
 				DontDestroyOnLoad(instance.gameObject);
 			}
 			return instance;
@@ -143,7 +143,7 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	private void load_coach() {
 		// create new coach Unity Gameobject
-		newCoach = Instantiate(coach_prefabs[coachNumber]);
+		newCoach = GameObject.Instantiate(coach_prefabs[coachNumber]);
 		// add the new coach object to the Unity parent container (CoachHolder)
 		newCoach.transform.parent = coach_holder.transform;
 		// set default coach position

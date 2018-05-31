@@ -6,7 +6,7 @@ namespace Tests.Editor{
     {
 
         //TextManager text = GameObject.FindObjectOfType<TextManager>();
-//    private MockFactory _factory = new MockFactory();
+        //private MockFactory _factory = new MockFactory();
 
         /// <summary>
         /// Test for the method StartSpeech.
@@ -14,7 +14,7 @@ namespace Tests.Editor{
         [Test]
         public void startSpeechTest()
         {
-//        var mockTM = _factory.CreateMock<TextManager>();
+            //var mockTM = _factory.CreateMock<TextManager>();
             //mockTM.Expects.One.GetProperty(_=>_.startSpeach).WillReturn("Hello");
             //mockTM.Expects.One.SetPropertyTo(_ => _.startSpeach = "Test");
 

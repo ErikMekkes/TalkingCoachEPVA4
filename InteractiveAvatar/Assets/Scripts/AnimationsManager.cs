@@ -101,7 +101,7 @@ public class AnimationsManager : MonoBehaviour {
 		{
 			if (instance == null)
 			{
-				instance = FindObjectOfType<AnimationsManager>();
+				instance = GameObject.FindObjectOfType<AnimationsManager>();
 				DontDestroyOnLoad(instance.gameObject);
 			}
 			return instance;

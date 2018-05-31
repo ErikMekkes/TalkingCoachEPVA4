@@ -9,7 +9,7 @@ namespace Tests.Editor
     {
 
         //AnimationsManager animations = GameObject.FindObjectOfType<AnimationsManager>();
-//    private MockFactory _factory = new MockFactory();
+        //private MockFactory _factory = new MockFactory();
 
         /// <summary>
         /// Default test by Unity.

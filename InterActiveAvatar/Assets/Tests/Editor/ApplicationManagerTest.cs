@@ -8,7 +8,7 @@ namespace Tests.Editor
 	{
 
 		//ApplicationManager application = GameObject.FindObjectOfType<ApplicationManager>();
-//    private MockFactory _factory = new MockFactory();
+		//private MockFactory _factory = new MockFactory();
 
 		/// <summary>
 		/// Default test by Unity.
