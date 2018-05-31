@@ -1,6 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿
 
+namespace Controllers
+{
 //Coach Stuff
-public enum Controllers { F1, F2, F3, M1, M2, M3 }
+    public enum CoachType
+    {
+        F1,
+        F2,
+        F3,
+        M1,
+        M2,
+        M3
+    }
+}

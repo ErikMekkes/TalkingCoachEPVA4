@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Object = System.Object;
+﻿using UnityEngine;
 
 /// <summary>
 /// API for controlling the TalkingCoach Object
@@ -18,7 +15,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// Get the voices.
 	/// </summary>
 	public void getVoices(){
-		TextManager.instance.getVoices();
+		TextManager.amInstance.getVoices();
 	}
 
 	/// <summary>
@@ -26,7 +23,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="voice">The new voice to set to.</param>
 	public void setVoice(string voice){
-		TextManager.instance.setVoice(voice);
+		TextManager.amInstance.setVoice(voice);
 	}
 
 	/// <summary>
@@ -34,22 +31,21 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="text">The convertable text.</param>
 	public void convertToSpeech(string text){
-		TextManager.instance.startSpeech(text);
+		TextManager.amInstance.startSpeech(text);
 	}
 
 	/// <summary>
 	/// Convert text to speech.
 	/// </summary>
-	/// <param name="text">The convertable text.</param>
 	public void startDemo(){
-		TextManager.instance.startDemo();
+		TextManager.amInstance.startDemo();
 	}
 
 	/// <summary>
 	/// Stop the speech.
 	/// </summary>
 	public void stopSpeech(){
-		TextManager.instance.stopSpeech();
+		TextManager.amInstance.stopSpeech();
 	}
 
 	/// <summary>
@@ -94,13 +90,13 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// Sends the instruction to pause speech to the TextManager script in Unity.
 	/// </summary>
 	public void pauseSpeech() {
-		TextManager.instance.pauseSpeech();
+		TextManager.amInstance.pauseSpeech();
 	}
 
 	/// <summary>
 	/// Sends the instruction to pause speech to the TextManager script in Unity.
 	/// </summary>
 	public void resumeSpeech() {
-		TextManager.instance.resumeSpeech();
+		TextManager.amInstance.resumeSpeech();
 	}
 }
