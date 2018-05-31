@@ -143,7 +143,7 @@ public class TextManager : MonoBehaviour {
 		//stop speech
 		Stop();
 		//stop animation
-		ApplicationManager.instance.StopAnimation();
+		ApplicationManager.amInstance.stopAnimation();
 	}
 
 	/// <summary>
@@ -163,7 +163,7 @@ public class TextManager : MonoBehaviour {
 		// stop speaking
 		Stop();
 		// stop animation
-		ApplicationManager.instance.StopAnimation();
+		ApplicationManager.amInstance.stopAnimation();
 		
 		Debug.Log("Paused Speech!");
 	}
@@ -187,14 +187,14 @@ public class TextManager : MonoBehaviour {
 	public static void callbackStart(float elapsedTime){
 		Debug.Log("callback start at : " + elapsedTime);
 		
-		ApplicationManager.instance.PlayAnimation();
+		ApplicationManager.amInstance.playAnimation();
 	}
 	
 	[MonoPInvokeCallback(typeof(StartDelegate))]
 	public static void callbackDemoStart(float elapsedTime){
 		Debug.Log("callback Demo start at : " + elapsedTime);
 		
-		ApplicationManager.instance.animateFox();
+		ApplicationManager.amInstance.animateFox();
 	}
 	
 	/// <summary>

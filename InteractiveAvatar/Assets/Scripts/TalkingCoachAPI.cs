@@ -56,14 +56,14 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// Change the background.
 	/// </summary>
 	public void changeBackround(){
-		ApplicationManager.instance.changeBackground();
+		ApplicationManager.amInstance.changeBackground();
 	}
 
 	/// <summary>
 	/// Change the coach.
 	/// </summary>
 	public void changeCoach(){
-		ApplicationManager.instance.changeCoach();
+		ApplicationManager.amInstance.changeCoach();
 	}
 
 	/// <summary>
@@ -71,7 +71,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="zoom">The value to zoom by.</param>
 	public void zoom(int zoom){
-		ApplicationManager.instance.zoomAvatarCamera(zoom);
+		ApplicationManager.amInstance.zoomAvatarCamera(zoom);
 	}
 
 	/// <summary>
@@ -79,7 +79,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="horizontal">The value to move the avatar by.</param>
 	public void moveAvatarHorizontal(int horizontal){
-		ApplicationManager.instance.moveCoach(horizontal,0);
+		ApplicationManager.amInstance.moveCoach(horizontal,0);
 	}
 
 	/// <summary>
@@ -87,7 +87,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="vertical">The value to move the avatar by.</param>
 	public void moveAvatarVertical(int vertical){
-		ApplicationManager.instance.moveCoach(0,vertical);
+		ApplicationManager.amInstance.moveCoach(0,vertical);
 	}
 
 	/// <summary>
