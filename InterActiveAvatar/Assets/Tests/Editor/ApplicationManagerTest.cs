@@ -2,12 +2,12 @@
 using UnityEditor;
 using System;
 using NUnit.Framework;
-using NMock;
+//using NMock;
 
 public class ApplicationManagerTest {
 
     //ApplicationManager application = GameObject.FindObjectOfType<ApplicationManager>();
-    private MockFactory _factory = new MockFactory();
+//    private MockFactory _factory = new MockFactory();
 
     /// <summary>
     /// Default test by Unity.

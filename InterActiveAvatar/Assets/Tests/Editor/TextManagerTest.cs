@@ -2,13 +2,13 @@
 using UnityEditor;
 using System;
 using NUnit.Framework;
-using NMock;
+//using NMock;
 
 public class TextManagerTest
 {
 
     //TextManager text = GameObject.FindObjectOfType<TextManager>();
-    private MockFactory _factory = new MockFactory();
+//    private MockFactory _factory = new MockFactory();
 
     /// <summary>
     /// Test for the method StartSpeech.
@@ -16,7 +16,7 @@ public class TextManagerTest
     [Test]
     public void StartSpeechTest()
     {
-        var mockTM = _factory.CreateMock<TextManager>();
+//        var mockTM = _factory.CreateMock<TextManager>();
         //mockTM.Expects.One.GetProperty(_=>_.startSpeach).WillReturn("Hello");
         //mockTM.Expects.One.SetPropertyTo(_ => _.startSpeach = "Test");
 
