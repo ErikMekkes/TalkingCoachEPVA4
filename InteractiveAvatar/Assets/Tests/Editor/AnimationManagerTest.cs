@@ -2,13 +2,13 @@
 using UnityEditor;
 using System;
 using NUnit.Framework;
-using NMock;
+//using NMock;
 
 public class AnimationManagerTest
 {
 
     //AnimationsManager animations = GameObject.FindObjectOfType<AnimationsManager>();
-    private MockFactory _factory = new MockFactory();
+//    private MockFactory _factory = new MockFactory();
 
     /// <summary>
     /// Default test by Unity.

@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using NUnit.Framework;
-using NMock;
+//using NMock;
 
 public class TalkingCoachAPITest {
 
     // The TalkingCoachAPI makes a lot of calls to TextManager and ApplicationManager.
 
     //TalkingCoachAPI talkingCoach = GameObject.FindObjectOfType<TalkingCoachAPI>();
-    private MockFactory _factory = new MockFactory();
+//    private MockFactory _factory = new MockFactory();
 
     /// <summary>
     /// Default test by Unity.
@@ -34,8 +34,8 @@ public class TalkingCoachAPITest {
     [Test]
     public void TestWithMocking()
     {
-        var textMock = _factory.CreateMock<TextManager>();
-        var appMock = _factory.CreateMock<ApplicationManager>();
+//        var textMock = _factory.CreateMock<TextManager>();
+//        var appMock = _factory.CreateMock<ApplicationManager>();
 
         // TODO: Test the function calls of the mocks inside TalkingCoachAPI.
     }

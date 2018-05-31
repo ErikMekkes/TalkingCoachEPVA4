@@ -62,6 +62,8 @@ public class EnglishVisemeList {
     [SerializeField] private AnimationClip viseme37;
     [SerializeField] private AnimationClip viseme38;
     [SerializeField] private AnimationClip viseme39;
+
+    [SerializeField] private AnimationClip viseme40;
     
     /**
     [SerializeField] private AnimationClip viseme40;
@@ -132,6 +134,8 @@ public class EnglishVisemeList {
         clips[37] = viseme37;
         clips[38] = viseme38;
         clips[39] = viseme39;
+        
+        clips[40] = viseme40;
         
         /**
         clips[40] = viseme40;

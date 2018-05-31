@@ -295,8 +295,8 @@ public class ApplicationManager : MonoBehaviour {
 	public void animateFox() {
 		// make a list of visemes for the sentenc:
 		// "The quick brown fox jumps over the lazy dog"
-		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
-		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
+		List<int> fox = new List<int> {25, 9, 0, 37, 16, 2, 37, 0, 35, 18, 8, 22, 0, 26, 6, 37, 30, 
+			0, 25, 17, 9, 21, 34, 30, 0, 11, 27, 20, 0, 25, 9, 0, 15, 3, 31, 1, 0, 25, 6, 38, 0};
 		// play the list of animations sequentially
 		playVisemeList(fox);
 	}
