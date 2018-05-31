@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.Audio;
 using System.Collections.Generic;
-using System.IO;
 
 [System.Serializable]
 public class Item {
 	public string name;
 	public AudioClip audioClip;
 
-	public Item(string name, AudioClip aClip){
-		this.name = name;
-		this.audioClip = aClip;
+	public Item(string itemName, AudioClip aClip){
+		name = itemName;
+		audioClip = aClip;
 	}
 }
 
@@ -22,7 +18,7 @@ public class Item {
 /// </summary>
 public class CreateScrollList : MonoBehaviour {
 
-	private Animation animation;
+	private new Animation animation;
 
 	[SerializeField]
 	private string idle = "male_idle_01_biped_animclip";
@@ -37,14 +33,14 @@ public class CreateScrollList : MonoBehaviour {
 	public GameObject audioButton;
 	public List<Item> itemList;
 	public Transform contentPanel;
-	public AudioSource audio;
+	public new AudioSource audio;
 
 	private AudioButton start;
 	private AudioButton stop;
 
 	private Camera[] cams;
 	public float timeOut = 30.0f; // Time Out Setting in Seconds
-	private float timeOutTimer = 0.0f;
+	private float timeOutTimer;
 
 	/// <summary>
 	/// Initializes cameras and idle/talk animations.
