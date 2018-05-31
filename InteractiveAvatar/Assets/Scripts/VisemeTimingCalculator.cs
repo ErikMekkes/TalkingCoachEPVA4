@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 /// <summary>
@@ -8,8 +9,15 @@ using UnityEngine;
 [System.Serializable]
 public class VisemeTimingCalculator
 {
+    
+    /// <summary>
+    /// The specified language's viseme durations.
+    /// </summary>
     [SerializeField] private TextAsset Language;
 
+    /// <summary>
+    /// The in-memory map of viseme to double (duration).
+    /// </summary>
     private static IDictionary<string, double> _visemeDictionary;
     
     /// <summary>
@@ -28,7 +36,6 @@ public class VisemeTimingCalculator
             if (_instance == null)
             {
                 _instance = new VisemeTimingCalculator();
-                _instance.constructDictionary();
             }
             return _instance;
         }
@@ -43,11 +50,7 @@ public class VisemeTimingCalculator
         {
             return;
         }
-        
-        // currently hard coded
-        const string path = "Assets/Resources/Languages/eng-viseme.txt";
-
-        var reader = new StreamReader(path);
+        var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(Language.text)));
         _visemeDictionary = new Dictionary<string, double>();
         
         string line;
@@ -68,6 +71,11 @@ public class VisemeTimingCalculator
     /// <returns>A list of doubles, starting with 0, ascendingly ordered.</returns>
     public List<double> getVisemeDurations(IEnumerable<string> visemes)
     {
+        if (_visemeDictionary == null)
+        {
+            constructDictionary();
+            return getVisemeDurations(visemes);
+        }
         var durationList = new List<double>();
         var currentDuration = 0.0d;
         foreach (var t in visemes)

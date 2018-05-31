@@ -137,6 +137,15 @@ public class AnimationsManager : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Get viseme durations.
+	/// </summary>
+	/// <returns>The VisemeTimingCalculator object to calculate viseme list lengths.</returns>
+	public VisemeTimingCalculator getVisemeTimingCalculator()
+	{
+		return _visemeDurations;
+	}
+
+	/// <summary>
 	/// Returns an array of viseme animations. These are the animations as
 	/// included with the selected model in Unity. Null indicates the specific
 	/// viseme has no included animation.
