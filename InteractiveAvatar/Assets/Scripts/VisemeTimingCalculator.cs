@@ -44,13 +44,13 @@ public class VisemeTimingCalculator
     /// <summary>
     /// Construct a dictionary based on the input viseme CSV file.
     /// </summary>
-    private void constructDictionary()
+    public void constructDictionary(StreamReader reader)
     {
         if (_visemeDictionary != null)
         {
             return;
         }
-        var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(Language.text)));
+
         _visemeDictionary = new Dictionary<string, double>();
         
         string line;
@@ -65,6 +65,15 @@ public class VisemeTimingCalculator
     }
 
     /// <summary>
+    /// Getter for the dictionary.
+    /// </summary>
+    /// <returns>The dictionary of visemes mapped to their corresponding lengths.</returns>
+    public IDictionary<string, double> getDictionary()
+    {
+        return _visemeDictionary;
+    } 
+
+    /// <summary>
     /// Get the duration of a list of visemes.
     /// </summary>
     /// <param name="visemes">A list of strings, representing visemes.</param>
@@ -73,7 +82,7 @@ public class VisemeTimingCalculator
     {
         if (_visemeDictionary == null)
         {
-            constructDictionary();
+            constructDictionary(new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(Language.text))));
             return getVisemeDurations(visemes);
         }
         var durationList = new List<double>();
