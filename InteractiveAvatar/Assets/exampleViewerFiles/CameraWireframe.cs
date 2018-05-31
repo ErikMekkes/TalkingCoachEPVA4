@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace tm
+namespace exampleViewerFiles
 {
 		public class CameraWireframe : MonoBehaviour
 		{
-				public bool doEffect = false;
+				public bool doEffect;
     
 				void OnPreRender ()
 				{

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-namespace tm
+namespace exampleViewerFiles
 {
 		public class CameraControls : MonoBehaviour
 		{
@@ -11,7 +10,7 @@ namespace tm
 				private float scrollSpeed = 5f;
 				private float upDownSensitivity = 1f;
 				public GameObject cameraTarget;
-				public bool autoRotate = false;
+				public bool autoRotate;
         
 				private void Start ()
 				{

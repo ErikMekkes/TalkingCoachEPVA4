@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace tm
+namespace exampleViewerFiles
 {
 		public class AvatarController : MonoBehaviour
 		{
-				public GameObject ed_targetAvatar;
+				public GameObject edTargetAvatar;
 
 				public GameObject[] hairs;
 				public GameObject[] glasses;
@@ -13,11 +13,11 @@ namespace tm
 
 				public GameObject[] hideObjects;
 
-				private string[] animationNames;    
+				private string[] animationNames;
 
-				private GameObject wornHair = null;
-				private GameObject wornGlasses = null;
-				private GameObject wornOutfit = null;
+			private GameObject wornHair;
+			private GameObject wornGlasses;
+			private GameObject wornOutfit;
 
 				private int animIndex = -1;
 				private int hairIndex = -1;
@@ -26,10 +26,10 @@ namespace tm
 
 				void Start ()
 				{
-						animationNames = new string[ ed_targetAvatar.GetComponent<Animation>().GetClipCount ()];
+						animationNames = new string[ edTargetAvatar.GetComponent<Animation>().GetClipCount ()];
             
 						int i = 0;
-						foreach (AnimationState animState in ed_targetAvatar.GetComponent<Animation>()) {
+						foreach (AnimationState animState in edTargetAvatar.GetComponent<Animation>()) {
 								animationNames [i] = animState.clip.name;
 								i++;
 						}
@@ -43,7 +43,7 @@ namespace tm
 				public void pauseAnimation (bool value)
 				{
 						if (!value) {
-								ed_targetAvatar.GetComponent<Animation>() [animationNames [animIndex]].speed = 0;
+							edTargetAvatar.GetComponent<Animation>() [animationNames [animIndex]].speed = 0;
 
 								if (wornHair != null)
 										wornHair.GetComponent<Animation>() [animationNames [animIndex]].speed = 0;
@@ -52,7 +52,7 @@ namespace tm
 								if (wornOutfit != null)
 										wornOutfit.GetComponent<Animation>() [animationNames [animIndex]].speed = 0;
 						} else {
-								ed_targetAvatar.GetComponent<Animation>() [animationNames [animIndex]].speed = 1;
+							edTargetAvatar.GetComponent<Animation>() [animationNames [animIndex]].speed = 1;
 								if (wornHair != null)
 										wornHair.GetComponent<Animation>() [animationNames [animIndex]].speed = 1;
 								if (wornGlasses != null)
@@ -65,13 +65,13 @@ namespace tm
 				public void playNextAnimation ()
 				{
 						if (animIndex != -1) {
-								if (ed_targetAvatar.GetComponent<Animation>() [animationNames [animIndex]].speed == 0)
+								if (edTargetAvatar.GetComponent<Animation>() [animationNames [animIndex]].speed == 0)
 										pauseAnimation (true); 
 						}
 
 						animIndex = (animIndex + 1) % animationNames.Length;
-						ed_targetAvatar.GetComponent<Animation>() [animationNames [animIndex]].wrapMode = WrapMode.Loop;
-						ed_targetAvatar.GetComponent<Animation>().Play (animationNames [animIndex]);
+					edTargetAvatar.GetComponent<Animation>() [animationNames [animIndex]].wrapMode = WrapMode.Loop;
+					edTargetAvatar.GetComponent<Animation>().Play (animationNames [animIndex]);
 
 						synchAnimation ();
 				}
@@ -135,7 +135,7 @@ namespace tm
 
 				public void synchAnimation ()
 				{
-						AnimationClip clip = ed_targetAvatar.GetComponent<Animation>() [animationNames [animIndex]].clip;
+						AnimationClip clip = edTargetAvatar.GetComponent<Animation>() [animationNames [animIndex]].clip;
 						clip.wrapMode = WrapMode.Loop;
 						if (wornHair != null) {
 								wornHair.GetComponent<Animation>().AddClip (clip, clip.name);
@@ -157,7 +157,7 @@ namespace tm
 				{
 						yield return new WaitForEndOfFrame ();
 
-						AnimationState animState = ed_targetAvatar.GetComponent<Animation>() [animationNames [animIndex]];
+						AnimationState animState = edTargetAvatar.GetComponent<Animation>() [animationNames [animIndex]];
 
 						if (wornHair != null) {
 								wornHair.GetComponent<Animation>() [animState.clip.name].time = animState.time;
