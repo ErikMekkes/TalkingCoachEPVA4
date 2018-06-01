@@ -20,13 +20,13 @@ public class ApplicationManager : MonoBehaviour {
 	// elapsed time for time out
 	private float timeOutTimer = 0.0f;
 	// Avatar model
-	private GameObject new_coach;
+	private GameObject newCoach;
 
 	// Unity Animation component and manager script instance
-	private Animation _animation;
-	private AnimationsManager _animationsManager;
+	private new Animation animation;
+	private AnimationsManager animationsManager;
 	// Array of viseme Animations
-	private AnimationClip[] _visemeAnimations;
+	private AnimationClip[] visemeAnimations;
 	
 	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
@@ -37,33 +37,33 @@ public class ApplicationManager : MonoBehaviour {
 	private string talk;
 	
 	// list of viseme numbers that are currently playing
-	private List<int> _visemeList;
+	private List<int> visemeList;
 	
 	// layer for viseme (speech) animation
-	private const int VisemeLayer = 2;
+	private const int visemeLayer = 2;
 	
 	// initial coach avatar selected from prefabs.
-	private int _coachNumber = 0;
+	private int coachNumber = 0;
 	// initial background selected.
-	private int _backgroundNumber = 0;
+	private int backgroundNumber = 0;
 
 	// Singleton Instance
-	private static ApplicationManager _instance;
+	private static ApplicationManager instance;
 
 	/// <summary>
 	/// Constructs an instance of ApplicationManager if it doesn't exist and
 	/// returns the instance if it already exists.
 	/// </summary>
-	public static ApplicationManager instance
+	public static ApplicationManager amInstance
 	{
 		get
 		{
-			if (_instance == null)
+			if (instance == null)
 			{
-				_instance = GameObject.FindObjectOfType<ApplicationManager>();
-				DontDestroyOnLoad(_instance.gameObject);
+				instance = GameObject.FindObjectOfType<ApplicationManager>();
+				DontDestroyOnLoad(instance.gameObject);
 			}
-			return _instance;
+			return instance;
 		}
 	}
 	
@@ -132,7 +132,7 @@ public class ApplicationManager : MonoBehaviour {
 		// represent coach position change as vector
 		Vector3 changePosition = new Vector3(moveHorizontal, moveVertical, 0);
 		// update object position by adding the position vector.
-		new_coach.transform.position += changePosition;
+		newCoach.transform.position += changePosition;
 	}
 	
 	/// <summary>
@@ -143,13 +143,13 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	private void load_coach() {
 		// create new coach Unity Gameobject
-		new_coach = GameObject.Instantiate(coach_prefabs[_coachNumber]);
+		newCoach = GameObject.Instantiate(coach_prefabs[coachNumber]);
 		// add the new coach object to the Unity parent container (CoachHolder)
-		new_coach.transform.parent = coach_holder.transform;
+		newCoach.transform.parent = coach_holder.transform;
 		// set default coach position
-		new_coach.transform.localPosition = new Vector3(0, 0, 0);
-		new_coach.transform.localRotation = Quaternion.identity;
-		new_coach.transform.localScale = new Vector3(1, 1, 1);
+		newCoach.transform.localPosition = new Vector3(0, 0, 0);
+		newCoach.transform.localRotation = Quaternion.identity;
+		newCoach.transform.localScale = new Vector3(1, 1, 1);
 		// load animations for new coach object
 		loadAnimations();
 	}
@@ -160,9 +160,9 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	public void changeBackground(){
 		// increment background number
-		_backgroundNumber = (_backgroundNumber + 1) % backgroundTexture.Length;
+		backgroundNumber = (backgroundNumber + 1) % backgroundTexture.Length;
 		// set new background image for background image renderer
-		backgroundSprite.sprite = backgroundTexture[_backgroundNumber];
+		backgroundSprite.sprite = backgroundTexture[backgroundNumber];
 	}
 
 	/// <summary>
@@ -171,15 +171,15 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	public void changeCoach(){
 		// store old coach object position
-		Vector3 oldCoachPosition = new_coach.transform.position;
+		Vector3 oldCoachPosition = newCoach.transform.position;
 		// increment coach number
-		_coachNumber = (_coachNumber + 1) % coach_prefabs.Count;
+		coachNumber = (coachNumber + 1) % coach_prefabs.Count;
 		// destroy current coach object
-		Destroy(new_coach);
+		Destroy(newCoach);
 		// load new coach object (using coach number)
 		load_coach();
 		// update position of new coach object using the old position
-		new_coach.transform.position = oldCoachPosition;
+		newCoach.transform.position = oldCoachPosition;
 	}
 
 
@@ -192,35 +192,35 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	private void loadAnimations() {
 		// Get animation manager script attached to current avatar GameObject
-		_animationsManager = new_coach.GetComponent<AnimationsManager>();
+		animationsManager = newCoach.GetComponent<AnimationsManager>();
 		// get viseme animations
-		_visemeAnimations = _animationsManager.getEnglishVisemes();
+		visemeAnimations = animationsManager.getEnglishVisemes();
 		// get names of idle, talk and talkmix animations
-		idle = _animationsManager.getIdle();
-		talk = _animationsManager.getTalk();
+		idle = animationsManager.getIdle();
+		talk = animationsManager.getTalk();
 		// Get Unity Animation component attached to current avatar GameObject
-		_animation = new_coach.GetComponent<Animation>();
+		animation = newCoach.GetComponent<Animation>();
 		// default for animations is play once
-		_animation.wrapMode = WrapMode.Once;
+		animation.wrapMode = WrapMode.Once;
 		// Set layers for animation, higher layers are overlayed on the lower.
 		// e.g. idle (full body) first, talk (mouth) overlayed on idle.
-		_animation[idle].layer = 1;
-		_animation[idle].wrapMode = WrapMode.Loop;
-		_animation[talk].layer = 2;
+		animation[idle].layer = 1;
+		animation[idle].wrapMode = WrapMode.Loop;
+		animation[talk].layer = 2;
 		
 		// ensure viseme animations have the right properties
-		foreach (AnimationClip clip in _visemeAnimations) {
+		foreach (AnimationClip clip in visemeAnimations) {
 			if (clip != null) {
 				// enable legacy mode for manual animation management.
 				clip.legacy = true;
 				// add clip to animation component
-				_animation.AddClip(clip, clip.name);
+				animation.AddClip(clip, clip.name);
 				// set visime animation layer
-				_animation[clip.name].layer = VisemeLayer;
+				animation[clip.name].layer = visemeLayer;
 				// set visime animation speed
-				_animation[clip.name].speed = 1;
+				animation[clip.name].speed = 1;
 				// set viseme animations to play once.
-				_animation[clip.name].wrapMode = WrapMode.Once;
+				animation[clip.name].wrapMode = WrapMode.Once;
 			}
 		}
 	}
@@ -237,18 +237,18 @@ public class ApplicationManager : MonoBehaviour {
 		// stop previously playing animations in viseme layer
 		stopVisemeAnimations();
 		// save list of visemes to play
-		_visemeList = visList;
+		visemeList = visList;
 		// loop through the set of viseme numbers
 		foreach (int visNumber in visList) {
 			// TODO api to set transition time, finding the right time to set
 			float transitionTime = 0;
 			// find the animation clip using the viseme number
-			string clipName = _visemeAnimations[visNumber].name;
+			string clipName = visemeAnimations[visNumber].name;
 			
 			// Add the animation clip to the queue using the specified
 			// transition time to smooth out animation. Animations added to the
 			// queueu are set to let other animations complete before playing.
-			_animation.CrossFadeQueued(
+			animation.CrossFadeQueued(
 				clipName,
 				transitionTime,
 				QueueMode.CompleteOthers);
@@ -260,13 +260,13 @@ public class ApplicationManager : MonoBehaviour {
 	/// </summary>
 	private void stopVisemeAnimations() {
 		// return if no animations playing
-		if (_visemeList == null) return;
+		if (visemeList == null) return;
 		// loop through currently playing viseme numbers
-		foreach (int visNumber in _visemeList) {
+		foreach (int visNumber in visemeList) {
 			// find the animation
-			AnimationClip clip = _visemeAnimations[visNumber];
+			AnimationClip clip = visemeAnimations[visNumber];
 			// stop the animation by blending to weight 0 over 0 seconds.
-			_animation.Stop(clip.name);
+			animation.Stop(clip.name);
 		}
 	}
 
@@ -275,11 +275,11 @@ public class ApplicationManager : MonoBehaviour {
 	///
 	/// Will be deprecated with next iteration.
 	/// </summary>
-	public void PlayAnimation(){
+	public void playAnimation(){
 		// fade in the talk animation over 0 seconds, stopping others
-		_animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
+		animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
 		// blend the idle animation with the currently playing talk animation.
-		_animation.Blend(idle);
+		animation.Blend(idle);
 	}
 
 	/// <summary>
@@ -287,16 +287,16 @@ public class ApplicationManager : MonoBehaviour {
 	///
 	/// Will be deprecated with next iteration.
 	/// </summary>
-	public void StopAnimation(){
+	public void stopAnimation(){
 		// fade in the idle animation over 0 seconds and stop other animations
-		_animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
+		animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
 	public void animateFox() {
 		// make a list of visemes for the sentenc:
 		// "The quick brown fox jumps over the lazy dog"
-		List<int> fox = new List<int> {40, 9, 0, 49, 24, 2, 49, 0, 46, 26, 8, 32, 0, 37, 6, 49, 41, 
-		0, 35, 25, 9, 31, 45, 41, 0, 11, 38, 21, 0, 40, 9, 0, 27, 3, 42, 1, 0, 35, 6, 50, 0};
+		List<int> fox = new List<int> {25, 9, 0, 37, 16, 2, 37, 0, 35, 18, 8, 22, 0, 26, 6, 37, 30, 
+			0, 25, 17, 9, 21, 34, 30, 0, 11, 27, 20, 0, 25, 9, 0, 15, 3, 31, 1, 0, 25, 6, 38, 0};
 		// play the list of animations sequentially
 		playVisemeList(fox);
 	}

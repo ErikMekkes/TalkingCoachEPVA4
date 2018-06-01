@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using AOT;
@@ -11,15 +8,15 @@ using AOT;
 /// </summary>
 public class TextManager : MonoBehaviour {
 
-	private string _voice = "Dutch Female";
+	private string voice = "Dutch Female";
 
 	// whether the agent is currently paused, initialised to false.
-	private bool _isSpeaking = false;
-	private bool _isPaused = false;
+	private bool isSpeaking = false;
+	private bool isPaused = false;
 	// current text string to be spoken.
-	private string _textInput = null;
+	private string textInput = null;
 	// most recent boundary character encountered while speaking text.
-	private static int _lastWordIndex = 0;
+	private static int lastWordIndex = 0;
 
 	// delegate declarations for javascript text to speech callback functions
 	// TODO not sure if needed, probably for dynamic linking
@@ -40,9 +37,10 @@ public class TextManager : MonoBehaviour {
 	/// Start speaking a given text in a given voice, executing callbacks at the start and at the end of the speech.
 	/// </summary>
 	/// <param name="text">The text to pronounce.</param>
-	/// <param name="voice">The boice to pronounce in.</param>
+	/// <param name="voice">The voice to pronounce in.</param>
 	/// <param name="startCallback">The function to call when speech starts.</param>
 	/// <param name="endCallback">The function to call when speech ends.</param>
+	/// <param name="boundaryCallback">The function to call when a word is finished.</param>
 	/// <returns>The state of the TTS.</returns>
 	[DllImport("__Internal")]
 	private static extern string Speak(
@@ -68,25 +66,26 @@ public class TextManager : MonoBehaviour {
 	/// <summary>
 	/// The Singleton instance of the class.
 	/// </summary>
-	private static TextManager _instance;
+
+	private static TextManager instance;
 
 	/// <summary>
 	/// The initiation of the singleton: either returns the instance of it already exists and creates an instantiates
 	/// an instance otherwise.
 	/// </summary>
-	public static TextManager instance
+	public static TextManager tmInstance
 	{
 		get
 		{
-			if (_instance == null)
+			if (instance == null)
 			{
-				_instance = GameObject.FindObjectOfType<TextManager>();
-				DontDestroyOnLoad(_instance.gameObject);
+				instance = GameObject.FindObjectOfType<TextManager>();
+				DontDestroyOnLoad(instance.gameObject);
 			}
-			return _instance;
+			return instance;
 		}
 	}
-		
+
 //	public void SpeakTTS_Click(){
 //
 //		this.getVoices();
@@ -119,31 +118,32 @@ public class TextManager : MonoBehaviour {
 	}
 
 	public void setVoice(string newVoice){
-		_voice = newVoice;
+		voice = newVoice;
 	}
 
+
 	public void startSpeech(string text) {
-		_textInput = text;
-		_isSpeaking = true;
+		textInput = text;
+		isSpeaking = true;
 		// start speech, animation started with callback functions
-		Speak(text, this._voice, callbackStart, callbackEnd, callbackBoundary);
+		Speak(text, this.voice, callbackStart, callbackEnd, callbackBoundary);
 	}
 
 	public void startDemo() {
 		Debug.Log("startDemo()");
-		_textInput = "The quick brown fox jumps over the lazy dog.";
-		_isSpeaking = true;
+		textInput = "The quick brown fox jumps over the lazy dog.";
+		isSpeaking = true;
 		// start speech, animation started with callback functions
-		Speak(_textInput, _voice, callbackDemoStart, callbackEnd, callbackBoundary);
+		Speak(textInput, voice, callbackDemoStart, callbackEnd, callbackBoundary);
 	}
 
 	public void stopSpeech() {
-		_textInput = null;
-		_isSpeaking = false;
+		textInput = null;
+		isSpeaking = false;
 		//stop speech
 		Stop();
 		//stop animation
-		ApplicationManager.instance.StopAnimation();
+		ApplicationManager.amInstance.stopAnimation();
 	}
 
 	/// <summary>
@@ -151,19 +151,19 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
 	public void pauseSpeech() {
 		// if not speaking do nothing
-		if (!_isSpeaking) return;
+		if (!isSpeaking) return;
 		
-		_isPaused = true;
-		_isSpeaking = false;
+		isPaused = true;
+		isSpeaking = false;
 		
 		// store remainder of text for pause.
-		_textInput = _textInput.Substring(_lastWordIndex);
-		_lastWordIndex = 0;
+		textInput = textInput.Substring(lastWordIndex);
+		lastWordIndex = 0;
 		
 		// stop speaking
 		Stop();
 		// stop animation
-		ApplicationManager.instance.StopAnimation();
+		ApplicationManager.amInstance.stopAnimation();
 		
 		Debug.Log("Paused Speech!");
 	}
@@ -173,13 +173,13 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
 	public void resumeSpeech() {
 		// if not paused do nothing
-		if (!_isPaused) return;
+		if (!isPaused) return;
 		
-		_isPaused = false;
-		_isSpeaking = true;
+		isPaused = false;
+		isSpeaking = true;
 		
 		// resume speaking with remainder of text after pause.
-		Speak(_textInput, _voice, callbackStart, callbackEnd, callbackBoundary);
+		Speak(textInput, voice, callbackStart, callbackEnd, callbackBoundary);
 		Debug.Log("Resumed Speech!");
 	}
 
@@ -187,14 +187,14 @@ public class TextManager : MonoBehaviour {
 	public static void callbackStart(float elapsedTime){
 		Debug.Log("callback start at : " + elapsedTime);
 		
-		ApplicationManager.instance.PlayAnimation();
+		ApplicationManager.amInstance.playAnimation();
 	}
 	
 	[MonoPInvokeCallback(typeof(StartDelegate))]
 	public static void callbackDemoStart(float elapsedTime){
 		Debug.Log("callback Demo start at : " + elapsedTime);
 		
-		ApplicationManager.instance.animateFox();
+		ApplicationManager.amInstance.animateFox();
 	}
 	
 	/// <summary>
@@ -213,12 +213,11 @@ public class TextManager : MonoBehaviour {
 	/// This is a callback function for the javascript Web Speech API. It is
 	/// attached to the onboundary event, fired at the start of each word.
 	/// </summary>
-	/// <param name="lastWord">
-	/// Index of the most recently encountered word while speaking.
-	/// </param>
+	/// <param name="lastWord">Index of the most recently encountered word while speaking.</param>
+	/// <param name="elapsedTime">Time that has elapsed</param>
 	[MonoPInvokeCallback(typeof(BoundaryDelegate))]
 	public static void callbackBoundary(int lastWord, float elapsedTime) {
-		_lastWordIndex = lastWord;
+		lastWordIndex = lastWord;
 		Debug.Log("Last Boundary Char = " + lastWord + " at time : " + elapsedTime);
 	}
 
@@ -227,7 +226,7 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
     public bool getIsSpeaking()
     {
-        return _isSpeaking;
+        return isSpeaking;
     }
 
     /// <summary>
@@ -235,6 +234,6 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
     public bool getIsPaused()
     {
-        return _isPaused;
+        return isPaused;
     }
 }
