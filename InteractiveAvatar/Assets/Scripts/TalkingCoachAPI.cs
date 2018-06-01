@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Object = System.Object;
+﻿using UnityEngine;
 
 /// <summary>
 /// API for controlling the TalkingCoach Object
@@ -18,7 +15,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// Get the voices.
 	/// </summary>
 	public void getVoices(){
-		TextManager.instance.getVoices();
+		TextManager.tmInstance.getVoices();
 	}
 
 	/// <summary>
@@ -26,7 +23,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="voice">The new voice to set to.</param>
 	public void setVoice(string voice){
-		TextManager.instance.setVoice(voice);
+		TextManager.tmInstance.setVoice(voice);
 	}
 
 	/// <summary>
@@ -34,36 +31,35 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="text">The convertable text.</param>
 	public void convertToSpeech(string text){
-		TextManager.instance.startSpeech(text);
+		TextManager.tmInstance.startSpeech(text);
 	}
 
 	/// <summary>
 	/// Convert text to speech.
 	/// </summary>
-	/// <param name="text">The convertable text.</param>
 	public void startDemo(){
-		TextManager.instance.startDemo();
+		TextManager.tmInstance.startDemo();
 	}
 
 	/// <summary>
 	/// Stop the speech.
 	/// </summary>
 	public void stopSpeech(){
-		TextManager.instance.stopSpeech();
+		TextManager.tmInstance.stopSpeech();
 	}
 
 	/// <summary>
 	/// Change the background.
 	/// </summary>
 	public void changeBackround(){
-		ApplicationManager.instance.changeBackground();
+		ApplicationManager.amInstance.changeBackground();
 	}
 
 	/// <summary>
 	/// Change the coach.
 	/// </summary>
 	public void changeCoach(){
-		ApplicationManager.instance.changeCoach();
+		ApplicationManager.amInstance.changeCoach();
 	}
 
 	/// <summary>
@@ -71,7 +67,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="zoom">The value to zoom by.</param>
 	public void zoom(int zoom){
-		ApplicationManager.instance.zoomAvatarCamera(zoom);
+		ApplicationManager.amInstance.zoomAvatarCamera(zoom);
 	}
 
 	/// <summary>
@@ -79,7 +75,7 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="horizontal">The value to move the avatar by.</param>
 	public void moveAvatarHorizontal(int horizontal){
-		ApplicationManager.instance.moveCoach(horizontal,0);
+		ApplicationManager.amInstance.moveCoach(horizontal,0);
 	}
 
 	/// <summary>
@@ -87,20 +83,20 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// </summary>
 	/// <param name="vertical">The value to move the avatar by.</param>
 	public void moveAvatarVertical(int vertical){
-		ApplicationManager.instance.moveCoach(0,vertical);
+		ApplicationManager.amInstance.moveCoach(0,vertical);
 	}
 
 	/// <summary>
 	/// Sends the instruction to pause speech to the TextManager script in Unity.
 	/// </summary>
 	public void pauseSpeech() {
-		TextManager.instance.pauseSpeech();
+		TextManager.tmInstance.pauseSpeech();
 	}
 
 	/// <summary>
 	/// Sends the instruction to pause speech to the TextManager script in Unity.
 	/// </summary>
 	public void resumeSpeech() {
-		TextManager.instance.resumeSpeech();
+		TextManager.tmInstance.resumeSpeech();
 	}
 }

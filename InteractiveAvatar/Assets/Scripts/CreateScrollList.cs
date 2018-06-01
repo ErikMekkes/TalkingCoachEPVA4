@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.Audio;
 using System.Collections.Generic;
-using System.IO;
 
 [System.Serializable]
 public class Item {
@@ -22,7 +18,7 @@ public class Item {
 /// </summary>
 public class CreateScrollList : MonoBehaviour {
 
-	private Animation animation;
+	private new Animation animation;
 
 	[SerializeField]
 	private string idle = "male_idle_01_biped_animclip";
@@ -37,7 +33,7 @@ public class CreateScrollList : MonoBehaviour {
 	public GameObject audioButton;
 	public List<Item> itemList;
 	public Transform contentPanel;
-	public AudioSource audio;
+	public new AudioSource audio;
 
 	private AudioButton start;
 	private AudioButton stop;
