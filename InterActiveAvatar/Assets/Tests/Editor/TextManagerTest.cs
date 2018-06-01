@@ -4,7 +4,6 @@
 namespace Tests.Editor{
     public class TextManagerTest
     {
-
         //TextManager text = GameObject.FindObjectOfType<TextManager>();
         //private MockFactory _factory = new MockFactory();
 

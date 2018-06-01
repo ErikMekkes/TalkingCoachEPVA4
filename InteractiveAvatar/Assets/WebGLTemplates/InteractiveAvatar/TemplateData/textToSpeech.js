@@ -112,7 +112,7 @@ if (typeof textToSpeach != 'undefined') {
             msg.onstart = self.speech_onstart;
 
             self.msgparameters.onendcalled = false;
-
+            
             if (parameters != null) {
                 //msg.onend = self.speech_onend;
                 //msg.addEventListener('end',self.speech_onend);
