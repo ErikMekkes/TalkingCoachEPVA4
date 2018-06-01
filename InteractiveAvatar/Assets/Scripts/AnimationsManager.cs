@@ -73,6 +73,14 @@ public class AnimationsManager : MonoBehaviour {
 
 	// talk animation name
 	[SerializeField] private string talk;
+	
+	// interface only component	
+//	#if UNITY_EDITOR
+//		[InterfaceInfo("With the file below, you can specify which lengths of visemes" +
+//					   "should be used. The default is set to the English visemes lengths.")]
+//	#endif
+	
+	[SerializeField] private VisemeTimingCalculator _visemeDurations;
 
 	// interface only component	
 	#if UNITY_EDITOR
@@ -83,10 +91,8 @@ public class AnimationsManager : MonoBehaviour {
 	               "which motion each viseme number represents.")]
 	public string help;
 	#endif
-
-	// List of english viseme animations
+	
 	[SerializeField] private EnglishVisemeList visemesEnglish;
-
 
 	// The Singleton instance of the class.
 	private static AnimationsManager instance;
@@ -122,6 +128,15 @@ public class AnimationsManager : MonoBehaviour {
 	/// <returns>The talk animation's name.</returns>
 	public string getTalk(){
 		return talk;
+	}
+
+	/// <summary>
+	/// Get viseme durations.
+	/// </summary>
+	/// <returns>The VisemeTimingCalculator object to calculate viseme list lengths.</returns>
+	public VisemeTimingCalculator getVisemeTimingCalculator()
+	{
+		return _visemeDurations;
 	}
 
 	/// <summary>

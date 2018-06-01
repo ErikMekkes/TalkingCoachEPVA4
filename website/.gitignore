@@ -1,0 +1,8 @@
+# Ignore WebStorm files
+.idea/
+
+# dependencies
+*/node_modules
+
+# production
+/build

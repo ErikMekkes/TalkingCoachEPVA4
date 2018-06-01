@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using AOT;
@@ -37,7 +37,7 @@ public class TextManager : MonoBehaviour {
 	/// Start speaking a given text in a given voice, executing callbacks at the start and at the end of the speech.
 	/// </summary>
 	/// <param name="text">The text to pronounce.</param>
-	/// <param name="voice">The boice to pronounce in.</param>
+	/// <param name="voice">The voice to pronounce in.</param>
 	/// <param name="startCallback">The function to call when speech starts.</param>
 	/// <param name="endCallback">The function to call when speech ends.</param>
 	/// <param name="boundaryCallback">The function to call when a word is finished.</param>
@@ -66,6 +66,7 @@ public class TextManager : MonoBehaviour {
 	/// <summary>
 	/// The Singleton instance of the class.
 	/// </summary>
+
 	private static TextManager instance;
 
 	/// <summary>
@@ -84,7 +85,7 @@ public class TextManager : MonoBehaviour {
 			return instance;
 		}
 	}
-		
+
 //	public void SpeakTTS_Click(){
 //
 //		this.getVoices();
@@ -119,6 +120,7 @@ public class TextManager : MonoBehaviour {
 	public void setVoice(string newVoice){
 		voice = newVoice;
 	}
+
 
 	public void startSpeech(string text) {
 		textInput = text;
