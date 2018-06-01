@@ -1,15 +1,24 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using SimpleJson;
 using SimpleJSON;
 
+/// <summary>
+/// This class combines all of the needed functionality to provide lip synchronization for the Virtual Agent.
+/// </summary>
 public class LipSynchronization
 {
+    
+    /// <summary>
+    /// The singleton instance of the class.
+    /// </summary>
     private static LipSynchronization instance;
 
     private const string api = "localhost:3001/api/v1/";
     
+    /// <summary>
+    /// Private constructor to prevent initialization.
+    /// </summary>
     private LipSynchronization() {}
     
     /// <summary>
@@ -28,11 +37,22 @@ public class LipSynchronization
         }
     }
 
+    /// <summary>
+    /// Synchronizes the lip with the speech.
+    /// </summary>
+    /// <param name="text">The text to synchronize.</param>
+    /// <param name="lang">The language to synchronize in.</param>
     public void synchronize(string text, string lang)
     {
         retrievePhonemes(text, lang);
     }
     
+    /// <summary>
+    /// Retrieve phonemes from the server.
+    /// </summary>
+    /// <param name="text">The text to parse to phonemes.</param>
+    /// <param name="lang">The language to take the phonemes from.</param>
+    /// <returns>An IEnumerator being the send action of the UnityWebRequest.</returns>
     private IEnumerator retrievePhonemes(string text, string lang) {
         var www = UnityWebRequest.Get(api + "phoneme?text=" + text + "&lang=" + lang);
         yield return www.Send();
@@ -43,6 +63,8 @@ public class LipSynchronization
             var response = JSON.Parse(www.downloadHandler.text);
             var phonemes = response["phonemes"].AsArray;
             var phonemeList = JSONUtil.arrayToList(phonemes);
+            var visemeDurationList =
+                AnimationsManager.amInstance.getVisemeTimingCalculator().getVisemeDurations(phonemeList);
             
         }
     }
