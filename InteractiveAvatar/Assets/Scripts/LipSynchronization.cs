@@ -30,8 +30,7 @@ public class LipSynchronization
 
     public void synchronize(string text, string lang)
     {
-        // Text to phonemes and possible phonemes to visemes call
-        
+        retrievePhonemes(text, lang);
     }
     
     private IEnumerator retrievePhonemes(string text, string lang) {
@@ -42,7 +41,8 @@ public class LipSynchronization
             Debug.Log(www.error);
         } else {
             var response = JSON.Parse(www.downloadHandler.text);
-            var phonemes = response["phonemes"];
+            var phonemes = response["phonemes"].AsArray;
+            var phonemeList = JSONUtil.arrayToList(phonemes);
             
         }
     }
