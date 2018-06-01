@@ -33,23 +33,14 @@ router.get('/', function (req, res, next) {
 
 	// const espeak = spawn('espeak-ng', ['-qx', '-v', `${params.lang}`, '--sep=.', '"' + params.text.trim() + '"']);
 
-	let espeak = null;
-
-	if (params.ipa === undefined) {
-		espeak = child_process.exec(`espeak-ng -qx -v ${params.lang} --sep=. "${params.text}"`);
-	} else {
-		espeak = child_process.exec(`espeak-ng -qx --ipa -v ${params.lang} --sep=. "${params.text}"`);
-	}
-
+	let espeak = child_process.exec(`espeak-ng -qx -v ${params.lang} --sep=. "${params.text}"`);
 	let stdout = "";
 
 	espeak.stdout.on('data', (data) => {
-		// console.log("stdout: " + data);
 		stdout += data;
 	});
 	espeak.on('close', (code) => {
 		let phonemeString = cleanPhonemeString(stdout);
-		console.log(phonemeString);
 		let phonemeArray = getPhonemeArrayFromString(phonemeString);
 		let phonemeArrayArpa = phonemeArrayToArpabet(phonemeArray);
 		res.status(200).json({
