@@ -43,7 +43,8 @@ function cleanPhonemeString(messyString) {
 }
 
 function getPhonemeArrayFromString(phonemeString) {
-	return phonemeString.split(".");
+	phonemeString = phonemeString.replace(/[ ]/gi, '.<wordspace>.');
+	return phonemeString.split(/[. ]/gi);
 }
 
 function phonemeArrayToArpabet(phonemeArray) {
@@ -53,7 +54,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 		let phonemeArpa = "";
 		switch(phoneme) {
 			default:
-				phonemeArpa = 'invalid phoneme';
+				phonemeArpa = phoneme;
 				break;
 		}
 		result[i] = phonemeArpa;
