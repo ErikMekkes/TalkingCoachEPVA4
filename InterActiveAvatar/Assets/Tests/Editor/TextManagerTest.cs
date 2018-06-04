@@ -28,14 +28,16 @@ public class TextManagerTest
 
         Expect.On(mockTM.MockObject).One.GetProperty(t => t.IsSpeaking).Will(Return.Value(false));
 
-        //_factory.VerifyAllExpectationsHaveBeenMet();
+        var speak = mockTM.MockObject.IsSpeaking;
+        Assert.AreEqual(speak, false);
+        
         
     }
 
     [TearDown]
     public void TearDown()
     {
-        _factory.VerifyAllExpectationsHaveBeenMet();
+        //_factory.VerifyAllExpectationsHaveBeenMet();
     }
 
 }
