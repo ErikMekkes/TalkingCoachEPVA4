@@ -84,9 +84,11 @@ public class AnimationsManager : MonoBehaviour {
 
 	// interface only component	
 	#if UNITY_EDITOR
-	[InterfaceInfo("With the Viseme List below you can specify which" +
-	               "animation should be used for which viseme in the English" +
+	[InterfaceInfo("With the Viseme List below you can specify alternative" +
+	               "animations to be used for visemes in the English" +
 	               " language.\n" +
+	               "The included Default Viseme viseme animation is used if no " +
+	               "custom viseme animation is specified here\n\n" +
 	               "Check the documentation at ... for more information on " +
 	               "which motion each viseme number represents.")]
 	public string help;
