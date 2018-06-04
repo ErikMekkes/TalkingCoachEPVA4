@@ -25,8 +25,6 @@ public class ApplicationManager : MonoBehaviour {
 	// Unity Animation component and manager script instance
 	private new Animation animation;
 	private AnimationsManager animationsManager;
-	// Array of viseme Animations
-	private AnimationClip[] visemeAnimations;
 	
 	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
@@ -36,11 +34,6 @@ public class ApplicationManager : MonoBehaviour {
 	private string idle;
 	private string talk;
 	
-	// list of viseme numbers that are currently playing
-	private List<int> visemeList;
-	
-	// layer for viseme (speech) animation
-	private const int visemeLayer = 2;
 	
 	// initial coach avatar selected from prefabs.
 	private int coachNumber = 0;
@@ -152,6 +145,8 @@ public class ApplicationManager : MonoBehaviour {
 		newCoach.transform.localScale = new Vector3(1, 1, 1);
 		// load animations for new coach object
 		loadAnimations();
+		// load viseme animations for new coach object
+		SpeechAnimationManager.instance.loadVisemeAnimations(newCoach);
 	}
 
 	/// <summary>
@@ -193,8 +188,6 @@ public class ApplicationManager : MonoBehaviour {
 	private void loadAnimations() {
 		// Get animation manager script attached to current avatar GameObject
 		animationsManager = newCoach.GetComponent<AnimationsManager>();
-		// get viseme animations
-		visemeAnimations = animationsManager.getEnglishVisemes();
 		// get names of idle, talk and talkmix animations
 		idle = animationsManager.getIdle();
 		talk = animationsManager.getTalk();
@@ -207,67 +200,6 @@ public class ApplicationManager : MonoBehaviour {
 		animation[idle].layer = 1;
 		animation[idle].wrapMode = WrapMode.Loop;
 		animation[talk].layer = 2;
-		
-		// ensure viseme animations have the right properties
-		foreach (AnimationClip clip in visemeAnimations) {
-			if (clip != null) {
-				// enable legacy mode for manual animation management.
-				clip.legacy = true;
-				// add clip to animation component
-				animation.AddClip(clip, clip.name);
-				// set visime animation layer
-				animation[clip.name].layer = visemeLayer;
-				// set visime animation speed
-				animation[clip.name].speed = 1;
-				// set viseme animations to play once.
-				animation[clip.name].wrapMode = WrapMode.Once;
-			}
-		}
-	}
-
-	/// <summary>
-	/// Plays the specified list of viseme numbers sequentially. Animations are
-	/// played once, when an animation ends the next one in the list is played
-	/// until there are no remaining visemes in the list.
-	/// </summary>
-	/// <param name="visList">
-	/// List of viseme numbers to play sequentially.
-	/// </param>
-	public void playVisemeList(List<int> visList) {
-		// stop previously playing animations in viseme layer
-		stopVisemeAnimations();
-		// save list of visemes to play
-		visemeList = visList;
-		// loop through the set of viseme numbers
-		foreach (int visNumber in visList) {
-			// TODO api to set transition time, finding the right time to set
-			float transitionTime = 0;
-			// find the animation clip using the viseme number
-			string clipName = visemeAnimations[visNumber].name;
-			
-			// Add the animation clip to the queue using the specified
-			// transition time to smooth out animation. Animations added to the
-			// queueu are set to let other animations complete before playing.
-			animation.CrossFadeQueued(
-				clipName,
-				transitionTime,
-				QueueMode.CompleteOthers);
-		}
-	}
-	
-	/// <summary>
-	/// Stops all currently playing viseme animations
-	/// </summary>
-	private void stopVisemeAnimations() {
-		// return if no animations playing
-		if (visemeList == null) return;
-		// loop through currently playing viseme numbers
-		foreach (int visNumber in visemeList) {
-			// find the animation
-			AnimationClip clip = visemeAnimations[visNumber];
-			// stop the animation by blending to weight 0 over 0 seconds.
-			animation.Stop(clip.name);
-		}
 	}
 
 	/// <summary>
@@ -290,15 +222,6 @@ public class ApplicationManager : MonoBehaviour {
 	public void stopAnimation(){
 		// fade in the idle animation over 0 seconds and stop other animations
 		animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
-	}
-
-	public void animateFox() {
-		// make a list of visemes for the sentenc:
-		// "The quick brown fox jumps over the lazy dog"
-		List<int> fox = new List<int> {25, 9, 0, 37, 16, 2, 37, 0, 35, 18, 8, 22, 0, 26, 6, 37, 30, 
-			0, 25, 17, 9, 21, 34, 30, 0, 11, 27, 20, 0, 25, 9, 0, 15, 3, 31, 1, 0, 25, 6, 38, 0};
-		// play the list of animations sequentially
-		playVisemeList(fox);
 	}
 
 	/// <summary>

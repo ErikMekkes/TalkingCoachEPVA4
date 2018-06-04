@@ -194,7 +194,7 @@ public class TextManager : MonoBehaviour {
 	public static void callbackDemoStart(float elapsedTime){
 		Debug.Log("callback Demo start at : " + elapsedTime);
 		
-		ApplicationManager.amInstance.animateFox();
+		SpeechAnimationManager.instance.animateFox();
 	}
 	
 	/// <summary>
@@ -213,12 +213,12 @@ public class TextManager : MonoBehaviour {
 	/// This is a callback function for the javascript Web Speech API. It is
 	/// attached to the onboundary event, fired at the start of each word.
 	/// </summary>
-	/// <param name="lastWord">Index of the most recently encountered word while speaking.</param>
+	/// <param name="currentWord">Index of the most recently encountered word while speaking.</param>
 	/// <param name="elapsedTime">Time that has elapsed</param>
 	[MonoPInvokeCallback(typeof(BoundaryDelegate))]
-	public static void callbackBoundary(int lastWord, float elapsedTime) {
-		lastWordIndex = lastWord;
-		Debug.Log("Last Boundary Char = " + lastWord + " at time : " + elapsedTime);
+	public static void callbackBoundary(int currentWord, float elapsedTime) {
+		lastWordIndex = currentWord;
+		Debug.Log("Last Boundary Char = " + currentWord + " at time : " + elapsedTime);
 	}
 
     /// <summary>
