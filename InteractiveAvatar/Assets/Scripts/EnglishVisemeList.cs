@@ -185,8 +185,12 @@ public class EnglishVisemeList {
 
         for (int i = 0; i < clips.Length; i++)
         {
-            if (clips[i] == null)
+            if (!clips[i])
             {
+                if (i < SpeechAnimationManager.visemeNames.Length)
+                {
+                    indexMapping[SpeechAnimationManager.visemeNames[i]] = i;
+                }
                 continue;
             }
 

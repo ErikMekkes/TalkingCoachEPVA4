@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SpeechAnimationManager : MonoBehaviour {
 
-    private string[] visemeNames = {
+    public static string[] visemeNames = {
         "Silence", "AA", "AE", "AH", "AO", "AW", "AY", "B", "CH", "D", "DH",
         "EH", "EL", "ER", "EY", "F", "G", "HX", "IH", "IY", "JH",
         "K", "LL", "M", "N", "NX", "OW", "OY", "P", "R", "S",
