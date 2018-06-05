@@ -158,6 +158,10 @@ public class AnimationsManager : MonoBehaviour {
 		return visemesEnglish.getVisemes();
 	}
 
+	/// <summary>
+	/// Get a mapping from visemes to their indices.
+	/// </summary>
+	/// <returns>A dictionary, which maps visemes (string) to their corresponding indices (int). </returns>
 	public Dictionary<string, int> getVisemeDictictionary()
 	{
 		return visemesEnglish.getVisemeIndexMapping();

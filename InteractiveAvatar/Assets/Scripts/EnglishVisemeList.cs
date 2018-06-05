@@ -167,6 +167,10 @@ public class EnglishVisemeList {
         return clips;
     }
 
+    /// <summary>
+    /// Construct the mapping from visemes to indices.
+    /// </summary>
+    /// <returns>A dictionary, which maps visemes (string) to their corresponding indices (int). </returns>
     public Dictionary<string, int> getVisemeIndexMapping()
     {
         if (clips == null)
