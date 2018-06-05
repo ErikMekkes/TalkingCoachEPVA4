@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
@@ -65,7 +66,21 @@ public class LipSynchronization
             var phonemeList = JSONUtil.arrayToList(phonemes);
             var visemeDurationList =
                 AnimationsManager.amInstance.getVisemeTimingCalculator().getVisemeDurations(phonemeList);
-            
+            SpeechAnimationManager.instance.playVisemeList(getVisemeIndices(phonemeList));
         }
+    }
+
+    private List<int> getVisemeIndices(List<string> visemes)
+    {
+        var indices = new List<int>();
+        var visemeMap = AnimationsManager.amInstance.getVisemeDictictionary();
+
+        for (var i = 0; i < visemes.Count; i++)
+        {
+            var currentViseme = visemes[i];
+            indices.Add(visemeMap[currentViseme]);
+        }
+
+        return indices;
     }
 }

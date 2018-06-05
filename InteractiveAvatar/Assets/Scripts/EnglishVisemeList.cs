@@ -88,7 +88,7 @@ public class EnglishVisemeList {
     **/
 
     private AnimationClip[] clips;
-    private IDictionary indexMapping;
+    private Dictionary<string, int> indexMapping;
     
     #pragma warning restore 0649
     
@@ -167,7 +167,7 @@ public class EnglishVisemeList {
         return clips;
     }
 
-    public IDictionary getVisemeIndexMapping()
+    public Dictionary<string, int> getVisemeIndexMapping()
     {
         if (clips == null)
         {

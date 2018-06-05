@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 // This class specifies certain components that are specific for the Unity
 // Interface. As such, we only want these components to be executed when run
@@ -154,5 +156,10 @@ public class AnimationsManager : MonoBehaviour {
 	/// </returns>
 	public AnimationClip[] getEnglishVisemes() {
 		return visemesEnglish.getVisemes();
+	}
+
+	public Dictionary<string, int> getVisemeDictictionary()
+	{
+		return visemesEnglish.getVisemeIndexMapping();
 	}
 }
