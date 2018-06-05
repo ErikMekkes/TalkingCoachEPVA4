@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// This class represents a list for 56 English Visemes, to be included within a
@@ -84,12 +86,17 @@ public class EnglishVisemeList {
     [SerializeField] private AnimationClip viseme54;
     [SerializeField] private AnimationClip viseme55;
     **/
-    
+
+    private AnimationClip[] clips;
+    private IDictionary indexMapping;
     
     #pragma warning restore 0649
     
     public AnimationClip[] getVisemes() {
-        AnimationClip[] clips = new AnimationClip[56];
+        if (clips == null)
+        {
+            clips = new AnimationClip[56];
+        }
         
         clips[0] = viseme0;
         clips[1] = viseme1;
@@ -158,5 +165,30 @@ public class EnglishVisemeList {
         **/
         
         return clips;
+    }
+
+    public IDictionary getVisemeIndexMapping()
+    {
+        if (clips == null)
+        {
+            getVisemes();
+        }
+
+        if (indexMapping == null)
+        {
+            indexMapping = new Dictionary<string, int>();
+        }
+
+        for (int i = 0; i < clips.Length; i++)
+        {
+            if (clips[i] == null)
+            {
+                continue;
+            }
+
+            indexMapping[clips[i].name] = i;
+        }
+
+        return indexMapping;
     }
 }
