@@ -15,6 +15,9 @@ public class LipSynchronization
     /// </summary>
     private static LipSynchronization instance;
 
+    /// <summary>
+    /// The URL of the API to connect to.
+    /// </summary>
     private const string api = "localhost:3001/api/v1/";
     
     /// <summary>
