@@ -176,6 +176,11 @@ namespace Models
 				_name = name;
 			}
 
+			public string getName()
+			{
+				return _name;
+			}
+
 			public static VisemeCode getVisemeCode(string code)
 			{
 				if (_visemeCodes == null)
