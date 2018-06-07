@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Models;
 using UnityEngine;
 using UnityEngine.Networking;
 using SimpleJSON;
@@ -18,7 +19,7 @@ public class LipSynchronization
     /// <summary>
     /// The URL of the API to connect to.
     /// </summary>
-    private const string api = "localhost:3001/api/v1/";
+    private const string api = "http://localhost:3001/api/v1/";
     
     /// <summary>
     /// Private constructor to prevent initialization.
@@ -48,6 +49,7 @@ public class LipSynchronization
     /// <param name="lang">The language to synchronize in.</param>
     public void synchronize(string text, string lang)
     {
+        Debug.Log("synchronize called! with " + text + " in " + lang);
         retrievePhonemes(text, lang);
     }
     
@@ -57,19 +59,29 @@ public class LipSynchronization
     /// <param name="text">The text to parse to phonemes.</param>
     /// <param name="lang">The language to take the phonemes from.</param>
     /// <returns>An IEnumerator being the send action of the UnityWebRequest.</returns>
-    private IEnumerator retrievePhonemes(string text, string lang) {
-        var www = UnityWebRequest.Get(api + "phoneme?text=" + text + "&lang=" + lang);
-        yield return www.Send();
- 
-        if (www.isError) {
-            Debug.Log(www.error);
-        } else {
-            var response = JSON.Parse(www.downloadHandler.text);
-            var phonemes = response["phonemes"].AsArray;
-            var phonemeList = JSONUtil.arrayToList(phonemes);
-            var visemeDurationList =
-                AnimationsManager.amInstance.getVisemeTimingCalculator().getVisemeDurations(phonemeList);
-            SpeechAnimationManager.instance.playVisemeList(getVisemeIndices(phonemeList));
+    public IEnumerator retrievePhonemes(string text, string lang) {
+        Debug.Log("Trying to make request...");
+        using ( var www = UnityWebRequest.Get(api + "phoneme?text=" + text + "&lang=" + lang))
+        {
+            Debug.Log("request made");
+            yield return www.Send();
+            Debug.Log("request sent to " + www.url);
+            
+            if (www.isError) {
+                Debug.Log(www.responseCode + ": " + www.error);
+            } else {
+                Debug.Log("response successfully received");
+                var response = JSON.Parse(www.downloadHandler.text);
+                var phonemes = response["phonemes"].AsArray;
+                var phonemeList = JSONUtil.arrayToList(phonemes);
+//                var visemeDurationList =
+//                    AnimationsManager.amInstance.getVisemeTimingCalculator().getVisemeDurations(phonemeList);
+                var actualPhonemeList = Phoneme.getPhonemeFromCode(phonemeList);
+                var actualVisemeList = Phoneme.toVisemes(actualPhonemeList);
+                Debug.Log("playing list...");
+                TextManager.tmInstance.startActualSpeech(text);
+                SpeechAnimationManager.instance.playVisemeList(getVisemeIndices(Viseme.toCode(actualVisemeList)));
+            }
         }
     }
 

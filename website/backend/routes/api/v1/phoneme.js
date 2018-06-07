@@ -6,6 +6,11 @@ const {spawn} = require('child_process');
 /* GET /api/v1/phoneme */
 router.get('/', function (req, res, next) {
 	let params = req.query;
+	
+	
+	/* Enable CORS */
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 	/* Test if text query is defined */
 	if (params.text === undefined) {

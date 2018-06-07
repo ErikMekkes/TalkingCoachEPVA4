@@ -125,7 +125,14 @@ public class TextManager : MonoBehaviour {
 	public void startSpeech(string text) {
 		textInput = text;
 		isSpeaking = true;
+		
+		StartCoroutine(LipSynchronization.getInstance.retrievePhonemes(textInput, "en-US"));
 		// start speech, animation started with callback functions
+		// Speak(text, this.voice, callbackStart, callbackEnd, callbackBoundary);
+	}
+
+	public void startActualSpeech(string text)
+	{
 		Speak(text, this.voice, callbackStart, callbackEnd, callbackBoundary);
 	}
 
@@ -133,6 +140,7 @@ public class TextManager : MonoBehaviour {
 		Debug.Log("startDemo()");
 		textInput = "The quick brown fox jumps over the lazy dog.";
 		isSpeaking = true;
+		
 		// start speech, animation started with callback functions
 		Speak(textInput, voice, callbackDemoStart, callbackEnd, callbackBoundary);
 	}
@@ -187,7 +195,7 @@ public class TextManager : MonoBehaviour {
 	public static void callbackStart(float elapsedTime){
 		Debug.Log("callback start at : " + elapsedTime);
 		
-		ApplicationManager.amInstance.playAnimation();
+//		ApplicationManager.amInstance.playAnimation();
 	}
 	
 	[MonoPInvokeCallback(typeof(StartDelegate))]

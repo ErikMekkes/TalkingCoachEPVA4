@@ -41,6 +41,17 @@ namespace Models
 			return result;
 		}
 
+		public static List<string> toCode(List<Viseme> visemes)
+		{
+			var result = new List<string>();
+			for (int i = 0; i < visemes.Count; i++)
+			{
+				result.Add(visemes[i].getVisemeCode().getName());
+			}
+
+			return result;
+		}
+
 		private static void mapVisemesToAnimations(Dictionary<VisemeCode, AnimationClip> visemeMapping)
 		{
 			string[] visemeCodesInOrder =
@@ -174,6 +185,11 @@ namespace Models
 			{
 				_value = value;
 				_name = name;
+			}
+
+			public string getName()
+			{
+				return _name;
 			}
 
 			public static VisemeCode getVisemeCode(string code)
