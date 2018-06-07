@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Models;
 using UnityEngine;
 
 public class SpeechAnimationManager : MonoBehaviour {
@@ -34,15 +35,20 @@ public class SpeechAnimationManager : MonoBehaviour {
     private float currentVisemeLength = 0;
     // index of currently playing viseme in the list to be played
     private int currentVisemeInList = 0;
+    // amount of visemes in current set to play
+    private int visemeAmount = 0;
     
     // layer for viseme (speech) animation
     private int visemeLayer = 1;
 	
     // list of viseme numbers that are currently playing
-    private List<int> visemeList;
+    private List<int> visemeListNumbers;
+    private List<Viseme> visemeList;
 
     private string currentText;
     private bool isSpeaking = false;
+
+    private bool usingNumbers = false;
     
     // Singleton Instance
     private static SpeechAnimationManager amInstance;
@@ -104,7 +110,30 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// </param>
     private void playVisemeList(List<int> visList) {
         // save list of visemes to play
+        visemeListNumbers = visList;
+        visemeAmount = visemeListNumbers.Count;
+        // set current viseme playing
+        currentVisemeInList = 0;
+        // play first viseme
+        playNextViseme();
+    }
+
+    /// <summary>
+    /// Sets the viseme animations to be played to be the specified list of
+    /// viseme numbers. The first viseme from the list is played instantly,
+    /// further visemes from the list are played after the currently playing
+    /// viseme has finished untill all visemes from the list have been played.
+    ///
+    /// The frameUpdate function is used to determine when the next animation
+    /// should be played.
+    /// </summary>
+    /// <param name="visList">
+    /// Set of visemes to be played.
+    /// </param>
+    private void playVisemeList(List<Viseme> visList) {
+        // save list of visemes to play
         visemeList = visList;
+        visemeAmount = visemeList.Count;
         // set current viseme playing
         currentVisemeInList = 0;
         // play first viseme
@@ -117,21 +146,29 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// Empties the set of visemes and resets the currently playing viseme when
     /// all visemes in the set have been animated.
     /// </summary>
-    private void playNextViseme() { 
-        // look up number of current viseme in the set to be animated
-        int visNumber = visemeList[currentVisemeInList];
-        // store name of currently playing viseme
-        currentVisemeName = englishVisemeNames[visNumber];
-        // store duration of currently playing viseme
-        currentVisemeLength = englishVisemeLengths[visNumber];
+    private void playNextViseme() {
+        if (usingNumbers) {
+            // look up number of current viseme in the set to be animated
+            int visNumber = visemeListNumbers[currentVisemeInList];
+            // store name of currently playing viseme
+            currentVisemeName = englishVisemeNames[visNumber];
+            // store duration of currently playing viseme
+            currentVisemeLength = englishVisemeLengths[visNumber];
+        }
+        else {
+            Viseme current = visemeList[currentVisemeInList];
+            currentVisemeName = current.getVisemeCode().getName();
+            //TODO viseme length from viseme Object
+            currentVisemeLength = 0.05f;
+        }
         
         // play the found viseme animation
         animator.CrossFade(currentVisemeName, 0, visemeLayer);
         // increment currently playing viseme
         currentVisemeInList++;
-        
+
         // if all visemes in the set have been animated
-        if (currentVisemeInList >= visemeList.Count) {
+        if (currentVisemeInList >= visemeAmount) {
             stopSpeechAnimation();
         }
     }
