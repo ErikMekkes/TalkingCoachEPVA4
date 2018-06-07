@@ -35,20 +35,21 @@ public class SpeechAnimationManager : MonoBehaviour {
     private float currentVisemeLength = 0;
     // index of currently playing viseme in the list to be played
     private int currentVisemeInList = 0;
-    // amount of visemes in current set to play
-    private int visemeAmount = 0;
     
     // layer for viseme (speech) animation
     private int visemeLayer = 1;
 	
-    // list of viseme numbers that are currently playing
-    private List<int> visemeListNumbers;
+    // list of visemes that are currently playing
     private List<Viseme> visemeList;
 
     private string currentText;
     private bool isSpeaking = false;
 
-    private bool usingNumbers = false;
+    // TODO temporary while anticipating future changes
+    private bool usingNumbers = true;
+    private List<int> visemeListNumbers;
+    // amount of visemes in current set to play
+    private int visemeAmount = 0;
     
     // Singleton Instance
     private static SpeechAnimationManager amInstance;
@@ -147,6 +148,7 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// all visemes in the set have been animated.
     /// </summary>
     private void playNextViseme() {
+        // TODO temporary distinction while anticipating future changes
         if (usingNumbers) {
             // look up number of current viseme in the set to be animated
             int visNumber = visemeListNumbers[currentVisemeInList];
@@ -154,8 +156,7 @@ public class SpeechAnimationManager : MonoBehaviour {
             currentVisemeName = englishVisemeNames[visNumber];
             // store duration of currently playing viseme
             currentVisemeLength = englishVisemeLengths[visNumber];
-        }
-        else {
+        } else {
             Viseme current = visemeList[currentVisemeInList];
             currentVisemeName = current.getVisemeCode().getName();
             //TODO viseme length from viseme Object
