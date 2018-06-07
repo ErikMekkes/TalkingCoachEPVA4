@@ -7,14 +7,17 @@ namespace Models
 {
 	public class Viseme
 	{
-		private Dictionary<Phoneme.PhonemeCode, VisemeCode> _visemeAnimationMapping;
+		private static Dictionary<VisemeCode, AnimationClip> _visemeAnimationMapping;
 		private VisemeCode _visemeCode;
 
 		public Viseme(VisemeCode phonemeCode)
 		{
 			_visemeCode = phonemeCode;
-			_visemeAnimationMapping = new Dictionary<Phoneme.PhonemeCode, VisemeCode>();
-			mapVisemesToAnimations(_visemeAnimationMapping);
+			if (_visemeAnimationMapping == null)
+			{
+				_visemeAnimationMapping = new Dictionary<VisemeCode, AnimationClip>();
+				mapVisemesToAnimations(_visemeAnimationMapping);
+			}
 		}
 
 		public VisemeCode getVisemeCode()
@@ -22,9 +25,9 @@ namespace Models
 			return _visemeCode;
 		}
 
-		public Animation toAnimation()
+		public AnimationClip toAnimation()
 		{
-			return null;
+			return _visemeAnimationMapping[_visemeCode];
 		}
 
 		public static List<Animation> toAnimation(List<Viseme> visemes)
