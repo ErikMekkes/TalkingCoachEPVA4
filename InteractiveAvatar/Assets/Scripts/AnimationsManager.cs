@@ -14,15 +14,18 @@ using UnityEditor;
 /// When added to the interface as component it draws a box with a small info
 /// icon and the specified text. 
 /// </summary>
-public class InterfaceInfo : PropertyAttribute {
+public class InterfaceInfo : PropertyAttribute
+{
 	// info text
 	public readonly string info;
-    
+
 	// constructor
-	public InterfaceInfo(string infoText) {
+	public InterfaceInfo(string infoText)
+	{
 		info = infoText;
 	}
 }
+
 /// <summary>
 /// This class specifies custom draw instructions for the Unity Interface, for
 /// objects of type InterfaceInfo
@@ -33,19 +36,25 @@ public class InterfaceInfo : PropertyAttribute {
 /// that adds the InterfaceInfo Object.
 /// </summary>
 [CustomPropertyDrawer(typeof(InterfaceInfo))]
-public class InterfaceInfoDrawer : PropertyDrawer {
+public class InterfaceInfoDrawer : PropertyDrawer
+{
 	// get info text from object
-	private InterfaceInfo interfaceInfo { get { return (InterfaceInfo)attribute; } }
-    
+	private InterfaceInfo interfaceInfo
+	{
+		get { return (InterfaceInfo) attribute; }
+	}
+
 	// specify custom draw instructions
-	public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label) {
+	public override void OnGUI(Rect position, SerializedProperty prop, GUIContent label)
+	{
 		// draw help box of type info using info text
 		EditorGUI.HelpBox(position, interfaceInfo.info, MessageType.Info);
 	}
-	
+
 	// specify custom height for this element
 	public override float GetPropertyHeight(SerializedProperty property,
-		GUIContent label) {
+		GUIContent label)
+	{
 		// TODO : less magic number
 		return 60;
 	}
@@ -65,7 +74,8 @@ public class InterfaceInfoDrawer : PropertyDrawer {
 /// 
 /// This script should be attached as component to each coach prefab in Unity.
 /// </summary>
-public class AnimationsManager : MonoBehaviour {
+public class AnimationsManager : MonoBehaviour
+{
 	// For each SerializeField, an entry is created in the Unity interface. The
 	// values given for these entries in the Unity interface are accessible by
 	// this script.
@@ -75,17 +85,17 @@ public class AnimationsManager : MonoBehaviour {
 
 	// talk animation name
 	[SerializeField] private string talk;
-	
+
 	// interface only component	
 //	#if UNITY_EDITOR
 //		[InterfaceInfo("With the file below, you can specify which lengths of visemes" +
 //					   "should be used. The default is set to the English visemes lengths.")]
 //	#endif
-	
+
 	[SerializeField] private VisemeTimingCalculator _visemeDurations;
 
 	// interface only component	
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 	[InterfaceInfo("With the Viseme List below you can specify alternative" +
 	               "animations to be used for visemes in the English" +
 	               " language.\n" +
@@ -94,14 +104,14 @@ public class AnimationsManager : MonoBehaviour {
 	               "Check the documentation at ... for more information on " +
 	               "which motion each viseme number represents.")]
 	public string help;
-	#endif
-	
+#endif
+
 	[SerializeField] private EnglishVisemeList visemesEnglish;
 
 	// The Singleton instance of the class.
 	private static AnimationsManager instance;
 
-/// <summary>
+	/// <summary>
 	/// The initiation of the singleton: either returns the instance if it
 	/// already exists or instantiates and returns an instance otherwise.
 	/// </summary>
@@ -114,6 +124,7 @@ public class AnimationsManager : MonoBehaviour {
 				instance = GameObject.FindObjectOfType<AnimationsManager>();
 				DontDestroyOnLoad(instance.gameObject);
 			}
+
 			return instance;
 		}
 	}
@@ -122,7 +133,8 @@ public class AnimationsManager : MonoBehaviour {
 	/// Return the name of the idle animation.
 	/// </summary>
 	/// <returns>The idle animation's name.</returns>
-	public string getIdle(){
+	public string getIdle()
+	{
 		return idle;
 	}
 
@@ -130,7 +142,8 @@ public class AnimationsManager : MonoBehaviour {
 	/// Return the name of the talk animation.
 	/// </summary>
 	/// <returns>The talk animation's name.</returns>
-	public string getTalk(){
+	public string getTalk()
+	{
 		return talk;
 	}
 
@@ -154,7 +167,8 @@ public class AnimationsManager : MonoBehaviour {
 	/// Array of 56 viseme animation names for English speech. starting with
 	/// The SI (silent) viseme as entry 0.
 	/// </returns>
-	public AnimationClip[] getEnglishVisemes() {
+	public AnimationClip[] getEnglishVisemes()
+	{
 		return visemesEnglish.getVisemes();
 	}
 
