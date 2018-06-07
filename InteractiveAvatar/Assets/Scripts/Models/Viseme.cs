@@ -30,9 +30,9 @@ namespace Models
 			return _visemeAnimationMapping[_visemeCode];
 		}
 
-		public static List<Animation> toAnimation(List<Viseme> visemes)
+		public static List<AnimationClip> toAnimation(List<Viseme> visemes)
 		{
-			List<Animation> result = new List<Animation>();
+			List<AnimationClip> result = new List<AnimationClip>();
 			for (int i = 0; i < visemes.Count; i++)
 			{
 				result.Add(visemes[i].toAnimation());
