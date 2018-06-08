@@ -7,28 +7,16 @@ using AOT;
 /// This class handles all text to speech processes.
 /// </summary>
 public class TextManager : MonoBehaviour {
-
 	private string voice = "Dutch Female";
-
-	// whether the agent is currently paused, initialised to false.
-	private bool isSpeaking = false;
-	private bool isPaused = false;
-	// current text string to be spoken.
-	private string textInput = null;
-	// most recent boundary character encountered while speaking text.
-	private static int lastWordIndex = 0;
+	private string language = "en-US";
 
 	// delegate declarations for javascript text to speech callback functions
-	// TODO not sure if needed, probably for dynamic linking
-	public delegate void StartDelegate(float elapsedTime);
-	
-	/// <summary>
-	/// The callback when the speech ends.
-	/// </summary>
-	public delegate void EndDelegate(float elapsedTime);
+	// TODO unsure if needed for dynamic linking in MyPlugin.jslib
+	public delegate void StartDelegate(int lastword, float elapsedTime);
+	public delegate void EndDelegate(int lastword, float elapsedTime);
 	public delegate void BoundaryDelegate(int lastword, float elapsedTime);
-
-	Button btn;
+	public delegate void PauseDelegate(int lastword, float elapsedTime);
+	public delegate void ResumeDelegate(int lastword, float elapsedTime);
 
 	// These are javascript functions in WebGLTemplates/.../TemplateData/textToSpeech.js
 	// They can be dynamically linked to this c# code through Plugins/WebGL/MyPlugin.jslib
@@ -41,12 +29,21 @@ public class TextManager : MonoBehaviour {
 	/// <param name="startCallback">The function to call when speech starts.</param>
 	/// <param name="endCallback">The function to call when speech ends.</param>
 	/// <param name="boundaryCallback">The function to call when a word is finished.</param>
+	/// <param name="pauseCallback">The function to call when speech is paused</param>
+	/// <param name="resumeCallback">The function to call when speech is resumed</param>
+	/// <param name="lang"></param>
 	/// <returns>The state of the TTS.</returns>
 	[DllImport("__Internal")]
 	private static extern string Speak(
-		string text, string voice,
-		StartDelegate startCallback, EndDelegate endCallback, BoundaryDelegate boundaryCallback
-		);
+		string text,
+		string voice,
+		StartDelegate startCallback,
+		EndDelegate endCallback,
+		BoundaryDelegate boundaryCallback,
+		PauseDelegate pauseCallback,
+		ResumeDelegate resumeCallback,
+		string lang
+	);
 
 	/// <summary>
 	/// Stops the speech.
@@ -86,162 +83,126 @@ public class TextManager : MonoBehaviour {
 		}
 	}
 
-//	public void SpeakTTS_Click(){
-//
-//		this.getVoices();
-//
-//		this.btn = gameObjectSpeak.GetComponent<Button>();
-//		String speakButtonText = btn.GetComponentInChildren<Text>().text;
-//
-//		if(speakButtonText == "Stop"){
-//			this.btn.GetComponentInChildren<Text>().text = "Speak";
-//			Stop();
-//			ApplicationManager.instance.StopAnimation();
-//		}else{
-//			string textMessage = speakText.text;
-//			if(textMessage != ""){
-//
-//				if( Application.platform == RuntimePlatform.WebGLPlayer){
-//					Speak(textMessage, "Dutch Female", callbackStart, callbackEnd);
-//					this.btn.GetComponentInChildren<Text>().text = "Stop";
-//				}
-//			}	
-//		}
-//	}
-
 	/// <summary>
-	/// Get the available system voices.
+	/// Prints the available system voices.
 	/// </summary>
 	public void getVoices(){
 		Debug.Log("Get Voices");
 		Debug.Log(getSystemVoices());
 	}
-
+	
+	/// <summary>
+	/// Sets the currect voice of the coach.
+	/// </summary>
+	/// <param name="voice">Web API voice name</param>
 	public void setVoice(string newVoice){
 		voice = newVoice;
 	}
 
-
-	public void startSpeech(string text) {
-		textInput = text;
-		isSpeaking = true;
-		
-		StartCoroutine(LipSynchronization.getInstance.retrievePhonemes(textInput, "en-US"));
-		// start speech, animation started with callback functions
-		// Speak(text, this.voice, callbackStart, callbackEnd, callbackBoundary);
-	}
-
 	public void startActualSpeech(string text)
 	{
-		Speak(text, this.voice, callbackStart, callbackEnd, callbackBoundary);
+		// start speech, animation started with callback functions
+		Speak(text, voice, 
+			callbackStart, callbackEnd, callbackBoundary, 
+			callbackPause, callbackResume, language);
 	}
 
-	public void startDemo() {
-		Debug.Log("startDemo()");
-		textInput = "The quick brown fox jumps over the lazy dog.";
-		isSpeaking = true;
+	/// <summary>
+	/// Returns the current voice.
+	/// </summary>
+	/// <returns></returns>
+	public string getVoice() {
+		return voice;
+	}
+
+
+	public void startSpeech(string text) {
+		// send original spoken text to SpeechAnimationManager
+		SpeechAnimationManager.instance.setText(text);
 		
-		// start speech, animation started with callback functions
-		Speak(textInput, voice, callbackDemoStart, callbackEnd, callbackBoundary);
+		StartCoroutine(LipSynchronization.getInstance.retrievePhonemes(text, language));
 	}
 
 	public void stopSpeech() {
-		textInput = null;
-		isSpeaking = false;
 		//stop speech
 		Stop();
 		//stop animation
 		ApplicationManager.amInstance.stopAnimation();
 	}
 
-	/// <summary>
-	/// Pauses speech synthesis and animation from a speaking state.
-	/// </summary>
-	public void pauseSpeech() {
-		// if not speaking do nothing
-		if (!isSpeaking) return;
-		
-		isPaused = true;
-		isSpeaking = false;
-		
-		// store remainder of text for pause.
-		textInput = textInput.Substring(lastWordIndex);
-		lastWordIndex = 0;
-		
-		// stop speaking
-		Stop();
-		// stop animation
-		ApplicationManager.amInstance.stopAnimation();
-		
-		Debug.Log("Paused Speech!");
-	}
 
-	/// <summary>
-	/// Resumes speech synthesis and animation from a paused state.
-	/// </summary>
-	public void resumeSpeech() {
-		// if not paused do nothing
-		if (!isPaused) return;
-		
-		isPaused = false;
-		isSpeaking = true;
-		
-		// resume speaking with remainder of text after pause.
-		Speak(textInput, voice, callbackStart, callbackEnd, callbackBoundary);
-		Debug.Log("Resumed Speech!");
-	}
-
-	[MonoPInvokeCallback(typeof(StartDelegate))]
-	public static void callbackStart(float elapsedTime){
-		Debug.Log("callback start at : " + elapsedTime);
-		
-//		ApplicationManager.amInstance.playAnimation();
-	}
-	
-	[MonoPInvokeCallback(typeof(StartDelegate))]
-	public static void callbackDemoStart(float elapsedTime){
-		Debug.Log("callback Demo start at : " + elapsedTime);
-		
-		SpeechAnimationManager.instance.animateFox();
+	public void setLanguage(string lang) {
+		language = lang;
 	}
 	
 	/// <summary>
-	/// The end of the callback when talking ends.
-	/// </summary>
-	[MonoPInvokeCallback(typeof(EndDelegate))]
-	public static void callbackEnd(float elapsedTime){
-		Debug.Log("callback end at : " + elapsedTime);
-		//ApplicationManager.instance.StopAnimation();
-	}
-
-	/// <summary>
-	/// Update the index of the most recently encountered word while speaking.
-	/// Index is the place of the word's first character in the text.
+	/// Callback function for speech synthesis start event. Attached as event
+	/// handler for the javascript Web Speech API.
 	/// 
-	/// This is a callback function for the javascript Web Speech API. It is
-	/// attached to the onboundary event, fired at the start of each word.
+	/// Notifies SpeechManager that speech has started.
 	/// </summary>
-	/// <param name="currentWord">Index of the most recently encountered word while speaking.</param>
-	/// <param name="elapsedTime">Time that has elapsed</param>
-	[MonoPInvokeCallback(typeof(BoundaryDelegate))]
-	public static void callbackBoundary(int currentWord, float elapsedTime) {
-		lastWordIndex = currentWord;
-		Debug.Log("Last Boundary Char = " + currentWord + " at time : " + elapsedTime);
+	/// <param name="charIndex">Index of the character in the text at which the event was triggered.</param>
+	/// <param name="elapsedTime">Total time that has elapsed while speaking</param>
+	[MonoPInvokeCallback(typeof(StartDelegate))]
+	public static void callbackStart(int charIndex, float elapsedTime) {
+		Debug.Log("callback start at : " + elapsedTime);
+//		SpeechAnimationManager.instance.startSpeechAnimation();
+	}
+	
+	/// <summary>
+	/// Callback function for speech synthesis end event. Attached as event
+	/// handler for the javascript Web Speech API.
+	///
+	/// Notifies SpeechManager that speech has stopped.
+	/// </summary>
+	/// <param name="charIndex">Index of the character in the text at which the event was triggered.</param>
+	/// <param name="elapsedTime">Total time that has elapsed while speaking</param>
+	[MonoPInvokeCallback(typeof(EndDelegate))]
+	public static void callbackEnd(int charIndex, float elapsedTime) {
+		Debug.Log("callback end at : " + elapsedTime);
+		// Instruct SpeechAnimationManager to stop speech animation
+//		SpeechAnimationManager.instance.stopSpeechAnimation();
 	}
 
-    /// <summary>
-	/// Returns true if speaking and false if not. This function is used for testing.
+	/// <summary>
+	/// Callback function for speech synthesis onboundary event. Attached as
+	/// event handler for the javascript Web Speech API.
+	///
+	/// Notifies SpeechManager that the next word is being spoken.
 	/// </summary>
-    public bool getIsSpeaking()
-    {
-        return isSpeaking;
-    }
-
-    /// <summary>
-	/// Returns true if speaking and false if not. This function is used for testing.
+	/// <param name="charIndex">Index of the character in the text at which the event was triggered.</param>
+	/// <param name="elapsedTime">Total time that has elapsed while speaking</param>
+	[MonoPInvokeCallback(typeof(BoundaryDelegate))]
+	public static void callbackBoundary(int charIndex, float elapsedTime) {
+		// set most recently spoken word for SpeechAnimationManager
+		SpeechAnimationManager.instance.onBoundary(charIndex);
+	}
+    
+	/// <summary>
+	/// Callback function for speech synthesis pause event. Attached as
+	/// event handler for the javascript Web Speech API.
+	/// 
+	/// Notifies SpeechManager that speech has been paused.
 	/// </summary>
-    public bool getIsPaused()
-    {
-        return isPaused;
-    }
+	/// <param name="charIndex">Index of the character in the text at which the event was triggered.</param>
+	/// <param name="elapsedTime">Total time that has elapsed while speaking</param>
+	[MonoPInvokeCallback(typeof(PauseDelegate))]
+	public static void callbackPause(int charIndex, float elapsedTime) {
+		// Instruct SpeechAnimationManager to pause speech animation
+		SpeechAnimationManager.instance.pauseSpeechAnimation(charIndex);
+	}
+    
+	/// <summary>
+	/// Callback function for speech synthesis resume event. Attached as
+	/// event handler for the javascript Web Speech API.
+	/// 
+	/// Notifies SpeechManager that speech has been resumed.
+	/// </summary>
+	/// <param name="charIndex">Index of the character in the text at which the event was triggered.</param>
+	/// <param name="elapsedTime">Total time that has elapsed while speaking</param>
+	[MonoPInvokeCallback(typeof(ResumeDelegate))]
+	public static void callbackResume(int charIndex, float elapsedTime) {
+		// Instruct SpeechAnimationManager to resume speech animation
+		SpeechAnimationManager.instance.resumeSpeechAnimation(charIndex);
+	}
 }

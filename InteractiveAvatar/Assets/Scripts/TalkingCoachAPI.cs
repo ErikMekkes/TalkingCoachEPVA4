@@ -19,11 +19,19 @@ public class TalkingCoachAPI : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Set the voice.
+	/// Set the voice of the talking coach.
 	/// </summary>
-	/// <param name="voice">The new voice to set to.</param>
+	/// <param name="voice">Web speech API voice name.</param>
 	public void setVoice(string voice){
 		TextManager.tmInstance.setVoice(voice);
+	}
+
+	/// <summary>
+	/// Set the language of the talking coach.
+	/// </summary>
+	/// <param name="language">Web speech API language name.</param>
+	public void setLanguage(string language) {
+		TextManager.tmInstance.setLanguage(language);
 	}
 
 	/// <summary>
@@ -35,16 +43,9 @@ public class TalkingCoachAPI : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Convert text to speech.
-	/// </summary>
-	public void startDemo(){
-		TextManager.tmInstance.startDemo();
-	}
-
-	/// <summary>
 	/// Stop the speech.
 	/// </summary>
-	public void stopSpeech(){
+	public void stopSpeech() {
 		TextManager.tmInstance.stopSpeech();
 	}
 
@@ -84,19 +85,5 @@ public class TalkingCoachAPI : MonoBehaviour {
 	/// <param name="vertical">The value to move the avatar by.</param>
 	public void moveAvatarVertical(int vertical){
 		ApplicationManager.amInstance.moveCoach(0,vertical);
-	}
-
-	/// <summary>
-	/// Sends the instruction to pause speech to the TextManager script in Unity.
-	/// </summary>
-	public void pauseSpeech() {
-		TextManager.tmInstance.pauseSpeech();
-	}
-
-	/// <summary>
-	/// Sends the instruction to pause speech to the TextManager script in Unity.
-	/// </summary>
-	public void resumeSpeech() {
-		TextManager.tmInstance.resumeSpeech();
 	}
 }

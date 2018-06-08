@@ -80,27 +80,8 @@ public class LipSynchronization
                 var actualVisemeList = Phoneme.toVisemes(actualPhonemeList);
                 Debug.Log("playing list...");
                 TextManager.tmInstance.startActualSpeech(text);
-                SpeechAnimationManager.instance.playVisemeList(getVisemeIndices(Viseme.toCode(actualVisemeList)));
+                SpeechAnimationManager.instance.playVisemeList(actualVisemeList);
             }
         }
-    }
-
-    /// <summary>
-    /// Get a list of indices representing the visemes, based on an input list of visemes.
-    /// </summary>
-    /// <param name="visemes">The list of input visemes.</param>
-    /// <returns>A list of indices, correponding to the visemes.</returns>
-    private List<int> getVisemeIndices(List<string> visemes)
-    {
-        var indices = new List<int>();
-        var visemeMap = AnimationsManager.amInstance.getVisemeDictictionary();
-
-        for (var i = 0; i < visemes.Count; i++)
-        {
-            var currentViseme = visemes[i];
-            indices.Add(visemeMap[currentViseme]);
-        }
-
-        return indices;
     }
 }

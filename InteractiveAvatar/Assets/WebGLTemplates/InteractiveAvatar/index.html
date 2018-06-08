@@ -23,13 +23,12 @@
         <input type="button" onclick=moveAvatarVertical() value="Move Vertical"/>
         <br>
         <input type="button" onclick=startTalk() value="Start Talk">
-        <input type="button" onclick=stopTalk() value="Stop Talk">
+        <input type="button" onclick="window.speechSynthesis.cancel()" value="Stop Talk">
         <input id="textForSpeech" placeholder="Enter Text" type="text" style='font-size:20px' size='50'>
         <input id="startTalk" name="startTalk" onclick=startTalk() type="button" value="Speak">
         <br>
-        <input type="button" onclick=pauseSpeech() value="Pause Speech"/>
-        <input type="button" onclick=resumeSpeech() value="Resume Speech"/>
-        <input type="button" onclick=startDemo() value="Speak Demo Sentence" id="startDemo" name="startDemo">
+        <input type="button" onclick="window.speechSynthesis.pause()" value="Pause Speech"/>
+        <input type="button" onclick="window.speechSynthesis.resume()" value="Resume Speech"/>
     </div>
     
     <!-- Filled in during by Unity the build process: -->

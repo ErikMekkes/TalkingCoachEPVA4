@@ -24,7 +24,6 @@ public class ApplicationManager : MonoBehaviour {
 
 	// Unity Animation component and manager script instance
 	private new Animation animation;
-	private AnimationsManager animationsManager;
 	
 	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
@@ -71,6 +70,9 @@ public class ApplicationManager : MonoBehaviour {
 		#endif
 		// run the on_load function
 		on_load();
+		
+		//for debugging, start demo fox sentence
+		SpeechAnimationManager.instance.startSpeechAnimation();
 	}
 	
 	/// <summary>
@@ -100,7 +102,7 @@ public class ApplicationManager : MonoBehaviour {
 	/// <summary>
 	/// Load the background texture sprites from Unity.
 	/// </summary>
-	private void load_background(){
+	private void load_background() {
 		// load all background texture sprites from Unity
 		backgroundTexture = Resources.LoadAll<Sprite>("Textures");
 	}
@@ -143,10 +145,8 @@ public class ApplicationManager : MonoBehaviour {
 		newCoach.transform.localPosition = new Vector3(0, 0, 0);
 		newCoach.transform.localRotation = Quaternion.identity;
 		newCoach.transform.localScale = new Vector3(1, 1, 1);
-		// load animations for new coach object
-		loadAnimations();
 		// load viseme animations for new coach object
-		SpeechAnimationManager.instance.loadVisemeAnimations(newCoach);
+		SpeechAnimationManager.instance.loadCoach(newCoach);
 	}
 
 	/// <summary>
@@ -177,31 +177,6 @@ public class ApplicationManager : MonoBehaviour {
 		newCoach.transform.position = oldCoachPosition;
 	}
 
-
-	/// <summary>
-	/// Loads the animations included with the current coach by accessing them
-	/// through the AnimationsManager interface.
-	///
-	/// Also ensures attributes such as animation layer, wrapmode and speed are
-	/// set properly.
-	/// </summary>
-	private void loadAnimations() {
-		// Get animation manager script attached to current avatar GameObject
-		animationsManager = newCoach.GetComponent<AnimationsManager>();
-		// get names of idle, talk and talkmix animations
-		idle = animationsManager.getIdle();
-		talk = animationsManager.getTalk();
-		// Get Unity Animation component attached to current avatar GameObject
-		animation = newCoach.GetComponent<Animation>();
-		// default for animations is play once
-		animation.wrapMode = WrapMode.Once;
-		// Set layers for animation, higher layers are overlayed on the lower.
-		// e.g. idle (full body) first, talk (mouth) overlayed on idle.
-		animation[idle].layer = 1;
-		animation[idle].wrapMode = WrapMode.Loop;
-		animation[talk].layer = 2;
-	}
-
 	/// <summary>
 	/// Plays the idle and talk animations on the coach.
 	///
@@ -230,7 +205,11 @@ public class ApplicationManager : MonoBehaviour {
 	/// set amount of time passes without activity.
 	/// </summary>
 	void Update(){
+		// call the frameUpdate function of SpeechAnimationManager
+		SpeechAnimationManager.instance.frameUpdate(Time.deltaTime);
+		
 		timeOutTimer += Time.deltaTime;
+		
 		// If screen is tapped, reset timer
 		if (Input.anyKeyDown
 			|| Input.GetAxis("Mouse X") != 0
