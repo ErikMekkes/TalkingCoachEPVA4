@@ -46,7 +46,7 @@ public class SpeechAnimationManager : MonoBehaviour {
     private bool isSpeaking = false;
 
     // TODO temporary while anticipating future changes
-    private bool usingNumbers = true;
+    private bool usingNumbers = false;
     private List<int> visemeListNumbers;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
@@ -222,7 +222,7 @@ public class SpeechAnimationManager : MonoBehaviour {
         
         // TODO start animating the full sentence in case of no boundary events
         // start speech animation (fox dummy sentence for now)
-        animateFox();
+//        animateFox();
     }
 
     /// <summary>

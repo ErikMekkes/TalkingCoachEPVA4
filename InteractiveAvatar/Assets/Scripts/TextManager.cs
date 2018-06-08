@@ -146,7 +146,7 @@ public class TextManager : MonoBehaviour {
 	[MonoPInvokeCallback(typeof(StartDelegate))]
 	public static void callbackStart(int charIndex, float elapsedTime) {
 		Debug.Log("callback start at : " + elapsedTime);
-//		SpeechAnimationManager.instance.startSpeechAnimation();
+		SpeechAnimationManager.instance.startSpeechAnimation();
 	}
 	
 	/// <summary>
@@ -161,7 +161,7 @@ public class TextManager : MonoBehaviour {
 	public static void callbackEnd(int charIndex, float elapsedTime) {
 		Debug.Log("callback end at : " + elapsedTime);
 		// Instruct SpeechAnimationManager to stop speech animation
-//		SpeechAnimationManager.instance.stopSpeechAnimation();
+		SpeechAnimationManager.instance.stopSpeechAnimation();
 	}
 
 	/// <summary>
