@@ -30,26 +30,9 @@ namespace Models
 			return _visemeAnimationMapping[_visemeCode];
 		}
 
-		public static List<AnimationClip> toAnimation(List<Viseme> visemes)
+		public double getDuration()
 		{
-			List<AnimationClip> result = new List<AnimationClip>();
-			for (int i = 0; i < visemes.Count; i++)
-			{
-				result.Add(visemes[i].toAnimation());
-			}
-
-			return result;
-		}
-
-		public static List<string> toCode(List<Viseme> visemes)
-		{
-			var result = new List<string>();
-			for (int i = 0; i < visemes.Count; i++)
-			{
-				result.Add(visemes[i].getVisemeCode().getName());
-			}
-
-			return result;
+			return SpeechAnimationManager.instance.getVisemeTimingCalculator().getDictionary()[_visemeCode.getName()];
 		}
 
 		private static void mapVisemesToAnimations(Dictionary<VisemeCode, AnimationClip> visemeMapping)

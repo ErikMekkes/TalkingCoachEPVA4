@@ -7,7 +7,7 @@ using UnityEngine;
 /// This class calculates timings for viseme pronounciations.
 /// </summary>
 [System.Serializable]
-public class VisemeTimingCalculator
+public class VisemeTimings
 {
     
     /// <summary>
@@ -23,19 +23,19 @@ public class VisemeTimingCalculator
     /// <summary>
     /// The Singleton instance of the class.
     /// </summary>
-    private static VisemeTimingCalculator instance;
+    private static VisemeTimings instance;
     
     /// <summary>
     /// The initiation of the singleton: either returns the instance of it already exists and creates an instantiates
     /// an instance otherwise.
     /// </summary>
-    public static VisemeTimingCalculator getInstance
+    public static VisemeTimings getInstance
     {
         get
         {
             if (instance == null)
             {
-                instance = new VisemeTimingCalculator();
+                instance = new VisemeTimings();
             }
             return instance;
         }
@@ -44,7 +44,7 @@ public class VisemeTimingCalculator
     /// <summary>
     /// Construct a dictionary based on the input viseme CSV file.
     /// </summary>
-    public void constructDictionary(StreamReader reader)
+    private void constructDictionary(TextReader reader)
     {
         if (visemeDictionary != null)
         {
@@ -70,30 +70,10 @@ public class VisemeTimingCalculator
     /// <returns>The dictionary of visemes mapped to their corresponding lengths.</returns>
     public IDictionary<string, double> getDictionary()
     {
-        return visemeDictionary;
-    } 
-
-    /// <summary>
-    /// Get the duration of a list of visemes.
-    /// </summary>
-    /// <param name="visemes">A list of strings, representing visemes.</param>
-    /// <returns>A list of doubles, starting with 0, ascendingly ordered.</returns>
-    public List<double> getVisemeDurations(IEnumerable<string> visemes)
-    {
         if (visemeDictionary == null)
         {
             constructDictionary(new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(Language.text))));
-            return getVisemeDurations(visemes);
         }
-        var durationList = new List<double>();
-        var currentDuration = 0.0d;
-        foreach (var t in visemes)
-        {
-            durationList.Add(currentDuration);
-            currentDuration += visemeDictionary[t];
-        }
-
-        return durationList;
-    }
-
+        return visemeDictionary;
+    } 
 }

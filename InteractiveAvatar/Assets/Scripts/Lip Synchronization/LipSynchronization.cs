@@ -41,25 +41,14 @@ public class LipSynchronization
             return instance;
         }
     }
-
+    
     /// <summary>
     /// Synchronizes the lip with the speech.
     /// </summary>
     /// <param name="text">The text to synchronize.</param>
     /// <param name="lang">The language to synchronize in.</param>
-    public void synchronize(string text, string lang)
-    {
-        Debug.Log("synchronize called! with " + text + " in " + lang);
-        retrievePhonemes(text, lang);
-    }
-    
-    /// <summary>
-    /// Retrieve phonemes from the server.
-    /// </summary>
-    /// <param name="text">The text to parse to phonemes.</param>
-    /// <param name="lang">The language to take the phonemes from.</param>
     /// <returns>An IEnumerator being the send action of the UnityWebRequest.</returns>
-    public IEnumerator retrievePhonemes(string text, string lang) {
+    public IEnumerator synchronize(string text, string lang) {
         Debug.Log("Trying to make request...");
         using ( var www = UnityWebRequest.Get(api + "phoneme?text=" + text + "&lang=" + lang))
         {

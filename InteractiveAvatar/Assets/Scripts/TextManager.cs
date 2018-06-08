@@ -120,7 +120,7 @@ public class TextManager : MonoBehaviour {
 		// send original spoken text to SpeechAnimationManager
 		SpeechAnimationManager.instance.setText(text);
 		
-		StartCoroutine(LipSynchronization.getInstance.retrievePhonemes(text, language));
+		StartCoroutine(LipSynchronization.getInstance.synchronize(text, language));
 	}
 
 	public void stopSpeech() {
