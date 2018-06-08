@@ -7,60 +7,23 @@ namespace Models
 {
 	public class Viseme
 	{
-		private static Dictionary<VisemeCode, AnimationClip> _visemeAnimationMapping;
-		private VisemeCode _visemeCode;
+		private static Dictionary<VisemeCode, AnimationClip> visemeAnimationMapping;
+		private readonly VisemeCode visemeCode;
 
 		public Viseme(VisemeCode phonemeCode)
 		{
-			_visemeCode = phonemeCode;
-			if (_visemeAnimationMapping == null)
-			{
-				_visemeAnimationMapping = new Dictionary<VisemeCode, AnimationClip>();
-				mapVisemesToAnimations(_visemeAnimationMapping);
-			}
+			visemeCode = phonemeCode;
 		}
 
 		public VisemeCode getVisemeCode()
 		{
-			return _visemeCode;
-		}
-
-		public AnimationClip toAnimation()
-		{
-			return _visemeAnimationMapping[_visemeCode];
+			return visemeCode;
 		}
 
 		public double getDuration()
 		{
-			Debug.Log("Searching for duration of viseme: " + _visemeCode.getName());
-			return SpeechAnimationManager.instance.getVisemeTimingCalculator().getDictionary()[_visemeCode.getName()];
-		}
-
-		private static void mapVisemesToAnimations(Dictionary<VisemeCode, AnimationClip> visemeMapping)
-		{
-			string[] visemeCodesInOrder =
-			{
-				"Silence", "AA", "AE", "AH", "AO", "AW", "AY", "B", "CH", "D", "DH",
-				"EH", "EL", "ER", "EY", "F", "G", "HX", "IH", "IY", "JH",
-				"K", "LL", "M", "N", "NX", "OW", "OY", "P", "R", "S",
-				"SH", "T", "TH", "UH", "UW", "V", "W", "Y", "Z", "ZH"
-			};
-
-			for (int i = 0; i < visemeCodesInOrder.Length; i++)
-			{
-				string name = visemeCodesInOrder[i];
-				// load default viseme animation from resources
-				AnimationClip clip = Resources.Load("visemes/" + name) as AnimationClip;
-
-				// print error if default animation resource not found
-				if (!clip)
-				{
-					Debug.LogError("Missing animation " + i + " : " + name + ".");
-				}
-
-				// update local Animations
-				visemeMapping.Add(VisemeCode.getVisemeCode(name), clip);
-			}
+			Debug.Log("Searching for duration of viseme: " + visemeCode.getName());
+			return SpeechAnimationManager.instance.getVisemeTimingCalculator().getDictionary()[visemeCode.getName()];
 		}
 
 		/// <summary>
@@ -69,8 +32,8 @@ namespace Models
 		/// </summary>
 		public sealed class VisemeCode
 		{
-			private readonly int _value;
-			private readonly String _name;
+			private readonly int value;
+			private readonly string name;
 
 			public static readonly VisemeCode silence = new VisemeCode(0, "Silence");
 			public static readonly VisemeCode AY = new VisemeCode(1, "AY");
@@ -163,32 +126,17 @@ namespace Models
 				invalid
 			};
 
-			private static Dictionary<String, VisemeCode> _visemeCodes = null;
+			private static Dictionary<string, VisemeCode> visemeCodes = null;
 
-			private VisemeCode(int value, String name)
+			private VisemeCode(int value, string name)
 			{
-				_value = value;
-				_name = name;
+				this.value = value;
+				this.name = name;
 			}
 
 			public string getName()
 			{
-				return _name;
-			}
-
-			public static VisemeCode getVisemeCode(string code)
-			{
-				if (_visemeCodes == null)
-				{
-					_visemeCodes = new Dictionary<String, VisemeCode>();
-					for (int i = 0; i < _visemeCodeList.Count; i++)
-					{
-						VisemeCode visemeCode = _visemeCodeList[i];
-						_visemeCodes.Add(visemeCode._name, visemeCode);
-					}
-				}
-
-				return _visemeCodes[code];
+				return name;
 			}
 		}
 	}

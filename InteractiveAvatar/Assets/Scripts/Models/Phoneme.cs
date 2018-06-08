@@ -1,6 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Models
@@ -8,7 +6,7 @@ namespace Models
 	public class Phoneme
 	{
 		private static readonly Dictionary<PhonemeCode, Viseme.VisemeCode> phonemeVisemeMapping;
-		private readonly PhonemeCode _phonemeCode;
+		private readonly PhonemeCode phonemeCode;
 
 		static Phoneme()
 		{
@@ -18,13 +16,13 @@ namespace Models
 		
 		public Phoneme(PhonemeCode phonemeCode)
 		{
-			_phonemeCode = phonemeCode;
+			this.phonemeCode = phonemeCode;
 		}
 
 		public Viseme toViseme()
 		{
-			Debug.Log("Searching for code of " + _phonemeCode.getName());
-			Viseme.VisemeCode visemeCode = phonemeVisemeMapping[_phonemeCode];
+			Debug.Log("Searching for code of " + phonemeCode.getName());
+			Viseme.VisemeCode visemeCode = phonemeVisemeMapping[phonemeCode];
 			Viseme result = new Viseme(visemeCode);
 			return result;
 		}
@@ -45,9 +43,9 @@ namespace Models
 			return new Phoneme(PhonemeCode.getPhonemeCode(phonemeCode));
 		}
 		
-		public static List<Phoneme> getPhonemeFromCode(List<string> phonemeCodes)
+		public static List<Phoneme> getPhonemeFromCode(IEnumerable<string> phonemeCodes)
 		{
-			List<Phoneme> result = new List<Phoneme>();
+			var result = new List<Phoneme>();
 			foreach (string phonemeCode in phonemeCodes)
 			{
 				result.Add(getPhonemeFromCode(phonemeCode));
@@ -55,7 +53,7 @@ namespace Models
 			return result;
 		}
 
-		private static void mapPhonemesToVisemes(Dictionary<PhonemeCode, Viseme.VisemeCode> phonemeMapping)
+		private static void mapPhonemesToVisemes(IDictionary<PhonemeCode, Viseme.VisemeCode> phonemeMapping)
 		{
 			phonemeMapping.Add(PhonemeCode.AY, Viseme.VisemeCode.AY);
 			phonemeMapping.Add(PhonemeCode.AW, Viseme.VisemeCode.AW);
@@ -109,8 +107,8 @@ namespace Models
 		/// </summary>
 		public sealed class PhonemeCode
 		{
-			private readonly int _value;
-			private readonly String _name;
+			private readonly int value;
+			private readonly string name;
 
 			public static readonly PhonemeCode AA = new PhonemeCode(1, "AA");
 			public static readonly PhonemeCode AE = new PhonemeCode(2, "AE");
@@ -213,24 +211,24 @@ namespace Models
 
 			private PhonemeCode(int value, string name)
 			{
-				_value = value;
-				_name = name;
+				this.value = value;
+				this.name = name;
 			}
 
 			public string getName()
 			{
-				return _name;
+				return name;
 			}
 
 			public static PhonemeCode getPhonemeCode(string code)
 			{
 				if (_phonemeCodes == null)
 				{
-					_phonemeCodes = new Dictionary<String, PhonemeCode>();
+					_phonemeCodes = new Dictionary<string, PhonemeCode>();
 					for (int i = 0; i < _phonemeCodeList.Count; i++)
 					{
 						PhonemeCode phonemeCode = _phonemeCodeList[i];
-						_phonemeCodes.Add(phonemeCode._name, phonemeCode);
+						_phonemeCodes.Add(phonemeCode.name, phonemeCode);
 					}
 				}
 
