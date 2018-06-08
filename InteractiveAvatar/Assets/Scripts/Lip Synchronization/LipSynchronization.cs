@@ -63,8 +63,6 @@ public class LipSynchronization
                 var response = JSON.Parse(www.downloadHandler.text);
                 var phonemes = response["phonemes"].AsArray;
                 var phonemeList = JSONUtil.arrayToList(phonemes);
-//                var visemeDurationList =
-//                    AnimationsManager.amInstance.getVisemeTimingCalculator().getVisemeDurations(phonemeList);
                 var actualPhonemeList = Phoneme.getPhonemeFromCode(phonemeList);
                 var actualVisemeList = Phoneme.toVisemes(actualPhonemeList);
                 Debug.Log("playing list...");
