@@ -45,8 +45,10 @@ public class SpeechAnimationManager : MonoBehaviour {
     private string currentText;
     private bool isSpeaking = false;
 
+    [SerializeField] private VisemeTimings visemeTimings;
+
     // TODO temporary while anticipating future changes
-    private bool usingNumbers = true;
+    private bool usingNumbers = false;
     private List<int> visemeListNumbers;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
@@ -131,7 +133,7 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// <param name="visList">
     /// Set of visemes to be played.
     /// </param>
-    private void playVisemeList(List<Viseme> visList) {
+    public void playVisemeList(List<Viseme> visList) {
         // save list of visemes to play
         visemeList = visList;
         visemeAmount = visemeList.Count;
@@ -159,8 +161,7 @@ public class SpeechAnimationManager : MonoBehaviour {
         } else {
             Viseme current = visemeList[currentVisemeInList];
             currentVisemeName = current.getVisemeCode().getName();
-            //TODO viseme length from viseme Object
-            currentVisemeLength = 0.05f;
+            currentVisemeLength = (float) current.getDuration();
         }
         
         // play the found viseme animation
@@ -188,6 +189,11 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// <param name="visemeLengths"></param>
     public void setEnglishVisemeLengths(float[] visemeLengths) {
         englishVisemeLengths = visemeLengths;
+    }
+
+    public VisemeTimings getVisemeTimingCalculator()
+    {
+        return visemeTimings;
     }
 
     public void setText(string text) {
@@ -219,10 +225,6 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// </summary>
     public void startSpeechAnimation() {
         isSpeaking = true;
-        
-        // TODO start animating the full sentence in case of no boundary events
-        // start speech animation (fox dummy sentence for now)
-        animateFox();
     }
 
     /// <summary>

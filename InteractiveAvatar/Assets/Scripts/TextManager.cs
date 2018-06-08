@@ -90,12 +90,21 @@ public class TextManager : MonoBehaviour {
 		Debug.Log("Get Voices");
 		Debug.Log(getSystemVoices());
 	}
+	
 	/// <summary>
 	/// Sets the currect voice of the coach.
 	/// </summary>
 	/// <param name="voice">Web API voice name</param>
 	public void setVoice(string newVoice){
 		voice = newVoice;
+	}
+
+	public void startActualSpeech(string text)
+	{
+		// start speech, animation started with callback functions
+		Speak(text, voice, 
+			callbackStart, callbackEnd, callbackBoundary, 
+			callbackPause, callbackResume, language);
 	}
 
 	/// <summary>
@@ -111,10 +120,7 @@ public class TextManager : MonoBehaviour {
 		// send original spoken text to SpeechAnimationManager
 		SpeechAnimationManager.instance.setText(text);
 		
-		// start speech, animation started with callback functions
-		Speak(text, voice, 
-			callbackStart, callbackEnd, callbackBoundary, 
-			callbackPause, callbackResume, language);
+		StartCoroutine(LipSynchronization.getInstance.synchronize(text, language));
 	}
 
 	public void stopSpeech() {

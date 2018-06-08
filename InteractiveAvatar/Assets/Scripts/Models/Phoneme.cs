@@ -1,13 +1,12 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Models
 {
 	public class Phoneme
 	{
 		private static readonly Dictionary<PhonemeCode, Viseme.VisemeCode> phonemeVisemeMapping;
-		private readonly PhonemeCode _phonemeCode;
+		private readonly PhonemeCode phonemeCode;
 
 		static Phoneme()
 		{
@@ -17,12 +16,13 @@ namespace Models
 		
 		public Phoneme(PhonemeCode phonemeCode)
 		{
-			_phonemeCode = phonemeCode;
+			this.phonemeCode = phonemeCode;
 		}
 
 		public Viseme toViseme()
 		{
-			Viseme.VisemeCode visemeCode = phonemeVisemeMapping[_phonemeCode];
+			Debug.Log("Searching for code of " + phonemeCode.getName());
+			Viseme.VisemeCode visemeCode = phonemeVisemeMapping[phonemeCode];
 			Viseme result = new Viseme(visemeCode);
 			return result;
 		}
@@ -38,22 +38,22 @@ namespace Models
 			return result;
 		}
 
-		public static Phoneme getPhonemeFromCode(String phonemeCode)
+		public static Phoneme getPhonemeFromCode(string phonemeCode)
 		{
 			return new Phoneme(PhonemeCode.getPhonemeCode(phonemeCode));
 		}
 		
-		public static List<Phoneme> getPhonemeFromCode(List<String> phonemeCodes)
+		public static List<Phoneme> getPhonemeFromCode(IEnumerable<string> phonemeCodes)
 		{
-			List<Phoneme> result = new List<Phoneme>();
-			foreach (String phonemeCode in phonemeCodes)
+			var result = new List<Phoneme>();
+			foreach (string phonemeCode in phonemeCodes)
 			{
 				result.Add(getPhonemeFromCode(phonemeCode));
 			}
 			return result;
 		}
 
-		private static void mapPhonemesToVisemes(Dictionary<PhonemeCode, Viseme.VisemeCode> phonemeMapping)
+		private static void mapPhonemesToVisemes(IDictionary<PhonemeCode, Viseme.VisemeCode> phonemeMapping)
 		{
 			phonemeMapping.Add(PhonemeCode.AY, Viseme.VisemeCode.AY);
 			phonemeMapping.Add(PhonemeCode.AW, Viseme.VisemeCode.AW);
@@ -61,10 +61,12 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.AE, Viseme.VisemeCode.AE);
 			phonemeMapping.Add(PhonemeCode.IH, Viseme.VisemeCode.IH);
 			phonemeMapping.Add(PhonemeCode.AA, Viseme.VisemeCode.AA);
+			phonemeMapping.Add(PhonemeCode.AX, Viseme.VisemeCode.AH);
 			phonemeMapping.Add(PhonemeCode.B, Viseme.VisemeCode.B);
 			phonemeMapping.Add(PhonemeCode.D, Viseme.VisemeCode.D);
 			phonemeMapping.Add(PhonemeCode.JH, Viseme.VisemeCode.JH);
 			phonemeMapping.Add(PhonemeCode.DH, Viseme.VisemeCode.DH);
+			phonemeMapping.Add(PhonemeCode.DX, Viseme.VisemeCode.T);
 			phonemeMapping.Add(PhonemeCode.EY, Viseme.VisemeCode.EY);
 			phonemeMapping.Add(PhonemeCode.EH, Viseme.VisemeCode.EH);
 			phonemeMapping.Add(PhonemeCode.ER, Viseme.VisemeCode.ER);
@@ -72,6 +74,7 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.F, Viseme.VisemeCode.F);
 			phonemeMapping.Add(PhonemeCode.G, Viseme.VisemeCode.G);
 			phonemeMapping.Add(PhonemeCode.HH, Viseme.VisemeCode.HX);
+			phonemeMapping.Add(PhonemeCode.IX, Viseme.VisemeCode.IH);
 			phonemeMapping.Add(PhonemeCode.IY, Viseme.VisemeCode.IY);
 			phonemeMapping.Add(PhonemeCode.Y, Viseme.VisemeCode.Y);
 			phonemeMapping.Add(PhonemeCode.K, Viseme.VisemeCode.K);
@@ -95,6 +98,7 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.ZH, Viseme.VisemeCode.ZH);
 			phonemeMapping.Add(PhonemeCode.TH, Viseme.VisemeCode.TH);
 			phonemeMapping.Add(PhonemeCode.EL, Viseme.VisemeCode.EL);
+			phonemeMapping.Add(PhonemeCode.wordspace, Viseme.VisemeCode.wordspace);
 		}
 		
 		/// <summary>
@@ -103,8 +107,8 @@ namespace Models
 		/// </summary>
 		public sealed class PhonemeCode
 		{
-			private readonly int _value;
-			private readonly String _name;
+			private readonly int value;
+			private readonly string name;
 
 			public static readonly PhonemeCode AA = new PhonemeCode(1, "AA");
 			public static readonly PhonemeCode AE = new PhonemeCode(2, "AE");
@@ -150,7 +154,7 @@ namespace Models
 			public static readonly PhonemeCode Y = new PhonemeCode(42, "Y");
 			public static readonly PhonemeCode Z = new PhonemeCode(43, "Z");
 			public static readonly PhonemeCode ZH = new PhonemeCode(44, "ZH");
-			public static readonly PhonemeCode wordspace = new PhonemeCode(45, "wordspace");
+			public static readonly PhonemeCode wordspace = new PhonemeCode(45, "/");
 			public static readonly PhonemeCode invalid = new PhonemeCode(46, "invalid");
 
 			private static readonly List<PhonemeCode> _phonemeCodeList = new List<PhonemeCode>
@@ -203,26 +207,33 @@ namespace Models
 				invalid
 			};
 
-			private static Dictionary<String, PhonemeCode> _phonemeCodes = null;
+			private static Dictionary<string, PhonemeCode> _phonemeCodes = null;
 
-			private PhonemeCode(int value, String name)
+			private PhonemeCode(int value, string name)
 			{
-				_value = value;
-				_name = name;
+				this.value = value;
+				this.name = name;
+			}
+
+			public string getName()
+			{
+				return name;
 			}
 
 			public static PhonemeCode getPhonemeCode(string code)
 			{
 				if (_phonemeCodes == null)
 				{
-					_phonemeCodes = new Dictionary<String, PhonemeCode>();
+					_phonemeCodes = new Dictionary<string, PhonemeCode>();
 					for (int i = 0; i < _phonemeCodeList.Count; i++)
 					{
 						PhonemeCode phonemeCode = _phonemeCodeList[i];
-						_phonemeCodes.Add(phonemeCode._name, phonemeCode);
+						_phonemeCodes.Add(phonemeCode.name, phonemeCode);
 					}
 				}
 
+				Debug.Log("Searching for phoneme : " + code);
+				
 				return _phonemeCodes[code];
 			}
 		}
