@@ -63,10 +63,12 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.AE, Viseme.VisemeCode.AE);
 			phonemeMapping.Add(PhonemeCode.IH, Viseme.VisemeCode.IH);
 			phonemeMapping.Add(PhonemeCode.AA, Viseme.VisemeCode.AA);
+			phonemeMapping.Add(PhonemeCode.AX, Viseme.VisemeCode.AH);
 			phonemeMapping.Add(PhonemeCode.B, Viseme.VisemeCode.B);
 			phonemeMapping.Add(PhonemeCode.D, Viseme.VisemeCode.D);
 			phonemeMapping.Add(PhonemeCode.JH, Viseme.VisemeCode.JH);
 			phonemeMapping.Add(PhonemeCode.DH, Viseme.VisemeCode.DH);
+			phonemeMapping.Add(PhonemeCode.DX, Viseme.VisemeCode.T);
 			phonemeMapping.Add(PhonemeCode.EY, Viseme.VisemeCode.EY);
 			phonemeMapping.Add(PhonemeCode.EH, Viseme.VisemeCode.EH);
 			phonemeMapping.Add(PhonemeCode.ER, Viseme.VisemeCode.ER);
@@ -74,6 +76,7 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.F, Viseme.VisemeCode.F);
 			phonemeMapping.Add(PhonemeCode.G, Viseme.VisemeCode.G);
 			phonemeMapping.Add(PhonemeCode.HH, Viseme.VisemeCode.HX);
+			phonemeMapping.Add(PhonemeCode.IX, Viseme.VisemeCode.IH);
 			phonemeMapping.Add(PhonemeCode.IY, Viseme.VisemeCode.IY);
 			phonemeMapping.Add(PhonemeCode.Y, Viseme.VisemeCode.Y);
 			phonemeMapping.Add(PhonemeCode.K, Viseme.VisemeCode.K);

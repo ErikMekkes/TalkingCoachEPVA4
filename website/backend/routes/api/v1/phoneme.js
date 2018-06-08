@@ -71,8 +71,14 @@ function getPhonemeArrayFromString(phonemeString) {
 function phonemeArrayToArpabet(phonemeArray) {
 	let result = [];
 	for (let i = 0; i < phonemeArray.length; i++) {
-		let phoneme = phonemeArray[i];
+		let phoneme = phonemeArray[i].trim();
 		let phonemeArpa = "";
+		
+		console.log(phoneme)
+		
+		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
+			continue;
+		}
 
 		// TODO: Can be better, perhaps with a Map
 		switch (phoneme) {
@@ -82,9 +88,11 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case '0':
 				phonemeArpa = "AA";
 				break;
+			case 'aa':
 			case 'a':
 				phonemeArpa = "AE";
 				break;
+			case 'I2':
 			case '@2':
 			case '@':
 			case 'V':
@@ -92,6 +100,8 @@ function phonemeArrayToArpabet(phonemeArray) {
 				break;
 			case 'O@':
 			case 'O':
+			case 'o@':
+			case 'U@':
 				phonemeArpa = "AO";
 				break;
 			case 'aU':
@@ -103,7 +113,9 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'aI':
 				phonemeArpa = "AY";
 				break;
+			case 'e@':
 			case 'E':
+			case '@-':
 				phonemeArpa = "EH";
 				break;
 			case '3':
@@ -130,11 +142,19 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'U':
 				phonemeArpa = "UH";
 				break;
+			case 'u:':
 			case 'u':
 				phonemeArpa = "UW";
 				break;
-
+			case 'aI3':
+				result.push("AY");
+				result.push("ER");
+				continue;
 				/* Consonants */
+			case 'A@':
+				result.push("AA");
+				result.push("R");
+				continue;
 			case 'b':
 				phonemeArpa = "B";
 				break;
@@ -198,6 +218,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'S':
 				phonemeArpa = "SH";
 				break;
+			case 't2':
 			case 't':
 				phonemeArpa = "T";
 				break;
@@ -228,7 +249,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 				phonemeArpa = "invalid phoneme";
 				break;
 		}
-		result[i] = phonemeArpa;
+		result.push(phonemeArpa);
 	}
 	return result;
 }

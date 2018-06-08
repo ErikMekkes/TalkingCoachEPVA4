@@ -60,6 +60,8 @@ public class VisemeTimings
             Debug.Log(splitLine[0] + " : " + splitLine[1]);
             visemeDictionary[splitLine[0]] = float.Parse(splitLine[1]);
         }
+
+        visemeDictionary["Silence"] = 0.05;
         
         reader.Close();
     }
