@@ -71,7 +71,7 @@ namespace Models
 			private readonly int _value;
 			private readonly String _name;
 
-			public static readonly VisemeCode silence = new VisemeCode(0, "silence");
+			public static readonly VisemeCode silence = new VisemeCode(0, "Silence");
 			public static readonly VisemeCode AY = new VisemeCode(1, "AY");
 			public static readonly VisemeCode AW = new VisemeCode(2, "AW");
 			public static readonly VisemeCode AH = new VisemeCode(3, "AH");
@@ -112,7 +112,7 @@ namespace Models
 			public static readonly VisemeCode ZH = new VisemeCode(38, "ZH");
 			public static readonly VisemeCode TH = new VisemeCode(39, "TH");
 			public static readonly VisemeCode EL = new VisemeCode(40, "EL");
-			public static readonly VisemeCode wordspace = new VisemeCode(41, "wordspace");
+			public static readonly VisemeCode wordspace = new VisemeCode(41, "Silence");
 			public static readonly VisemeCode invalid = new VisemeCode(42, "invalid");
 
 			private static readonly List<VisemeCode> _visemeCodeList = new List<VisemeCode>

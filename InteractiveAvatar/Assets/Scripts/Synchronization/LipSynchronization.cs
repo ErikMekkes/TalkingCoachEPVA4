@@ -63,7 +63,9 @@ public class LipSynchronization
                 var response = JSON.Parse(www.downloadHandler.text);
                 var phonemes = response["phonemes"].AsArray;
                 var phonemeList = JSONUtil.arrayToList(phonemes);
+                Debug.Log("Code to phonemes...");
                 var actualPhonemeList = Phoneme.getPhonemeFromCode(phonemeList);
+                Debug.Log("Phonemes to visemes...");
                 var actualVisemeList = Phoneme.toVisemes(actualPhonemeList);
                 Debug.Log("playing list...");
                 TextManager.tmInstance.startActualSpeech(text);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Models
 {
@@ -22,6 +23,7 @@ namespace Models
 
 		public Viseme toViseme()
 		{
+			Debug.Log("Searching for code of " + _phonemeCode.getName());
 			Viseme.VisemeCode visemeCode = phonemeVisemeMapping[_phonemeCode];
 			Viseme result = new Viseme(visemeCode);
 			return result;
@@ -38,15 +40,15 @@ namespace Models
 			return result;
 		}
 
-		public static Phoneme getPhonemeFromCode(String phonemeCode)
+		public static Phoneme getPhonemeFromCode(string phonemeCode)
 		{
 			return new Phoneme(PhonemeCode.getPhonemeCode(phonemeCode));
 		}
 		
-		public static List<Phoneme> getPhonemeFromCode(List<String> phonemeCodes)
+		public static List<Phoneme> getPhonemeFromCode(List<string> phonemeCodes)
 		{
 			List<Phoneme> result = new List<Phoneme>();
-			foreach (String phonemeCode in phonemeCodes)
+			foreach (string phonemeCode in phonemeCodes)
 			{
 				result.Add(getPhonemeFromCode(phonemeCode));
 			}
@@ -95,6 +97,7 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.ZH, Viseme.VisemeCode.ZH);
 			phonemeMapping.Add(PhonemeCode.TH, Viseme.VisemeCode.TH);
 			phonemeMapping.Add(PhonemeCode.EL, Viseme.VisemeCode.EL);
+			phonemeMapping.Add(PhonemeCode.wordspace, Viseme.VisemeCode.wordspace);
 		}
 		
 		/// <summary>
@@ -150,7 +153,7 @@ namespace Models
 			public static readonly PhonemeCode Y = new PhonemeCode(42, "Y");
 			public static readonly PhonemeCode Z = new PhonemeCode(43, "Z");
 			public static readonly PhonemeCode ZH = new PhonemeCode(44, "ZH");
-			public static readonly PhonemeCode wordspace = new PhonemeCode(45, "wordspace");
+			public static readonly PhonemeCode wordspace = new PhonemeCode(45, "/");
 			public static readonly PhonemeCode invalid = new PhonemeCode(46, "invalid");
 
 			private static readonly List<PhonemeCode> _phonemeCodeList = new List<PhonemeCode>
@@ -203,12 +206,17 @@ namespace Models
 				invalid
 			};
 
-			private static Dictionary<String, PhonemeCode> _phonemeCodes = null;
+			private static Dictionary<string, PhonemeCode> _phonemeCodes = null;
 
-			private PhonemeCode(int value, String name)
+			private PhonemeCode(int value, string name)
 			{
 				_value = value;
 				_name = name;
+			}
+
+			public string getName()
+			{
+				return _name;
 			}
 
 			public static PhonemeCode getPhonemeCode(string code)
@@ -223,6 +231,8 @@ namespace Models
 					}
 				}
 
+				Debug.Log("Searching for phoneme : " + code);
+				
 				return _phonemeCodes[code];
 			}
 		}

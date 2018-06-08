@@ -78,15 +78,19 @@ function phonemeArrayToArpabet(phonemeArray) {
 		switch (phoneme) {
 				/* Vowels */
 			case 'A':
+			case 'O2':
 			case '0':
 				phonemeArpa = "AA";
 				break;
 			case 'a':
 				phonemeArpa = "AE";
 				break;
+			case '@2':
+			case '@':
 			case 'V':
 				phonemeArpa = "AH";
 				break;
+			case 'O@':
 			case 'O':
 				phonemeArpa = "AO";
 				break;
@@ -178,12 +182,13 @@ function phonemeArrayToArpabet(phonemeArray) {
 				phonemeArpa = "N";
 				break;
 			case 'N':
-				phonemeArpa = "NX";
+				phonemeArpa = "NG";
 				break;
 			case 'p':
 				phonemeArpa = "P";
 				break;
 				/* eSpeak doesn't recognise ARPA 'Q' */
+			case 'r-':
 			case 'r':
 				phonemeArpa = "R";
 				break;
