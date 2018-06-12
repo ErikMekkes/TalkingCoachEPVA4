@@ -44,7 +44,7 @@ public class VisemeTimings
     /// <summary>
     /// Construct a dictionary based on the input viseme CSV file.
     /// </summary>
-    private void constructDictionary(TextReader reader)
+    public void constructDictionary(TextReader reader)
     {
         if (visemeDictionary != null)
         {
