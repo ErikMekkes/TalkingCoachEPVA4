@@ -3,24 +3,6 @@ using Models;
 using UnityEngine;
 
 public class SpeechAnimationManager : MonoBehaviour {
-
-    // names of english visemes, used for starting viseme animations.
-    // set to default values, these can be updated through API
-    private string[] englishVisemeNames = {
-        "Silence", "AA", "AE", "AH", "AO", "AW", "AY", "B", "CH", "D", "DH",
-        "EH", "EL", "ER", "EY", "F", "G", "HX", "IH", "IY", "JH",
-        "K", "LL", "M", "N", "NX", "OW", "OY", "P", "R", "S",
-        "SH", "T", "TH", "UH", "UW", "V", "W", "Y", "Z", "ZH"
-    };
-    // length of english visemes, used for animation duration.
-    // set to default values, these can be updated through API
-    private float[] englishVisemeLengths = {
-        0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f,
-        0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f,
-        0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f,
-        0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f, 0.05f,
-        0.05f
-    };
     
     // Avatar model
     private GameObject newCoach;
@@ -109,28 +91,6 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// should be played.
     /// </summary>
     /// <param name="visList">
-    /// Set of viseme numbers to be played.
-    /// </param>
-    private void playVisemeList(List<int> visList) {
-        // save list of visemes to play
-        visemeListNumbers = visList;
-        visemeAmount = visemeListNumbers.Count;
-        // set current viseme playing
-        currentVisemeInList = 0;
-        // play first viseme
-        playNextViseme();
-    }
-
-    /// <summary>
-    /// Sets the viseme animations to be played to be the specified list of
-    /// viseme numbers. The first viseme from the list is played instantly,
-    /// further visemes from the list are played after the currently playing
-    /// viseme has finished untill all visemes from the list have been played.
-    ///
-    /// The frameUpdate function is used to determine when the next animation
-    /// should be played.
-    /// </summary>
-    /// <param name="visList">
     /// Set of visemes to be played.
     /// </param>
     public void playVisemeList(List<Viseme> visList) {
@@ -150,19 +110,9 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// all visemes in the set have been animated.
     /// </summary>
     private void playNextViseme() {
-        // TODO temporary distinction while anticipating future changes
-        if (usingNumbers) {
-            // look up number of current viseme in the set to be animated
-            int visNumber = visemeListNumbers[currentVisemeInList];
-            // store name of currently playing viseme
-            currentVisemeName = englishVisemeNames[visNumber];
-            // store duration of currently playing viseme
-            currentVisemeLength = englishVisemeLengths[visNumber];
-        } else {
-            Viseme current = visemeList[currentVisemeInList];
-            currentVisemeName = current.getVisemeCode().getName();
-            currentVisemeLength = (float) current.getDuration();
-        }
+        Viseme current = visemeList[currentVisemeInList];
+        currentVisemeName = current.getVisemeCode().getName();
+        currentVisemeLength = (float) current.getDuration();
         
         // play the found viseme animation
         animator.CrossFade(currentVisemeName, 0, visemeLayer);
@@ -174,23 +124,7 @@ public class SpeechAnimationManager : MonoBehaviour {
             stopSpeechAnimation();
         }
     }
-
-    /// <summary>
-    /// Update the names used for viseme animations in the Animator.
-    /// </summary>
-    /// <param name="visemeNames"></param>
-    public void setEnglishVisemeNames(string[] visemeNames) {
-        englishVisemeNames = visemeNames;
-    }
-
-    /// <summary>
-    /// Update the durations for viseme animations used in the Animator.
-    /// </summary>
-    /// <param name="visemeLengths"></param>
-    public void setEnglishVisemeLengths(float[] visemeLengths) {
-        englishVisemeLengths = visemeLengths;
-    }
-
+    
     public VisemeTimings getVisemeTimingCalculator()
     {
         return visemeTimings;
@@ -289,18 +223,5 @@ public class SpeechAnimationManager : MonoBehaviour {
         
         // set the local reference for the Animator component attached to coach.
         animator = newCoach.GetComponent<Animator>();
-    }
-
-    /// <summary>
-    /// Animates a preset demo sentence :
-    /// "The quick brown fox jumps over the lazy dog"
-    /// </summary>
-    public void animateFox() {
-        // make a list of visemes for the sentenc:
-        // "The quick brown fox jumps over the lazy dog"
-        List<int> fox = new List<int> {25, 9, 0, 37, 16, 2, 37, 0, 35, 18, 8, 22, 0, 26, 6, 37, 30, 
-            0, 25, 17, 9, 21, 34, 30, 0, 11, 27, 20, 0, 25, 9, 0, 15, 3, 31, 1, 0, 25, 6, 38, 0};
-        // play the list of animations sequentially
-        playVisemeList(fox);
     }
 }
