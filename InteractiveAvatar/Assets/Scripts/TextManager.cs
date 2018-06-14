@@ -111,6 +111,13 @@ public class TextManager : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Sets the hostname variable to the specified hostname.
+	/// </summary>
+	public void setHostName(string hName) {
+		hostName = hName;
+	}
+
+	/// <summary>
 	/// Returns the current hostname string. Make sure it is updated with
 	/// loadHostName, defaults to http://test.emekkes.nl otherwise
 	/// </summary>
