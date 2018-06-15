@@ -1,32 +1,52 @@
 import React, {Component} from 'react';
 import './App.css';
-import Unity from 'react-unity-webgl';
+import UnityApp from "./comp/UnityApp";
+import CssBaseline from "@material-ui/core/es/CssBaseline/CssBaseline";
+import MyAppBar from "./comp/MyAppBar";
+import AppDrawer from "./comp/AppDrawer";
 
 class App extends Component {
-    state = {users: []};
+	state = {users: []};
 
-    componentDidMount() {
-        fetch('/users')
-            .then(res => res.json())
-            .then(users => this.setState({users}));
-    }
+	constructor(props) {
+		super(props);
+		this.state = {open: false, users: []};
+		this.drawerHandler = this.drawerHandler.bind(this)
+	}
 
-    render() {
-        return (
-            <div className="App">
-                <div className="unity-wrapper">
-                    <Unity className="unity-container"
-                           src="unity/Build/Build.json"
-                           loader="unity/Build/UnityLoader.js"
-                    />
-                </div>
-                <h1>API Demo</h1>
-                {this.state.users.map(user =>
-                    <div key={user.id}>{user.username}</div>
-                )}
-            </div>
-        );
-    }
+	handleTouchMap() {
+		this.setState({open: !this.state.open});
+		console.log("HandletouchMap")
+	}
+
+	componentDidMount() {
+		fetch('/users')
+				.then(res => res.json())
+				.then(users => this.setState({users}));
+	}
+
+	drawerHandler(open) {
+		this.setState({
+			open: open
+		})
+	}
+
+	render() {
+		return (
+				<React.Fragment>
+					<CssBaseline/>
+					<MyAppBar
+							onMenuClick = { this.handleTouchMap.bind(this) }
+					/>
+					<AppDrawer open={this.state.open} handler={this.drawerHandler} />
+					<UnityApp/>
+					{/*<h1>API Test</h1>*/}
+					{/*{this.state.users.map(user =>*/}
+							{/*<div key={user.id}>{user.username}</div>*/}
+					{/*)}*/}
+				</React.Fragment>
+		);
+	}
 }
 
 export default App;
