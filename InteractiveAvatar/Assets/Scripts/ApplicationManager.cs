@@ -70,9 +70,10 @@ public class ApplicationManager : MonoBehaviour {
 		#endif
 		// run the on_load function
 		on_load();
-		
-		//for debugging, start demo fox sentence
-		SpeechAnimationManager.instance.startSpeechAnimation();
+		// load hostname for text to phoneme API calls, only available from web.
+		#if !UNITY_EDITOR && UNITY_WEBGL
+		TextManager.tmInstance.loadHostName();
+		#endif
 	}
 	
 	/// <summary>
