@@ -14,7 +14,7 @@ namespace Tests.Editor.JSON
             jsonArray.Add(2);
 
             var jsonList = JSONUtil.arrayToList(jsonArray);
-            
+
             Assert.AreEqual(jsonArray[0].ToString(), jsonList[0]);
             Assert.AreEqual(jsonArray[1].ToString(), jsonList[1]);
             Assert.AreEqual(jsonArray[2].ToString(), jsonList[2]);

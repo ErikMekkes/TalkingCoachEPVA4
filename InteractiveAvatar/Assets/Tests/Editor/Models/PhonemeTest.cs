@@ -33,7 +33,7 @@ namespace Tests.Editor
         [Test]
         public void toVisemesTest()
         {
-            var phonemes = new List<string> { "AA", "AE", "AO" };
+            var phonemes = new List<string> {"AA", "AE", "AO"};
             var viseme = Phoneme.toVisemes(Phoneme.getPhonemeFromCode(phonemes));
             Assert.AreEqual("AE", viseme[1].getVisemeCode().getName());
         }
