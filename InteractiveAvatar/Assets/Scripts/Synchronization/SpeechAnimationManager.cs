@@ -3,37 +3,34 @@ using Models;
 using UnityEngine;
 
 public class SpeechAnimationManager : MonoBehaviour {
-    
     // Avatar model
     private GameObject newCoach;
     // Unity Animator component for the coach 
     private Animator animator;
+    
+    // layer for viseme (speech) animation
+    private int visemeLayer = 1;
 
+    // whether the speech animation is active
+    private bool isSpeaking = false;
+    
     // time elapsed since start of last viseme animation
     private float elapsedTime = 0;
+    // full text that is currently being spoken
+    private string currentText;
+    // list of visemes that are currently playing
+    private List<Viseme> visemeList;
     // name of currently playing viseme animation
     private string currentVisemeName;
     // length of currently playing viseme animation    
     private float currentVisemeLength = 0;
     // index of currently playing viseme in the list to be played
     private int currentVisemeInList = 0;
-    
-    // layer for viseme (speech) animation
-    private int visemeLayer = 1;
-	
-    // list of visemes that are currently playing
-    private List<Viseme> visemeList;
-
-    private string currentText;
-    private bool isSpeaking = false;
-
-    [SerializeField] private VisemeTimings visemeTimings;
-
-    // TODO temporary while anticipating future changes
-    private bool usingNumbers = false;
-    private List<int> visemeListNumbers;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
+
+    // Unity interface field for visemeTimings script.
+    [SerializeField] private VisemeTimings visemeTimings;
     
     // Singleton Instance
     private static SpeechAnimationManager amInstance;
