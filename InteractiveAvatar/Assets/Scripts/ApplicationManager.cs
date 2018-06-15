@@ -28,10 +28,6 @@ public class ApplicationManager : MonoBehaviour {
 	// background texture and sprite renderer
 	Sprite[] backgroundTexture;
 	SpriteRenderer backgroundSprite;
-
-	// idle and talk animations are referenced by name from Unity
-	private string idle;
-	private string talk;
 	
 	
 	// initial coach avatar selected from prefabs.
@@ -176,28 +172,6 @@ public class ApplicationManager : MonoBehaviour {
 		load_coach();
 		// update position of new coach object using the old position
 		newCoach.transform.position = oldCoachPosition;
-	}
-
-	/// <summary>
-	/// Plays the idle and talk animations on the coach.
-	///
-	/// Will be deprecated with next iteration.
-	/// </summary>
-	public void playAnimation(){
-		// fade in the talk animation over 0 seconds, stopping others
-		animation.CrossFade (talk, 0.0f, PlayMode.StopAll);
-		// blend the idle animation with the currently playing talk animation.
-		animation.Blend(idle);
-	}
-
-	/// <summary>
-	/// Stop all currently playing animations and play the idle animation.
-	///
-	/// Will be deprecated with next iteration.
-	/// </summary>
-	public void stopAnimation(){
-		// fade in the idle animation over 0 seconds and stop other animations
-		animation.CrossFade (idle, 0.0f, PlayMode.StopAll);
 	}
 
 	/// <summary>

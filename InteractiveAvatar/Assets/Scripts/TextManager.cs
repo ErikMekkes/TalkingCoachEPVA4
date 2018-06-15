@@ -159,10 +159,10 @@ public class TextManager : MonoBehaviour {
 	}
 
 	public void stopSpeech() {
-		//stop speech
+		// stop web speech api
 		Stop();
-		//stop animation
-		ApplicationManager.amInstance.stopAnimation();
+		// Instruct SpeechAnimationManager to stop speech animation
+		SpeechAnimationManager.instance.stopSpeechAnimation();
 	}
 
 
