@@ -6,6 +6,11 @@ const {spawn} = require('child_process');
 /* GET /api/v1/phoneme */
 router.get('/', function (req, res, next) {
 	let params = req.query;
+	
+	
+	/* Enable CORS */
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 	/* Test if text query is defined */
 	if (params.text === undefined) {
@@ -66,52 +71,80 @@ function getPhonemeArrayFromString(phonemeString) {
 function phonemeArrayToArpabet(phonemeArray) {
 	let result = [];
 	for (let i = 0; i < phonemeArray.length; i++) {
-		let phoneme = phonemeArray[i];
+		let phoneme = phonemeArray[i].trim();
 		let phonemeArpa = "";
+		
+		console.log(phoneme)
+		
+		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
+			continue;
+		}
 
 		// TODO: Can be better, perhaps with a Map
 		switch (phoneme) {
 				/* Vowels */
 			case 'A':
+			case 'O2':
 			case '0':
 				phonemeArpa = "AA";
 				break;
+			case 'aa':
 			case 'a':
 				phonemeArpa = "AE";
 				break;
+			case 'I2':
+			case '@2':
+			case '@':
 			case 'V':
+			case 'a#':
 				phonemeArpa = "AH";
 				break;
+			case 'O@':
+				result.push("AO");
+				result.push("R");
+				continue;
+			case 'e@':
+				result.push("EH");
+				result.push("R");
+				continue;
 			case 'O':
+			case 'o@':
+			case 'U@':
 				phonemeArpa = "AO";
 				break;
 			case 'aU':
 				phonemeArpa = "AW";
 				break;
-			case 'a#':
-				phonemeArpa = "AX";
-				break;
 			case 'aI':
 				phonemeArpa = "AY";
 				break;
 			case 'E':
+			case '@-':
 				phonemeArpa = "EH";
 				break;
 			case '3':
+			case '3r':
 				phonemeArpa = "ER";
 				break;
 			case 'eI':
 				phonemeArpa = "EY";
 				break;
 			case 'I':
+			case 'I#':
 				phonemeArpa = "IH";
 				break;
-			case 'I#':
-				phonemeArpa = "IX";
-				break;
 			case 'i':
+			case 'i@':
 				phonemeArpa = "IY";
 				break;
+			case 'i@3':
+				result.push("IY");
+				result.push("ER");
+				continue;
+			case 'aI@':
+				result.push("AY");
+				result.push("AH");
+				continue;
 			case 'oU':
 				phonemeArpa = "OW";
 				break;
@@ -121,11 +154,19 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'U':
 				phonemeArpa = "UH";
 				break;
+			case 'u:':
 			case 'u':
 				phonemeArpa = "UW";
 				break;
-
+			case 'aI3':
+				result.push("AY");
+				result.push("ER");
+				continue;
 				/* Consonants */
+			case 'A@':
+				result.push("AA");
+				result.push("R");
+				continue;
 			case 'b':
 				phonemeArpa = "B";
 				break;
@@ -138,12 +179,10 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'D':
 				phonemeArpa = "DH";
 				break;
-			case 't#':
-				phonemeArpa = "DX";
-				break;
 			case '@L':
-				phonemeArpa = "EL";
-				break;
+				result.push("AH");
+				result.push("L");
+				continue;
 				/* eSpeak doesn't recognise ARPA 'EM', is 'M' */
 			case 'n-':
 				phonemeArpa = "EN";
@@ -173,12 +212,13 @@ function phonemeArrayToArpabet(phonemeArray) {
 				phonemeArpa = "N";
 				break;
 			case 'N':
-				phonemeArpa = "NX";
+				phonemeArpa = "NG";
 				break;
 			case 'p':
 				phonemeArpa = "P";
 				break;
 				/* eSpeak doesn't recognise ARPA 'Q' */
+			case 'r-':
 			case 'r':
 				phonemeArpa = "R";
 				break;
@@ -188,7 +228,9 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'S':
 				phonemeArpa = "SH";
 				break;
+			case 't2':
 			case 't':
+			case 't#':
 				phonemeArpa = "T";
 				break;
 			case 'T':
@@ -218,7 +260,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 				phonemeArpa = "invalid phoneme";
 				break;
 		}
-		result[i] = phonemeArpa;
+		result.push(phonemeArpa);
 	}
 	return result;
 }

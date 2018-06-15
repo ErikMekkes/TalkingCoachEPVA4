@@ -15,21 +15,25 @@
 var MyPlugin = {
     // Speak javascript function that calls the textToSpeach.speak function 
     // with as arguments (text, voicename, parameters)
-    Speak: function(textMessage, voiceType, callbackStart, callbackEnd, callbackBoundary) {
+    Speak: function(textMessage, voiceType, callbackStart, callbackEnd, callbackBoundary, callbackPause, callbackResume, lang) {
+        var s = Pointer_stringify(lang);
         textToSpeach.speak(Pointer_stringify(textMessage), Pointer_stringify(voiceType), {
-            onstart: function(event){Runtime.dynCall('vf', callbackStart, [event.elapsedTime])},
-            onend: function(event){Runtime.dynCall('vf', callbackEnd, [event.elapsedTime])},
-            onboundary: function(event){Runtime.dynCall("vif", callbackBoundary, [event.charIndex, event.elapsedTime])}
+            onstart: function(event){Runtime.dynCall('vif', callbackStart, [event.charIndex, event.elapsedTime])},
+            onend: function(event){Runtime.dynCall('vif', callbackEnd, [event.charIndex, event.elapsedTime])},
+            onboundary: function(event){Runtime.dynCall("vif", callbackBoundary, [event.charIndex, event.elapsedTime])},
+            onpause: function(event){Runtime.dynCall("vif", callbackPause, [event.charIndex, event.elapsedTime])},
+            onresume: function(event){Runtime.dynCall("vif", callbackResume, [event.charIndex, event.elapsedTime])},
+            language: s
         });
     },
     
-	Stop: function() {
+    Stop: function() {
         textToSpeach.cancel();
     },
     
     getSystemVoices: function() {
-    	console.log(textToSpeach.getSystemVoices())
-    	//return textToSpeach.getSystemVoices();
+      console.log(textToSpeach.getSystemVoices())
+      //return textToSpeach.getSystemVoices();
     },
 };
 mergeInto(LibraryManager.library, MyPlugin);
