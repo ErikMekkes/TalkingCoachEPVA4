@@ -38,6 +38,11 @@ namespace Models
 			return result;
 		}
 
+		public PhonemeCode getPhonemeCode()
+		{
+			return phonemeCode;
+		}
+
 		public static Phoneme getPhonemeFromCode(string phonemeCode)
 		{
 			return new Phoneme(PhonemeCode.getPhonemeCode(phonemeCode));
