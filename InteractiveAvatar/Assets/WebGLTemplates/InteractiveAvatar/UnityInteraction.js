@@ -26,6 +26,18 @@ function stopTalk(){
     gameInstance.SendMessage('TalkingCoach', 'stopSpeech');
 }
 
+function setLanguage() {
+    var language = document.getElementById("langChoice").value;
+    console.log(language);
+    gameInstance.SendMessage('TalkingCoach', 'setLanguage', language);
+}
+
+function setHostName() {
+    var hName = document.getElementById("hostName").value;
+    console.log(hName);
+    gameInstance.SendMessage('TalkingCoach', 'setHostName', hName);
+}
+
 function changeBackground(){
     gameInstance.SendMessage('TalkingCoach', 'changeBackround');
 }

@@ -35,6 +35,14 @@ public class TalkingCoachAPI : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Set the hostname for espeak API calls.
+	/// </summary>
+	/// <param name="hName">Hostname with protocal prefix.</param>
+	public void setHostName(string hName) {
+		TextManager.tmInstance.setHostName(hName);
+	}
+
+	/// <summary>
 	/// Convert text to speech.
 	/// </summary>
 	/// <param name="text">The convertable text.</param>
