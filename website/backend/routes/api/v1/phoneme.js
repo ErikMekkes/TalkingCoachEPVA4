@@ -96,9 +96,17 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case '@2':
 			case '@':
 			case 'V':
+			case 'a#':
 				phonemeArpa = "AH";
 				break;
 			case 'O@':
+				result.push("AO");
+				result.push("R");
+				continue;
+			case 'e@':
+				result.push("EH");
+				result.push("R");
+				continue;
 			case 'O':
 			case 'o@':
 			case 'U@':
@@ -107,32 +115,36 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'aU':
 				phonemeArpa = "AW";
 				break;
-			case 'a#':
-				phonemeArpa = "AX";
-				break;
 			case 'aI':
 				phonemeArpa = "AY";
 				break;
-			case 'e@':
 			case 'E':
 			case '@-':
 				phonemeArpa = "EH";
 				break;
 			case '3':
+			case '3r':
 				phonemeArpa = "ER";
 				break;
 			case 'eI':
 				phonemeArpa = "EY";
 				break;
 			case 'I':
+			case 'I#':
 				phonemeArpa = "IH";
 				break;
-			case 'I#':
-				phonemeArpa = "IX";
-				break;
 			case 'i':
+			case 'i@':
 				phonemeArpa = "IY";
 				break;
+			case 'i@3':
+				result.push("IY");
+				result.push("ER");
+				continue;
+			case 'aI@':
+				result.push("AY");
+				result.push("AH");
+				continue;
 			case 'oU':
 				phonemeArpa = "OW";
 				break;
@@ -167,12 +179,10 @@ function phonemeArrayToArpabet(phonemeArray) {
 			case 'D':
 				phonemeArpa = "DH";
 				break;
-			case 't#':
-				phonemeArpa = "DX";
-				break;
 			case '@L':
-				phonemeArpa = "EL";
-				break;
+				result.push("AH");
+				result.push("L");
+				continue;
 				/* eSpeak doesn't recognise ARPA 'EM', is 'M' */
 			case 'n-':
 				phonemeArpa = "EN";
@@ -220,6 +230,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 				break;
 			case 't2':
 			case 't':
+			case 't#':
 				phonemeArpa = "T";
 				break;
 			case 'T':

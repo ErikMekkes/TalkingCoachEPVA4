@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework;
-//using NMock;
 
-namespace Tests.Editor{
+namespace Tests.Editor
+{
     public class TextManagerTest
     {
         //TextManager text = GameObject.FindObjectOfType<TextManager>();
         //private MockFactory _factory = new MockFactory();
 
         /// <summary>
-        /// Test for the method StartSpeech.
+        ///     Test for the method StartSpeech.
         /// </summary>
         [Test]
         public void startSpeechTest()

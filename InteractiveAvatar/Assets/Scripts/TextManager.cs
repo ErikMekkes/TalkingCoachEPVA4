@@ -7,8 +7,12 @@ using AOT;
 /// This class handles all text to speech processes.
 /// </summary>
 public class TextManager : MonoBehaviour {
+	// default language voice name, overwritten with setVoice().
 	private string voice = "Dutch Female";
+	// default language name, overwritten with setLanguage().
 	private string language = "en-US";
+	// default ESpeak text to phoneme API host, overwritten with loadHostName().
+	private string hostName = "http://test.emekkes.nl";
 
 	// delegate declarations for javascript text to speech callback functions
 	// TODO unsure if needed for dynamic linking in MyPlugin.jslib
@@ -58,6 +62,13 @@ public class TextManager : MonoBehaviour {
 	/// <returns>Gets all the system voices.</returns>
 	[DllImport("__Internal")]
 	private static extern string getSystemVoices();
+	
+	/// <summary>
+	/// Returns the hostname of the webpage unity is currently loaded on.
+	/// </summary>
+	/// <returns>Hostname string with protocol prefix</returns>
+	[DllImport("__Internal")]
+	private static extern string getHostNameString();
 	#endif
 
 	/// <summary>
@@ -89,6 +100,30 @@ public class TextManager : MonoBehaviour {
 	public void getVoices(){
 		Debug.Log("Get Voices");
 		Debug.Log(getSystemVoices());
+	}
+
+	/// <summary>
+	/// Updates local hostname variable with the hostname used of the current
+	/// webpage Unity is loaded in. Only useable from within the web page.
+	/// </summary>
+	public void loadHostName() {
+		hostName = getHostNameString();
+	}
+
+	/// <summary>
+	/// Sets the hostname variable to the specified hostname.
+	/// </summary>
+	public void setHostName(string hName) {
+		hostName = hName;
+	}
+
+	/// <summary>
+	/// Returns the current hostname string. Make sure it is updated with
+	/// loadHostName, defaults to http://test.emekkes.nl otherwise
+	/// </summary>
+	/// <returns>Hostname string with protocol prefix</returns>
+	public string getHostName() {
+		return hostName;
 	}
 	
 	/// <summary>
@@ -124,10 +159,10 @@ public class TextManager : MonoBehaviour {
 	}
 
 	public void stopSpeech() {
-		//stop speech
+		// stop web speech api
 		Stop();
-		//stop animation
-		ApplicationManager.amInstance.stopAnimation();
+		// Instruct SpeechAnimationManager to stop speech animation
+		SpeechAnimationManager.instance.stopSpeechAnimation();
 	}
 
 
