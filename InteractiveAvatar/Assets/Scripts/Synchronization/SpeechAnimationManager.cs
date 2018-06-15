@@ -3,6 +3,7 @@ using Models;
 using UnityEngine;
 
 public class SpeechAnimationManager : MonoBehaviour {
+    
     // Avatar model
     private GameObject newCoach;
     // Unity Animator component for the coach 
@@ -26,6 +27,8 @@ public class SpeechAnimationManager : MonoBehaviour {
     private float currentVisemeLength = 0;
     // index of currently playing viseme in the list to be played
     private int currentVisemeInList = 0;
+    // index of most recent word in the currently spoken text
+    private int charIndex = 0;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
 
@@ -50,6 +53,12 @@ public class SpeechAnimationManager : MonoBehaviour {
             }
             return amInstance;
         }
+    }
+
+    public void resumeSpeech() {
+        string substr = currentText.Substring(charIndex);
+        Debug.Log(substr);
+        TextManager.tmInstance.startSpeech(substr);
     }
 
     /// <summary>
@@ -118,7 +127,7 @@ public class SpeechAnimationManager : MonoBehaviour {
 
         // if all visemes in the set have been animated
         if (currentVisemeInList >= visemeAmount) {
-            stopSpeechAnimation();
+            stopSpeechAnimation(charIndex);
         }
     }
     
@@ -140,12 +149,13 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// </summary>
     /// <param name="charIndex"></param>
     public void onBoundary(int charIndex) {
+        this.charIndex = charIndex;
         // TODO start animating the word
-        
+
         // currentIndex specifies the start of the next word in the whole text
-        
+
         // find set of viseme numbers for that word
-        
+
         // call playVisemeList() with the set of visemes for a word
     }
 
@@ -154,7 +164,9 @@ public class SpeechAnimationManager : MonoBehaviour {
     ///
     /// To be called form the speech synthesis start event.
     /// </summary>
-    public void startSpeechAnimation() {
+    /// <param name="charIndex"></param>
+    public void startSpeechAnimation(int charIndex) {
+        this.charIndex = charIndex;
         isSpeaking = true;
     }
 
@@ -163,7 +175,9 @@ public class SpeechAnimationManager : MonoBehaviour {
     ///
     /// To be called from the speech synthesis stop event.
     /// </summary>
-    public void stopSpeechAnimation() {
+    /// <param name="charIndex"></param>
+    public void stopSpeechAnimation(int charIndex) {
+        this.charIndex = charIndex;
         // reset the currently playing viseme set
         isSpeaking = false;
         visemeList = null;
@@ -177,8 +191,9 @@ public class SpeechAnimationManager : MonoBehaviour {
     ///
     /// To be called form the speech synthesis pause event.
     /// </summary>
-    /// <param name="currentIndex"></param>
-    public void pauseSpeechAnimation(int currentIndex) {
+    /// <param name="charIndex"></param>
+    public void pauseSpeechAnimation(int charIndex) {
+        this.charIndex = charIndex;
         isSpeaking = false;
         Debug.Log("Paused");
     }
@@ -188,8 +203,9 @@ public class SpeechAnimationManager : MonoBehaviour {
     ///
     /// To be called form the speech synthesis resume event.
     /// </summary>
-    /// <param name="currentIndex"></param>
-    public void resumeSpeechAnimation(int currentIndex) {
+    /// <param name="charIndex"></param>
+    public void resumeSpeechAnimation(int charIndex) {
+        this.charIndex = charIndex;
         isSpeaking = true;
         Debug.Log("Resumed");
     }

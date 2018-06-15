@@ -94,4 +94,8 @@ public class TalkingCoachAPI : MonoBehaviour {
 	public void moveAvatarVertical(int vertical){
 		ApplicationManager.amInstance.moveCoach(0,vertical);
 	}
+
+	public void resumeSpeech() {
+		SpeechAnimationManager.instance.resumeSpeech();
+	}
 }
