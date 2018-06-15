@@ -5,9 +5,8 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import ListItem from "@material-ui/core/es/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/es/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import InsertComment from '@material-ui/icons/InsertComment'
+import LanguageIcon from '@material-ui/icons/Language'
+import SelectLanguageModal from "./SelectLanguageModal";
 
 const styles = {
 	list: {
@@ -20,13 +19,19 @@ const styles = {
 
 class AppDrawer extends React.Component {
 
-	state = {
-		open: false
-	};
+	constructor(props) {
+		super(props);
+		this.state = {languageSelectOpen: false};
+		this.languageSelectModalHandler = this.languageSelectModalHandler.bind(this)
+	}
 
 	toggleDrawer = (open) => () => {
 		console.log(this.props);
 		this.props.handler(open);
+	};
+
+	languageSelectModalHandler(open) {
+		this.setState({languageSelectOpen: open})
 	};
 
 	render() {
@@ -34,23 +39,13 @@ class AppDrawer extends React.Component {
 
 		const sideList = (
 				<div className={classes.list}>
-					<ListItem button>
+					<ListItem button
+							  onClick={() => {this.languageSelectModalHandler(true)}}
+					>
 						<ListItemIcon>
-							<InboxIcon/>
+							<LanguageIcon/>
 						</ListItemIcon>
-						<ListItemText primary="Some"/>
-					</ListItem>
-					<ListItem button>
-						<ListItemIcon>
-							<DraftsIcon/>
-						</ListItemIcon>
-						<ListItemText primary="Debug"/>
-					</ListItem>
-					<ListItem button>
-						<ListItemIcon>
-							<InsertComment/>
-						</ListItemIcon>
-						<ListItemText primary="Options"/>
+						<ListItemText primary="Select language"/>
 					</ListItem>
 				</div>
 		);
@@ -71,6 +66,7 @@ class AppDrawer extends React.Component {
 							{sideList}
 						</div>
 					</SwipeableDrawer>
+					<SelectLanguageModal open={this.state.languageSelectOpen} handler={this.languageSelectModalHandler}/>
 				</div>
 		);
 	}
