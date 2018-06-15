@@ -22,25 +22,23 @@ const styles = {
 
 class MyAppBar extends React.Component {
 
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		const {classes} = this.props;
 		return (
-				<div className={classes.root}>
-					<AppBar position="static">
-						<Toolbar>
-								<IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={ () => { console.log("Menu click"); console.log(this.props); this.props.onMenuClick()}}>
-									<MenuIcon/>
-								</IconButton>
-							<Typography variant="title" color="inherit" className={classes.flex}>
-								TalkingCoach
-							</Typography>
-						</Toolbar>
-					</AppBar>
-				</div>
+				<AppBar position="static">
+					<Toolbar>
+						<IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={() => {
+							console.log("Menu click");
+							console.log(this.props);
+							this.props.onMenuClick()
+						}}>
+							<MenuIcon/>
+						</IconButton>
+						<Typography variant="title" color="inherit" className={classes.flex}>
+							TalkingCoach
+						</Typography>
+					</Toolbar>
+				</AppBar>
 		);
 	}
 

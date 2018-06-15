@@ -7,6 +7,7 @@ import ListItemIcon from "@material-ui/core/es/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/es/ListItemText/ListItemText";
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import InsertComment from '@material-ui/icons/InsertComment'
 
 const styles = {
 	list: {
@@ -23,10 +24,6 @@ class AppDrawer extends React.Component {
 		open: false
 	};
 
-	constructor(props) {
-		super(props);
-	}
-
 	toggleDrawer = (open) => () => {
 		console.log(this.props);
 		this.props.handler(open);
@@ -41,13 +38,19 @@ class AppDrawer extends React.Component {
 						<ListItemIcon>
 							<InboxIcon/>
 						</ListItemIcon>
-						<ListItemText primary="Inbox"/>
+						<ListItemText primary="Some"/>
 					</ListItem>
 					<ListItem button>
 						<ListItemIcon>
 							<DraftsIcon/>
 						</ListItemIcon>
-						<ListItemText primary="Drafts"/>
+						<ListItemText primary="Debug"/>
+					</ListItem>
+					<ListItem button>
+						<ListItemIcon>
+							<InsertComment/>
+						</ListItemIcon>
+						<ListItemText primary="Options"/>
 					</ListItem>
 				</div>
 		);
