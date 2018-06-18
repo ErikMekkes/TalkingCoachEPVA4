@@ -9,5 +9,8 @@
   },
   "author": "",
   "license": "UNLICENSED",
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "prop-types": "^15.6.1"
+  }
 }
