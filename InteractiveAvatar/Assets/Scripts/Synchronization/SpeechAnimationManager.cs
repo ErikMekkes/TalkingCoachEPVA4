@@ -55,12 +55,6 @@ public class SpeechAnimationManager : MonoBehaviour {
         }
     }
 
-    public void resumeSpeech() {
-        string substr = currentText.Substring(charIndex);
-        Debug.Log(substr);
-        TextManager.tmInstance.startSpeech(substr);
-    }
-
     /// <summary>
     /// Updates the elapsed time since the last rendered frame. Starts the next
     /// viseme animation if the elapsed time exceeds the duration of the
@@ -162,7 +156,7 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// <summary>
     /// Starts animation for speech synthesis.
     ///
-    /// To be called form the speech synthesis start event.
+    /// To be called as callback from the speech synthesis start event.
     /// </summary>
     /// <param name="charIndex"></param>
     public void startSpeechAnimation(int charIndex) {
@@ -173,7 +167,7 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// <summary>
     /// Stops all speech animation and clear the current sentence.
     ///
-    /// To be called from the speech synthesis stop event.
+    /// To be called as callback from the speech synthesis stop event.
     /// </summary>
     /// <param name="charIndex"></param>
     public void stopSpeechAnimation(int charIndex) {
@@ -189,25 +183,67 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// <summary>
     /// Pauses animation for the currently active speech synthesis sentence.
     ///
-    /// To be called form the speech synthesis pause event.
+    /// To be called as callback from the speech synthesis pause event.
+    ///
+    /// This may be inaccurate as the speech synthesis uses word separation for
+    /// pausing, and is quite delayed compared to the animation stopping.
     /// </summary>
     /// <param name="charIndex"></param>
     public void pauseSpeechAnimation(int charIndex) {
+        // charIndex will be reset to 0 in event, unsure if text is shortened?
+        // this index update might not be sensible without a currentText update
+        // but this does not affect results due to simplicity of isSpeaking
         this.charIndex = charIndex;
+        // stop speech animation
         isSpeaking = false;
-        Debug.Log("Paused");
     }
 
     /// <summary>
     /// Resumes animation for the currently active speech synthesis sentence.
     ///
-    /// To be called form the speech synthesis resume event.
+    /// To be called as callback from the speech synthesis resume event.
     /// </summary>
     /// <param name="charIndex"></param>
     public void resumeSpeechAnimation(int charIndex) {
-        this.charIndex = charIndex;
+        // charIndex will be reset to 0 in event, unsure if text is shortened?
+        // this index update might not be sensible without a currentText update
+        // but this does not affect results due to simplicity of isSpeaking
+        this.charIndex = charIndex; 
+        // resume speech animation
         isSpeaking = true;
-        Debug.Log("Resumed");
+    }
+
+    /// <summary>
+    /// Pauses speech synthesis and animation for the current sentence.
+    /// 
+    /// To be called through TalkingCoachAPI.
+    ///
+    /// This may not work with every language as it relies on onboundary events
+    /// which browsers do not generate for some languages.
+    /// </summary>
+    public void pauseSpeech() {
+        // update remaining text using current position
+        currentText = currentText.Substring(charIndex);
+        // stop speech synthesis
+        TextManager.tmInstance.stopSpeech();
+        // stop speech animation
+        isSpeaking = false;
+    }
+
+    /// <summary>
+    /// Resumes speech synthesis and animation for the current sentence.
+    ///
+    /// To be called through TalkingCoachAPI.
+    /// 
+    /// To be called after a call to pauseSpeech.  
+    /// </summary>
+    public void resumeSpeech() {
+        // do nothing if speaking (not paused)
+        if (isSpeaking) {
+            return;
+        }
+        // restart speech synthesis and animation using remaining text
+        TextManager.tmInstance.startSpeech(currentText);
     }
 
     /// <summary>
