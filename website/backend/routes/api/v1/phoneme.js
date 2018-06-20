@@ -48,10 +48,12 @@ router.get('/', function (req, res, next) {
 		let phonemeString = cleanPhonemeString(stdout);
 		let phonemeArray = getPhonemeArrayFromString(phonemeString);
 		let phonemeArrayArpa = phonemeArrayToArpabet(phonemeArray);
+		console.log(phonemeArrayArpa)
 		res.status(200).json({
 			_request: {route: req.baseUrl, query: req.query, api_ver: "v1"},
 			phonemes: phonemeArrayArpa
 		});
+		// console.log(res);
 	});
 });
 
@@ -73,9 +75,6 @@ function phonemeArrayToArpabet(phonemeArray) {
 	for (let i = 0; i < phonemeArray.length; i++) {
 		let phoneme = phonemeArray[i].trim();
 		let phonemeArpa = "";
-		
-		console.log(phoneme)
-		
 		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
 			continue;
 		}
