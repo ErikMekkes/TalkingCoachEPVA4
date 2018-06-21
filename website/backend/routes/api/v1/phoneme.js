@@ -61,13 +61,12 @@ router.get('/', function (req, res, next) {
 function cleanPhonemeString(messyString, language) {
 	let result = messyString;
 	result = result.trim();
-	if(language === "nl") {
+	if(language === "nl" || language === "nl-NL") {
 		result = result.replace(/[_!',|]/gi, "");
-	} else if (language === "en-us") {
+	} else if (language === "en-us" || language === "en-US" || language === "En-US") {
 		result = result.replace(/[_:!',|]/gi, "");
 	} else {
-		console.log(`Unkno1wn language: ${language}. Don't know which cleanup to perform!`);
-		result = result.replace(/[_:!',|]/gi, "");
+		throw `Unknown language: ${language}. Don't know which cleanup to perform!`;
 	}
 	result = result.trim();
 	return result;
