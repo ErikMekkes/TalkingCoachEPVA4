@@ -48,7 +48,7 @@ router.get('/', function (req, res, next) {
 		stdout += data;
 	});
 	espeak.on('close', (code) => {
-		let phonemeString = cleanPhonemeString(stdout);
+		let phonemeString = cleanPhonemeString(stdout, params.lang);
 		let phonemeArray = getPhonemeArrayFromString(phonemeString);
 		let phonemeArrayArpa = phonemeArrayToArpabet(phonemeArray);
 		res.status(200).json({
@@ -58,10 +58,17 @@ router.get('/', function (req, res, next) {
 	});
 });
 
-function cleanPhonemeString(messyString) {
+function cleanPhonemeString(messyString, language) {
 	let result = messyString;
 	result = result.trim();
-	result = result.replace(/[_:!',|]/gi, "");
+	if(language === "nl") {
+		result = result.replace(/[_!',|]/gi, "");
+	} else if (language === "en-us") {
+		result = result.replace(/[_:!',|]/gi, "");
+	} else {
+		console.log(`Unkno1wn language: ${language}. Don't know which cleanup to perform!`);
+		result = result.replace(/[_:!',|]/gi, "");
+	}
 	result = result.trim();
 	return result;
 }
@@ -79,7 +86,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 		console.log(`eSpeak: ${phoneme}`);
 		
 		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
-			console.log("This is unreachable code. Firefly.");
+			console.log("This should be unreachable code. Firefly.");
 			continue;
 		}
 
