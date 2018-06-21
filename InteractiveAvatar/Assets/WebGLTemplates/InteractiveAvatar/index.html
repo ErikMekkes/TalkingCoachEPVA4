@@ -27,10 +27,8 @@
         <input id="textForSpeech" placeholder="Enter Text" type="text" style='font-size:20px' size='50'>
         <input id="startTalk" name="startTalk" onclick=startTalk() type="button" value="Speak">
         <br>
-        <input type="button" onclick="window.speechSynthesis.pause()" value="Pause (window.pause)"/>
-        <input type="button" onclick="window.speechSynthesis.resume()" value="Resume (window.pause)"/>
-        <input type="button" onclick="pauseSpeech()" value="Pause (UnityInteraction)"/>
-        <input type="button" onclick="resumeSpeech()" value="Resume (UnityInteraction"/>
+        <input type="button" onclick="pauseSpeech()" value="Pause"/>
+        <input type="button" onclick="resumeSpeech()" value="Resume"/>
         <br>
 	    <select id="langChoice" onchange=setLanguage()>
 		    <option value="en-US">English</option>
