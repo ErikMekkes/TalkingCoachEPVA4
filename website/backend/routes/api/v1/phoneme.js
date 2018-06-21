@@ -66,8 +66,7 @@ function cleanPhonemeString(messyString, language) {
 	} else if (language === "en-us") {
 		result = result.replace(/[_:!',|]/gi, "");
 	} else {
-		console.log(`Unknown language: ${language}. Don't know which cleanup to perform!`);
-		result = result.replace(/[_:!',|]/gi, "");
+		throw `Unknown language: ${language}. Don't know which cleanup to perform!`;
 	}
 	result = result.trim();
 	return result;
