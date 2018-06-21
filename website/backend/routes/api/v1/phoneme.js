@@ -81,7 +81,7 @@ function phonemeArrayToArpabet(phonemeArray) {
 	let result = [];
 	for (let i = 0; i < phonemeArray.length; i++) {
 		let phoneme = phonemeArray[i].trim();
-		
+
 		console.log(`eSpeak: ${phoneme}`);
 		
 		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
