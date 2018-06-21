@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UI;
 using AOT;
 
 /// <summary>
@@ -14,8 +13,7 @@ public class TextManager : MonoBehaviour {
 	// default ESpeak text to phoneme API host, overwritten with loadHostName().
 	private string hostName = "http://test.emekkes.nl";
 
-	// delegate declarations for javascript text to speech callback functions
-	// TODO unsure if needed for dynamic linking in MyPlugin.jslib
+	// Declarations for javascript text to speech callback functions
 	public delegate void StartDelegate(int lastword, float elapsedTime);
 	public delegate void EndDelegate(int lastword, float elapsedTime);
 	public delegate void BoundaryDelegate(int lastword, float elapsedTime);
@@ -150,7 +148,6 @@ public class TextManager : MonoBehaviour {
 		return voice;
 	}
 
-
 	public void startSpeech(string text) {
 		// send original spoken text to SpeechAnimationManager
 		SpeechAnimationManager.instance.setText(text);
@@ -161,8 +158,6 @@ public class TextManager : MonoBehaviour {
 	public void stopSpeech() {
 		// stop web speech api
 		Stop();
-		// Instruct SpeechAnimationManager to stop speech animation
-		SpeechAnimationManager.instance.stopSpeechAnimation();
 	}
 
 
@@ -181,7 +176,7 @@ public class TextManager : MonoBehaviour {
 	[MonoPInvokeCallback(typeof(StartDelegate))]
 	public static void callbackStart(int charIndex, float elapsedTime) {
 		Debug.Log("callback start at : " + elapsedTime);
-		SpeechAnimationManager.instance.startSpeechAnimation();
+		SpeechAnimationManager.instance.startSpeechAnimation(charIndex);
 	}
 	
 	/// <summary>
@@ -196,7 +191,7 @@ public class TextManager : MonoBehaviour {
 	public static void callbackEnd(int charIndex, float elapsedTime) {
 		Debug.Log("callback end at : " + elapsedTime);
 		// Instruct SpeechAnimationManager to stop speech animation
-		SpeechAnimationManager.instance.stopSpeechAnimation();
+		SpeechAnimationManager.instance.stopSpeechAnimation(charIndex);
 	}
 
 	/// <summary>
