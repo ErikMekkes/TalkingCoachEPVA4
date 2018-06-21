@@ -81,13 +81,9 @@ function phonemeArrayToArpabet(phonemeArray) {
 	let result = [];
 	for (let i = 0; i < phonemeArray.length; i++) {
 		let phoneme = phonemeArray[i].trim();
-<<<<<<< website/backend/routes/api/v1/phoneme.js
-		let phonemeArpa = "";
-=======
-		
+
 		console.log(`eSpeak: ${phoneme}`);
 		
->>>>>>> website/backend/routes/api/v1/phoneme.js
 		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
 			console.log("This should be unreachable code. Firefly.");
 			continue;
