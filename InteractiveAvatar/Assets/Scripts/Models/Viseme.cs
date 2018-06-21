@@ -76,11 +76,11 @@ namespace Models
 			public static readonly VisemeCode ZH = new VisemeCode(38, "ZH");
 			public static readonly VisemeCode TH = new VisemeCode(39, "TH");
 			public static readonly VisemeCode EL = new VisemeCode(40, "EL");
-			public static readonly VisemeCode AAd = new VisemeCode(41, "AAd");
-			public static readonly VisemeCode EEd = new VisemeCode(42, "EEd");
-			public static readonly VisemeCode EId = new VisemeCode(43, "EId");
-			public static readonly VisemeCode Gd = new VisemeCode(44, "Gd");
-			public static readonly VisemeCode UId = new VisemeCode(45, "UId");
+			public static readonly VisemeCode AA_nl = new VisemeCode(41, "AA_nl");
+			public static readonly VisemeCode EE_nl = new VisemeCode(42, "EE_nl");
+			public static readonly VisemeCode EI_nl = new VisemeCode(43, "EI_nl");
+			public static readonly VisemeCode G_nl = new VisemeCode(44, "G_nl");
+			public static readonly VisemeCode UI_nl = new VisemeCode(45, "UI_nl");
 			public static readonly VisemeCode wordspace = new VisemeCode(46, "Silence");
 			public static readonly VisemeCode invalid = new VisemeCode(47, "invalid");
 
@@ -127,11 +127,11 @@ namespace Models
 				ZH,
 				TH,
 				EL,
-				AAd, 
-				EEd,
-				EId,
-				Gd,
-				UId,
+				AA_nl, 
+				EE_nl,
+				EI_nl,
+				G_nl,
+				UI_nl,
 				wordspace,
 				invalid
 			};
