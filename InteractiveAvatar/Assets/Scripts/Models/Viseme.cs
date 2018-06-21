@@ -76,8 +76,13 @@ namespace Models
 			public static readonly VisemeCode ZH = new VisemeCode(38, "ZH");
 			public static readonly VisemeCode TH = new VisemeCode(39, "TH");
 			public static readonly VisemeCode EL = new VisemeCode(40, "EL");
-			public static readonly VisemeCode wordspace = new VisemeCode(41, "Silence");
-			public static readonly VisemeCode invalid = new VisemeCode(42, "invalid");
+			public static readonly VisemeCode AAd = new VisemeCode(41, "AAd");
+			public static readonly VisemeCode EEd = new VisemeCode(42, "EEd");
+			public static readonly VisemeCode EId = new VisemeCode(43, "EId");
+			public static readonly VisemeCode Gd = new VisemeCode(44, "Gd");
+			public static readonly VisemeCode UId = new VisemeCode(45, "UId");
+			public static readonly VisemeCode wordspace = new VisemeCode(46, "Silence");
+			public static readonly VisemeCode invalid = new VisemeCode(47, "invalid");
 
 			private static readonly List<VisemeCode> _visemeCodeList = new List<VisemeCode>
 			{
@@ -122,6 +127,11 @@ namespace Models
 				ZH,
 				TH,
 				EL,
+				AAd, 
+				EEd,
+				EId,
+				Gd,
+				UId,
 				wordspace,
 				invalid
 			};
