@@ -63,7 +63,7 @@ class SelectLanguageModal extends React.Component {
 	handleMenuItemClick = (event, index) => {
 		this.setState({ selectedIndex: index, anchorEl: null });
 		if(index === 0)  {
-			this.setState({language: 'en-US'}, this.changeLanguage)
+			this.setState({language: 'en-us'}, this.changeLanguage)
 		} else if (index === 1) {
 			this.setState({language: 'nl'}, this.changeLanguage)
 		}
