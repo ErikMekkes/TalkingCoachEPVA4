@@ -17,7 +17,6 @@ var gameInstance = UnityLoader.instantiate("gameContainer", "Build/mybuild.json"
 
 
 function startTalk(){
-
 	var text = document.getElementById("textForSpeech").value;
     gameInstance.SendMessage('TalkingCoach', 'convertToSpeech', text);
 }
@@ -60,9 +59,6 @@ function moveAvatarVertical(){
     gameInstance.SendMessage('TalkingCoach', 'moveAvatarVertical', 5);
 }
 
-//TODO use callback functions instead of messaging for pause / resume
-//low priority, tested and difference is negligible, no efficiency gain
-
 /**
  * Call the pauseSpeech function attached to the TalkingCoach Object. This
  * Should pause the currently ongoing speech synthesis. Has no effect if there
@@ -80,8 +76,4 @@ function pauseSpeech() {
 function resumeSpeech() {
     gameInstance.SendMessage('TalkingCoach', 'resumeSpeech');
     //TODO : could make this work like startTalk if not in paused state.
-}
-
-function startDemo() {
-    gameInstance.SendMessage('TalkingCoach', 'startDemo');
 }
