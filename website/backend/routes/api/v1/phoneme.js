@@ -61,9 +61,9 @@ router.get('/', function (req, res, next) {
 function cleanPhonemeString(messyString, language) {
 	let result = messyString;
 	result = result.trim();
-	if(language === "nl") {
+	if(language === "nl" || language === "nl-NL") {
 		result = result.replace(/[_!',|]/gi, "");
-	} else if (language === "en-us") {
+	} else if (language === "en-us" || language === "en-US" || language === "En-US") {
 		result = result.replace(/[_:!',|]/gi, "");
 	} else {
 		throw `Unknown language: ${language}. Don't know which cleanup to perform!`;
