@@ -101,4 +101,20 @@ const exampleRouteHandler = require("../routes/api/v1/phoneme");
           done();
         });
       });
+
+      it("Check language warning", function (done) {
+        const mockRequest = httpMocks.createRequest({
+          method: "GET",
+          url: "/?text=hello&lang=af",
+        });
+        const mockResponse = httpMocks.createResponse({eventEmitter: EventEmitter});
+        exampleRouteHandler(mockRequest, mockResponse);
+        
+        const expectedResponseBody = [ "language not supported by API" ];
+
+        mockResponse.on('send', () => {
+          assert.deepEqual(JSON.parse(mockResponse._getData()).warnings, expectedResponseBody);
+          done();
+        });
+      });
 });
