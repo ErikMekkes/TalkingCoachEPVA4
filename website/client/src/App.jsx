@@ -12,6 +12,7 @@ import ActionBar from "./comp/ActionBar";
 const styles = {
 	root: {
 		flexGrow: 1,
+		'overflow-x': 'hidden',
 	},
 	flex: {
 		flex: 1,

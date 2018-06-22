@@ -26,7 +26,7 @@ class ActionBar extends React.Component {
 		this.sendStopSpeechEvent = this.sendStopSpeechEvent.bind(this);
 	}
 
-	//TODO: Implement speaking state to switch out pause and play buttons depending on speaking state
+	// TODO: Implement speaking state to switch out pause and play buttons depending on speaking state
 
 	sendPauseSpeechEvent() {
 		console.log("[ActionBar] Send 'pauseSpeech' to Unity");
