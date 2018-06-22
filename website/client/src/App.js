@@ -7,6 +7,7 @@ import MyAppBar from "./comp/MyAppBar";
 import AppDrawer from "./comp/AppDrawer";
 import {withStyles} from "@material-ui/core/styles/index";
 import TextInput from "./comp/TextInput";
+import ActionBar from "./comp/ActionBar";
 
 const styles = {
 	root: {
@@ -58,6 +59,7 @@ class App extends Component {
 					<AppDrawer open={this.state.open} handler={this.drawerHandler}/>
 					<TextInput />
 					<UnityApp/>
+					<ActionBar/>
 					{/*<h1>API Test</h1>*/}
 					{/*{this.state.users.map(user =>*/}
 					{/*<div key={user.id}>{user.username}</div>*/}
