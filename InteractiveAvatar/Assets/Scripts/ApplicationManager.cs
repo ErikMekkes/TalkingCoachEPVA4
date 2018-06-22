@@ -77,13 +77,10 @@ public class ApplicationManager : MonoBehaviour {
 	/// of the Update methods are called the first time. It runs after Awake().
 	/// </summary>
 	void Start() {
-		// ensure screensaver camera is disabled on start (see Update())
+		// load the available camera's from Unity
 		cams = Camera.allCameras;
-		foreach( Camera cam in cams){
-			if(cam.gameObject.name == "InactiveCamera"){
-				cam.enabled = false;
-			}
-		}
+		// ensure screensaver camera is disabled on start (see also : Update())
+		disableScreenSaver();
 	}
 	
 	/// <summary>
@@ -182,34 +179,68 @@ public class ApplicationManager : MonoBehaviour {
 	void Update(){
 		// call the frameUpdate function of SpeechAnimationManager
 		SpeechAnimationManager.instance.frameUpdate(Time.deltaTime);
+		// updates the screensaver with elapsed time
+		updateScreenSaver(Time.deltaTime);
+	}
+
+	/// <summary>
+	/// Updates the screensaver with elapsed time. If the elapsed time without
+	/// user interaction is greater than the screensaver timeout the screensaver
+	/// is enabled. If user interaction occurs and the screensaver was active,
+	/// the timour for the screensaver is reset and the screensaver is disabled. 
+	/// </summary>
+	/// <param name="deltaTime"></param>
+	void updateScreenSaver(float deltaTime) {
+		// add elapsed time to timer
+		timeOutTimer += deltaTime;
 		
-		timeOutTimer += Time.deltaTime;
-		
-		// If screen is tapped, reset timer
-		if (Input.anyKeyDown
-			|| Input.GetAxis("Mouse X") != 0
-		    || Input.GetAxis("Mouse Y") != 0) {
+		// If screen is tapped, reset timer and stop screensaver
+		if (inputActive()) {
 			timeOutTimer = 0.0f;
-			//Dont active screensaver
-			foreach( Camera cam in cams){
-				if(cam.gameObject.name == "InactiveCamera"){
-					cam.enabled = false;
-				}else{
-					cam.enabled = true;
-				}
-			}
+			disableScreenSaver();
 		}
 		// If timer reaches zero, start screensaver
 		if (timeOutTimer > timeOut){
-			//Activate Screensaver
-			foreach( Camera cam in cams){
-				if(cam.gameObject.name == "InactiveCamera"){
-					cam.enabled = true;
-				}else{
-					cam.enabled = false;
-				}
-			}
-
+			enableScreenSaver();
 		}	
+	}
+
+	/// <summary>
+	/// Returns whether or not the user is interacting with the application.
+	/// </summary>
+	/// <returns>
+	/// True if user is interacting with application. False otherwise.
+	/// </returns>
+	bool inputActive() {
+		// active if key pressed, or mouse hovering over application window.
+		return Input.anyKeyDown
+		              || Input.GetAxis("Mouse X") != 0
+		              || Input.GetAxis("Mouse Y") != 0;
+	}
+
+	/// <summary>
+	/// Deactivates the Screensaver by switching to main camera.
+	/// </summary>
+	void disableScreenSaver() {
+		foreach(Camera cam in cams) {
+			if (cam.gameObject.name == "InactiveCamera") {
+				cam.enabled = false;
+			} else {
+				cam.enabled = true;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Activates the Screensaver by switching to inactive camera.
+	/// </summary>
+	void enableScreenSaver() {
+		foreach(Camera cam in cams) {
+			if (cam.gameObject.name == "InactiveCamera") {
+				cam.enabled = true;
+			} else {
+				cam.enabled = false;
+			}
+		}
 	}
 }

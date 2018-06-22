@@ -103,6 +103,11 @@ namespace Models
 			phonemeMapping.Add(PhonemeCode.ZH, Viseme.VisemeCode.ZH);
 			phonemeMapping.Add(PhonemeCode.TH, Viseme.VisemeCode.TH);
 			phonemeMapping.Add(PhonemeCode.EL, Viseme.VisemeCode.EL);
+			phonemeMapping.Add(PhonemeCode.AA_nl, Viseme.VisemeCode.AA_nl);
+			phonemeMapping.Add(PhonemeCode.EE_nl, Viseme.VisemeCode.EE_nl);
+			phonemeMapping.Add(PhonemeCode.EI_nl, Viseme.VisemeCode.EI_nl);
+			phonemeMapping.Add(PhonemeCode.G_nl, Viseme.VisemeCode.G_nl);
+			phonemeMapping.Add(PhonemeCode.UI_nl, Viseme.VisemeCode.UI_nl);
 			phonemeMapping.Add(PhonemeCode.wordspace, Viseme.VisemeCode.wordspace);
 		}
 		
@@ -161,6 +166,11 @@ namespace Models
 			public static readonly PhonemeCode ZH = new PhonemeCode(44, "ZH");
 			public static readonly PhonemeCode wordspace = new PhonemeCode(45, "/");
 			public static readonly PhonemeCode invalid = new PhonemeCode(46, "invalid");
+			public static readonly PhonemeCode G_nl = new PhonemeCode(47, "G_nl");
+			public static readonly PhonemeCode EE_nl = new PhonemeCode(51, "EE_nl");
+			public static readonly PhonemeCode AA_nl = new PhonemeCode(52, "AA_nl");
+			public static readonly PhonemeCode EI_nl = new PhonemeCode(53, "EI_nl");
+			public static readonly PhonemeCode UI_nl = new PhonemeCode(54, "UI_nl");
 
 			private static readonly List<PhonemeCode> _phonemeCodeList = new List<PhonemeCode>
 			{
@@ -208,6 +218,11 @@ namespace Models
 				Y,
 				Z,
 				ZH,
+				G_nl,
+				EE_nl,
+				AA_nl,
+				EI_nl,
+				UI_nl,
 				wordspace,
 				invalid
 			};

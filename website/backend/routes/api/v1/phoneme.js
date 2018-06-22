@@ -2,19 +2,27 @@ const express = require('express');
 const router = express.Router();
 const child_process = require('child_process');
 const {spawn} = require('child_process');
+const PhonemeDictionary = require('./phonemeDictionary');
 
-/* GET /api/v1/phoneme */
+const dict = new PhonemeDictionary();
+
+let warnings = [];
+
+/**
+ * Create point for the router to resolve the following HTTP request
+ * GET /api/v1/phoneme
+ */
 router.get('/', function (req, res, next) {
 	let params = req.query;
-	
-	
+	warnings = [];
+
 	/* Enable CORS */
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-	/* Test if text query is defined */
+	/* Test if text parameter is defined, return 400 error if not defined */
 	if (params.text === undefined) {
-		res.status(404).json({
+		res.status(400).json({
 			_request: {
 				route: req.baseUrl,
 				query: req.query,
@@ -24,8 +32,9 @@ router.get('/', function (req, res, next) {
 		});
 		return;
 	}
+	/* Test if lang parameter is defined, return 400 error if not defined */
 	if (params.lang === undefined) {
-		res.status(404).json({
+		res.status(400).json({
 			_request: {
 				route: req.baseUrl,
 				query: req.query,
@@ -41,226 +50,94 @@ router.get('/', function (req, res, next) {
 	let espeak = child_process.exec(`espeak-ng -qx -v ${params.lang} --sep=. "${params.text}"`);
 	let stdout = "";
 
+	// Read stdout of eSpeak command and store it on stdout variable
 	espeak.stdout.on('data', (data) => {
 		stdout += data;
 	});
+	// Handle translation of eSpeak output once command finishes
 	espeak.on('close', (code) => {
-		let phonemeString = cleanPhonemeString(stdout);
+		console.log(code);
+		let phonemeString = cleanPhonemeString(stdout, params.lang);
 		let phonemeArray = getPhonemeArrayFromString(phonemeString);
 		let phonemeArrayArpa = phonemeArrayToArpabet(phonemeArray);
-		res.status(200).json({
+
+		let jsonResponse = {
 			_request: {route: req.baseUrl, query: req.query, api_ver: "v1"},
 			phonemes: phonemeArrayArpa
-		});
+		};
+
+		if (warnings.length > 0) {
+			jsonResponse.warnings = warnings;
+		}
+
+		res.status(200).json(jsonResponse);
 	});
 });
 
-function cleanPhonemeString(messyString) {
+/**
+ * This function cleans a string of unused characters. Cleanup may vary based on selected language.
+ * Future developers should extend this function if they intend to use other languages
+ * Throws a soft warning if language is unknown
+ *
+ * @param messyString The string to trim and clean of unnecessary characters
+ * @param language The selected language, cleanup varies per language
+ * @returns {string} Cleaned up string
+ */
+function cleanPhonemeString(messyString, language) {
 	let result = messyString;
+	console.log(messyString);
 	result = result.trim();
-	result = result.replace(/[_:!',|]/gi, "");
+	if (language === "nl" || language === "nl-NL") {
+		result = result.replace(/[_!',|]/gi, "");
+	} else if (language === "en-us" || language === "en-US" || language === "En-US") {
+		result = result.replace(/[_:!',|]/gi, "");
+	} else {
+		result = result.replace(/[_:!',|]/gi, "");
+		console.warn(`[WARN] Unknown language: ${language}. Don't know which cleanup to perform!`);
+		warnings.push('language not supported by API')
+	}
 	result = result.trim();
 	return result;
 }
 
+/**
+ * Splits a string of cleaned up phonemes into an array of individual phonemes
+ *
+ * @param phonemeString String of cleaned up phonemes
+ * @returns {*|string[]} Array of individual phonemes as strings in eSpeak notation
+ */
 function getPhonemeArrayFromString(phonemeString) {
 	phonemeString = phonemeString.replace(/[ ]/gi, './.');
 	return phonemeString.split(/[. ]/gi);
 }
 
+/**
+ * Translate eSpeak phoneme notation to ARPABET phoneme notation based on mapping specified in phonemeDictionary.json file
+ * @param phonemeArray Array of individual phonemes as strings in eSpeak notation
+ * @returns {Array} Array of individual phonemes as strings in ARPABET notation
+ */
 function phonemeArrayToArpabet(phonemeArray) {
 	let result = [];
+	console.log(phonemeArray);
 	for (let i = 0; i < phonemeArray.length; i++) {
 		let phoneme = phonemeArray[i].trim();
-		let phonemeArpa = "";
-		
-		console.log(phoneme)
-		
+
+		console.log(`eSpeak: ${phoneme}`);
+
 		if (';' === phoneme || '_:' === phoneme || '' === phoneme || '\n' === phoneme) {
+			console.log("This should be unreachable code. Firefly.");
 			continue;
 		}
 
-		// TODO: Can be better, perhaps with a Map
-		switch (phoneme) {
-				/* Vowels */
-			case 'A':
-			case 'O2':
-			case '0':
-				phonemeArpa = "AA";
-				break;
-			case 'aa':
-			case 'a':
-				phonemeArpa = "AE";
-				break;
-			case 'I2':
-			case '@2':
-			case '@':
-			case 'V':
-			case 'a#':
-				phonemeArpa = "AH";
-				break;
-			case 'O@':
-				result.push("AO");
-				result.push("R");
-				continue;
-			case 'e@':
-				result.push("EH");
-				result.push("R");
-				continue;
-			case 'O':
-			case 'o@':
-			case 'U@':
-				phonemeArpa = "AO";
-				break;
-			case 'aU':
-				phonemeArpa = "AW";
-				break;
-			case 'aI':
-				phonemeArpa = "AY";
-				break;
-			case 'E':
-			case '@-':
-				phonemeArpa = "EH";
-				break;
-			case '3':
-			case '3r':
-				phonemeArpa = "ER";
-				break;
-			case 'eI':
-				phonemeArpa = "EY";
-				break;
-			case 'I':
-			case 'I#':
-				phonemeArpa = "IH";
-				break;
-			case 'i':
-			case 'i@':
-				phonemeArpa = "IY";
-				break;
-			case 'i@3':
-				result.push("IY");
-				result.push("ER");
-				continue;
-			case 'aI@':
-				result.push("AY");
-				result.push("AH");
-				continue;
-			case 'oU':
-				phonemeArpa = "OW";
-				break;
-			case 'OI':
-				phonemeArpa = "OY";
-				break;
-			case 'U':
-				phonemeArpa = "UH";
-				break;
-			case 'u:':
-			case 'u':
-				phonemeArpa = "UW";
-				break;
-			case 'aI3':
-				result.push("AY");
-				result.push("ER");
-				continue;
-				/* Consonants */
-			case 'A@':
-				result.push("AA");
-				result.push("R");
-				continue;
-			case 'b':
-				phonemeArpa = "B";
-				break;
-			case 'tS':
-				phonemeArpa = "CH";
-				break;
-			case 'd':
-				phonemeArpa = "D";
-				break;
-			case 'D':
-				phonemeArpa = "DH";
-				break;
-			case '@L':
-				result.push("AH");
-				result.push("L");
-				continue;
-				/* eSpeak doesn't recognise ARPA 'EM', is 'M' */
-			case 'n-':
-				phonemeArpa = "EN";
-				break;
-			case 'f':
-				phonemeArpa = "F";
-				break;
-			case 'g':
-				phonemeArpa = "G";
-				break;
-			case 'h':
-				phonemeArpa = "HH";
-				break;
-			case 'dZ':
-				phonemeArpa = "JH";
-				break;
-			case 'k':
-				phonemeArpa = "K";
-				break;
-			case 'l':
-				phonemeArpa = "L";
-				break;
-			case 'm':
-				phonemeArpa = "M";
-				break;
-			case 'n':
-				phonemeArpa = "N";
-				break;
-			case 'N':
-				phonemeArpa = "NG";
-				break;
-			case 'p':
-				phonemeArpa = "P";
-				break;
-				/* eSpeak doesn't recognise ARPA 'Q' */
-			case 'r-':
-			case 'r':
-				phonemeArpa = "R";
-				break;
-			case 's':
-				phonemeArpa = "S";
-				break;
-			case 'S':
-				phonemeArpa = "SH";
-				break;
-			case 't2':
-			case 't':
-			case 't#':
-				phonemeArpa = "T";
-				break;
-			case 'T':
-				phonemeArpa = "TH";
-				break;
-			case 'v':
-				phonemeArpa = "V";
-				break;
-			case 'w':
-				phonemeArpa = "W";
-				break;
-				/* eSpeak doesn't recognise ARPA 'WH', is 'W' */
-			case 'j':
-				phonemeArpa = "Y";
-				break;
-			case 'z':
-				phonemeArpa = "Z";
-				break;
-			case 'Z':
-				phonemeArpa = "ZH";
-				break;
-				/* '/' denotes word boundaries */
-			case '/':
-				phonemeArpa = "/";
-				break;
-			default:
-				phonemeArpa = "invalid phoneme";
-				break;
+		if (dict.dictionary.has(phoneme)) {
+			dict.dictionary.get(phoneme).forEach((value) => {
+				result.push(value);
+				console.log(`Phoneme: ${value}`);
+			});
+		} else {
+			console.log("!!! Invalid phoneme !!!")
 		}
-		result.push(phonemeArpa);
+		console.log();
 	}
 	return result;
 }
