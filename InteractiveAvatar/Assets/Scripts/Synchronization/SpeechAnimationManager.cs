@@ -118,7 +118,7 @@ public class SpeechAnimationManager : MonoBehaviour {
     private void playNextViseme() {
         // if all visemes in the set have been animated
         if (currentVisemeInList >= visemeAmount) {
-            stopSpeechAnimation();
+            stopSpeechAnimation(charIndex);
             return;
         }
         Viseme current = visemeList[currentVisemeInList];
