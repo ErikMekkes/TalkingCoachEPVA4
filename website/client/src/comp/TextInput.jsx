@@ -38,7 +38,8 @@ class MyAppBar extends React.Component {
 
 	sendText() {
 		let sendText = new UnityEvent("TalkingCoach", "convertToSpeech");
-		sendText.emit(this.state.value);
+		sendText.emit(this.state.value)
+		this.props.handler(false);
 	}
 
 	handleChange(event) {

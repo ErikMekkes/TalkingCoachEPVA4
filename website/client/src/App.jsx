@@ -7,10 +7,12 @@ import MyAppBar from "./comp/MyAppBar";
 import AppDrawer from "./comp/AppDrawer";
 import {withStyles} from "@material-ui/core/styles/index";
 import TextInput from "./comp/TextInput";
+import ActionBar from "./comp/ActionBar";
 
 const styles = {
 	root: {
 		flexGrow: 1,
+		'overflow-x': 'hidden',
 	},
 	flex: {
 		flex: 1,
@@ -28,6 +30,7 @@ class App extends Component {
 		super(props);
 		this.state = {open: false, users: []};
 		this.drawerHandler = this.drawerHandler.bind(this)
+		this.pauseSpeechButton = this.pauseSpeechButton.bind(this)
 	}
 
 	handleTouchMap() {
@@ -47,6 +50,12 @@ class App extends Component {
 		})
 	}
 
+	pauseSpeechButton(paused) {
+		this.setState({
+			paused: paused
+		})
+	}
+
 	render() {
 		const {classes} = this.props;
 		return (
@@ -56,8 +65,9 @@ class App extends Component {
 							onMenuClick={this.handleTouchMap.bind(this)}
 					/>
 					<AppDrawer open={this.state.open} handler={this.drawerHandler}/>
-					<TextInput />
+					<TextInput handler={this.pauseSpeechButton}/>
 					<UnityApp/>
+					<ActionBar paused={this.state.paused} handler={this.pauseSpeechButton} />
 					{/*<h1>API Test</h1>*/}
 					{/*{this.state.users.map(user =>*/}
 					{/*<div key={user.id}>{user.username}</div>*/}
