@@ -51,10 +51,26 @@ public class TalkingCoachAPI : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Stop the speech.
+	/// Stop the speech. And indirectly the animation through stop callback.
 	/// </summary>
 	public void stopSpeech() {
 		TextManager.tmInstance.stopSpeech();
+	}
+
+	/// <summary>
+	/// Pauses the speech, relies on onboundary events for accuracy.
+	/// Use window.speechSynthesis.pause() if onboundary not available.
+	/// </summary>
+	public void pauseSpeech() {
+		SpeechAnimationManager.instance.pauseSpeech();
+	}
+
+	/// <summary>
+	/// Resumes the speech, relies on pauseSpeech, no effect if still speaking.
+	/// Use window.speechSynthesis.resume() if onboundary not available.
+	/// </summary>
+	public void resumeSpeech() {
+		SpeechAnimationManager.instance.resumeSpeech();
 	}
 
 	/// <summary>

@@ -26,6 +26,8 @@ public class SpeechAnimationManager : MonoBehaviour {
     private float currentVisemeLength = 0;
     // index of currently playing viseme in the list to be played
     private int currentVisemeInList = 0;
+    // index of most recent word in the currently spoken text
+    private int charIndex = 0;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
 
@@ -119,7 +121,6 @@ public class SpeechAnimationManager : MonoBehaviour {
             stopSpeechAnimation();
             return;
         }
-        
         Viseme current = visemeList[currentVisemeInList];
         currentVisemeName = current.getVisemeCode().getName();
         currentVisemeLength = (float) current.getDuration();
@@ -148,30 +149,35 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// </summary>
     /// <param name="charIndex"></param>
     public void onBoundary(int charIndex) {
+        this.charIndex = charIndex;
         // TODO start animating the word
-        
+				
         // currentIndex specifies the start of the next word in the whole text
-        
+				
         // find set of viseme numbers for that word
-        
+				
         // call playVisemeList() with the set of visemes for a word
     }
 
     /// <summary>
     /// Starts animation for speech synthesis.
     ///
-    /// To be called form the speech synthesis start event.
+    /// To be called as callback from the speech synthesis start event.
     /// </summary>
-    public void startSpeechAnimation() {
+    /// <param name="charIndex"></param>
+    public void startSpeechAnimation(int charIndex) {
+        this.charIndex = charIndex;
         isSpeaking = true;
     }
 
     /// <summary>
     /// Stops all speech animation and clear the current sentence.
     ///
-    /// To be called from the speech synthesis stop event.
+    /// To be called as callback from the speech synthesis stop event.
     /// </summary>
-    public void stopSpeechAnimation() {
+    /// <param name="charIndex"></param>
+    public void stopSpeechAnimation(int charIndex) {
+        this.charIndex = charIndex;
         // reset the currently playing viseme set
         isSpeaking = false;
         visemeList = null;
@@ -183,23 +189,67 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// <summary>
     /// Pauses animation for the currently active speech synthesis sentence.
     ///
-    /// To be called form the speech synthesis pause event.
+    /// To be called as callback from the speech synthesis pause event.
+    ///
+    /// This may be inaccurate as the speech synthesis uses word separation for
+    /// pausing, and is quite delayed compared to the animation stopping.
     /// </summary>
-    /// <param name="currentIndex"></param>
-    public void pauseSpeechAnimation(int currentIndex) {
+    /// <param name="charIndex"></param>
+    public void pauseSpeechAnimation(int charIndex) {
+        // charIndex will be reset to 0 in event, unsure if text is shortened?
+        // this index update might not be sensible without a currentText update
+        // but this does not affect results due to simplicity of isSpeaking
+        this.charIndex = charIndex;
+        // stop speech animation
         isSpeaking = false;
-        Debug.Log("Paused");
     }
 
     /// <summary>
     /// Resumes animation for the currently active speech synthesis sentence.
     ///
-    /// To be called form the speech synthesis resume event.
+    /// To be called as callback from the speech synthesis resume event.
     /// </summary>
-    /// <param name="currentIndex"></param>
-    public void resumeSpeechAnimation(int currentIndex) {
+    /// <param name="charIndex"></param>
+    public void resumeSpeechAnimation(int charIndex) {
+        // charIndex will be reset to 0 in event, unsure if text is shortened?
+        // this index update might not be sensible without a currentText update
+        // but this does not affect results due to simplicity of isSpeaking
+        this.charIndex = charIndex; 
+        // resume speech animation
         isSpeaking = true;
-        Debug.Log("Resumed");
+    }
+
+    /// <summary>
+    /// Pauses speech synthesis and animation for the current sentence.
+    /// 
+    /// To be called through TalkingCoachAPI.
+    ///
+    /// This may not work with every language as it relies on onboundary events
+    /// which browsers do not generate for some languages.
+    /// </summary>
+    public void pauseSpeech() {
+        // update remaining text using current position
+        currentText = currentText.Substring(charIndex);
+        // stop speech synthesis
+        TextManager.tmInstance.stopSpeech();
+        // stop speech animation
+        isSpeaking = false;
+    }
+
+    /// <summary>
+    /// Resumes speech synthesis and animation for the current sentence.
+    ///
+    /// To be called through TalkingCoachAPI.
+    /// 
+    /// To be called after a call to pauseSpeech.  
+    /// </summary>
+    public void resumeSpeech() {
+        // do nothing if speaking (not paused)
+        if (isSpeaking) {
+            return;
+        }
+        // restart speech synthesis and animation using remaining text
+        TextManager.tmInstance.startSpeech(currentText);
     }
 
     /// <summary>

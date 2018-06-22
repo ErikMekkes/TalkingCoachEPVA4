@@ -28,7 +28,7 @@ var MyPlugin = {
     },
     
     Stop: function() {
-        textToSpeach.cancel();
+        window.speechSynthesis.cancel();
     },
     
     getSystemVoices: function() {

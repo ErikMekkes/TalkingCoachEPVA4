@@ -65,11 +65,6 @@ if (typeof textToSpeach != 'undefined') {
 
 			window.speechSynthesis.speak(msg);
     	};
-
-        self.cancel = function() {
-            console.log("Speach Cancelled");
-            window.speechSynthesis.cancel();
-        };
         
         self.checkAndCancelTimeout = function () {
             if (self.timeoutId != null) {
