@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Models;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -68,8 +67,8 @@ public class LipSynchronization
                 Debug.Log("Phonemes to visemes...");
                 var actualVisemeList = Phoneme.toVisemes(actualPhonemeList);
                 Debug.Log("playing list...");
-                TextManager.tmInstance.startActualSpeech(text);
                 SpeechAnimationManager.instance.playVisemeList(actualVisemeList);
+                TextManager.tmInstance.startActualSpeech(text);
             }
         }
     }

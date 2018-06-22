@@ -3,7 +3,6 @@ using Models;
 using UnityEngine;
 
 public class SpeechAnimationManager : MonoBehaviour {
-    
     // Avatar model
     private GameObject newCoach;
     // Unity Animator component for the coach 
@@ -82,10 +81,10 @@ public class SpeechAnimationManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Sets the viseme animations to be played to be the specified list of
-    /// viseme numbers. The first viseme from the list is played instantly,
-    /// further visemes from the list are played after the currently playing
-    /// viseme has finished untill all visemes from the list have been played.
+    /// Sets the visemes to be played to be the specified list of visemes. The
+    /// first viseme from the list is played instantly, further visemes from the
+    /// list are played after the currently playing viseme has finished untill
+    /// all visemes from the list have been played.
     ///
     /// The frameUpdate function is used to determine when the next animation
     /// should be played.
@@ -94,13 +93,20 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// Set of visemes to be played.
     /// </param>
     public void playVisemeList(List<Viseme> visList) {
+        if (null == visList) {
+            return;
+        }
         // save list of visemes to play
         visemeList = visList;
         visemeAmount = visemeList.Count;
+        if (0 == visemeAmount) {
+            return;
+        }
         // set current viseme playing
         currentVisemeInList = 0;
         // play first viseme
         playNextViseme();
+        isSpeaking = true;
     }
 
     /// <summary>
@@ -110,6 +116,11 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// all visemes in the set have been animated.
     /// </summary>
     private void playNextViseme() {
+        // if all visemes in the set have been animated
+        if (currentVisemeInList >= visemeAmount) {
+            stopSpeechAnimation(charIndex);
+            return;
+        }
         Viseme current = visemeList[currentVisemeInList];
         currentVisemeName = current.getVisemeCode().getName();
         currentVisemeLength = (float) current.getDuration();
@@ -118,11 +129,6 @@ public class SpeechAnimationManager : MonoBehaviour {
         animator.CrossFade(currentVisemeName, 0, visemeLayer);
         // increment currently playing viseme
         currentVisemeInList++;
-
-        // if all visemes in the set have been animated
-        if (currentVisemeInList >= visemeAmount) {
-            stopSpeechAnimation(charIndex);
-        }
     }
     
     public VisemeTimings getVisemeTimingCalculator()
@@ -145,11 +151,11 @@ public class SpeechAnimationManager : MonoBehaviour {
     public void onBoundary(int charIndex) {
         this.charIndex = charIndex;
         // TODO start animating the word
-
+				
         // currentIndex specifies the start of the next word in the whole text
-
+				
         // find set of viseme numbers for that word
-
+				
         // call playVisemeList() with the set of visemes for a word
     }
 
