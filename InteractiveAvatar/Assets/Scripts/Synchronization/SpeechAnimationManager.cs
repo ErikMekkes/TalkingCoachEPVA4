@@ -126,7 +126,9 @@ public class SpeechAnimationManager : MonoBehaviour {
         currentVisemeLength = (float) current.getDuration();
         
         // play the found viseme animation
-        animator.CrossFade(currentVisemeName, 0, visemeLayer);
+        if (animator != null) {
+            animator.CrossFade(currentVisemeName, 0, visemeLayer);
+        }
         // increment currently playing viseme
         currentVisemeInList++;
     }
@@ -183,7 +185,9 @@ public class SpeechAnimationManager : MonoBehaviour {
         visemeList = null;
         currentVisemeInList = 0;
         // play the silence viseme animation
-        animator.CrossFade("Silence", 0, visemeLayer);
+        if (animator != null) {
+            animator.CrossFade("Silence", 0, visemeLayer);
+        }
     }
 
     /// <summary>
@@ -278,5 +282,37 @@ public class SpeechAnimationManager : MonoBehaviour {
         
         // set the local reference for the Animator component attached to coach.
         animator = newCoach.GetComponent<Animator>();
+    }
+
+    /// <summary>
+    /// Returns the elapsed time since last frame.
+    /// </summary>
+    /// <returns></returns>
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
+    /// <summary>
+    /// Returns whether animation is active.
+    /// </summary>
+    /// <returns></returns>
+    public bool getIsSpeaking() {
+        return isSpeaking;
+    }
+
+    /// <summary>
+    /// Returns the current charIndex.
+    /// </summary>
+    /// <returns></returns>
+    public int getCharIndex() {
+        return charIndex;
+    }
+
+    /// <summary>
+    /// Returns the current text.
+    /// </summary>
+    /// <returns></returns>
+    public string getCurrentText() {
+        return currentText;
     }
 }
