@@ -26,18 +26,18 @@ class ActionBar extends React.Component {
 		this.sendStopSpeechEvent = this.sendStopSpeechEvent.bind(this);
 	}
 
-	// TODO: Implement speaking state to switch out pause and play buttons depending on speaking state
-
 	sendPauseSpeechEvent() {
 		console.log("[ActionBar] Send 'pauseSpeech' to Unity");
 		let sendText = new UnityEvent("TalkingCoach", "pauseSpeech");
 		sendText.emit(this.state.value);
+		this.props.handler(true);
 	}
 
 	sendResumeSpeechEvent() {
 		console.log("[ActionBar] Send 'resumeSpeech' to Unity");
 		let sendText = new UnityEvent("TalkingCoach", "resumeSpeech");
 		sendText.emit(this.state.value);
+		this.props.handler(false);
 	}
 
 	sendStopSpeechEvent() {
@@ -56,12 +56,12 @@ class ActionBar extends React.Component {
 						}}>
 							<StopIcon/>
 						</IconButton>
-						<IconButton color="inherit" onClick={() => {
+						<IconButton disabled={!this.props.paused} color="inherit" onClick={() => {
 							this.sendResumeSpeechEvent();
 						}}>
 							<PlayIcon/>
 						</IconButton>
-						<IconButton color="inherit" onClick={() => {
+						<IconButton disabled={this.props.paused} color="inherit" onClick={() => {
 							this.sendPauseSpeechEvent();
 						}}>
 							<PauseIcon/>
