@@ -164,21 +164,6 @@ public class SpeechAnimationManager : MonoBehaviour {
         return number;
     }
 
-    private int nthSilenceIndex(int nthSilence) {
-        int number = 0;
-        for (int i = 0; i < visemeAmount; i++) {
-            if (visemeList[i].getVisemeCode().getName().Equals("Silence")) {
-                number++;
-            }
-
-            if (number == nthSilence) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
     public void setText(string text) {
         // for local access to spoken text.
         currentText = text;
@@ -246,19 +231,6 @@ public class SpeechAnimationManager : MonoBehaviour {
 //                Debug.Log("Found punctuation.");
                 shouldPause = true;
             }
-        
-            /*
-            // alternative method for timing, works without requiring an 
-            // approximation of average characters per viseme. Is unfortunately
-            // inaccurate due to the eSpeak engine occasionally leaving out word
-            // separators
-            int visemeNumber = nthSilenceIndex(spaceNumber);
-            if (visemeNumber != -1) {
-                currentVisemeInList = visemeNumber + 1;
-//                Debug.Log("Index updated to : "  + currentVisemeInList + " " + visemeList[currentVisemeInList].getVisemeCode().getName());
-            } else {
-//                Debug.Log("silence number " + spaceNumber + " not found");
-            }*/
         }
     }
 
