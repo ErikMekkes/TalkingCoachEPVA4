@@ -47,8 +47,7 @@ if (typeof textToSpeach != 'undefined') {
                     console.log('TTS: Error');
                     console.log(e);
                 };
-
-                //TODO find out if checks for iOS or timouts like speech_onstart speech_onend are needed
+								
                 msg.onpause = parameters.onpause;
                 msg.onresume = parameters.onresume;
                 msg.onmark = parameters.onmark;

@@ -47,18 +47,18 @@ public class LipSynchronization
     /// <param name="lang">The language to synchronize in.</param>
     /// <returns>An IEnumerator being the send action of the UnityWebRequest.</returns>
     public IEnumerator synchronize(string text, string lang) {
-        //Debug.Log("Trying to make request...");
+        Debug.Log("Trying to make request to phoneme server...");
         // Assumes ESpeak API is available on the same hostname
         using ( var www = UnityWebRequest.Get(TextManager.tmInstance.getHostName() + API + "phoneme?text=" + text + "&lang=" + lang))
         {
-            //Debug.Log("request made");
+            Debug.Log("request made to " + www.url);
             yield return www.Send();
-            //Debug.Log("request sent to " + www.url);
+            Debug.Log("communication finished with " + www.url);
             
             if (www.isError) {
-                //Debug.Log(www.responseCode + ": " + www.error);
+                Debug.Log(www.responseCode + ": " + www.error);
             } else {
-                //Debug.Log("response successfully received");
+                Debug.Log("response successfully received");
                 var response = JSON.Parse(www.downloadHandler.text);
                 var phonemes = response["phonemes"].AsArray;
                 var phonemeList = JSONUtil.arrayToList(phonemes);

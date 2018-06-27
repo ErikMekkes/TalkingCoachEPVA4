@@ -14,10 +14,15 @@ public class SpeechAnimationManager : MonoBehaviour {
 
     // whether the speech animation is active
     private bool isSpeaking = false;
+    // whether the animation should pause for a punctuation sign
+    private bool shouldPause = false;
     
     // time elapsed since start of last viseme animation
     private float elapsedTime = 0;
     // full text that is currently being spoken
+    // as char array, word array and full string
+    private char[] textChars;
+    private string[] currentWords;
     private string currentText;
     // list of visemes that are currently playing
     private List<Viseme> visemeList;
@@ -31,9 +36,6 @@ public class SpeechAnimationManager : MonoBehaviour {
     private int charIndex = 0;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
-    private char[] textChars;
-    private string[] currentWords;
-    private bool shouldPause = false;
 
     // Unity interface field for visemeTimings script.
     [SerializeField] private VisemeTimings visemeTimings;
@@ -132,7 +134,7 @@ public class SpeechAnimationManager : MonoBehaviour {
         
         
         // if punctuation was encountered before this silence, pause untill next
-        // onboundary event
+        // onboundary event. Only applied if onboundary events are supported.
         if (shouldPause && currentVisemeName == "Silence") {
             isSpeaking = false;
             shouldPause = false;
@@ -148,11 +150,17 @@ public class SpeechAnimationManager : MonoBehaviour {
         currentVisemeInList++;
     }
     
-    public VisemeTimings getVisemeTimingCalculator()
-    {
+    public VisemeTimings getVisemeTimingCalculator() {
         return visemeTimings;
     }
 
+    /// <summary>
+    /// Returns how which nth space is at the specified index in the sentence.
+    ///
+    /// Can be used to find a word index from a given point in a sentence.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     private int nthSpace(int index) {
         int number = 1;
         for (int i = 0; i < index; i++) {
@@ -171,6 +179,12 @@ public class SpeechAnimationManager : MonoBehaviour {
         currentWords = text.Split(' ');
     }
 
+    /// <summary>
+    /// Returns whether or not the specified word ends with a punctuation sign,
+    /// which should result in some pause of speech.
+    /// </summary>
+    /// <param name="word"></param>
+    /// <returns></returns>
     public Boolean isPauseMoment(string word) {
         if (word.EndsWith(",")
             || word.EndsWith("?")
@@ -187,15 +201,11 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// Indicates that the next word is being spoken. Specified index is the
     /// index of the first character of that word in the full text string.
     /// 
-    /// To be called from the speech animation onboundary event.
+    /// To be called from the speech animation onboundary event. Is never called
+    /// when onboundary events are not supported.
     /// </summary>
     /// <param name="charIndex"></param>
     public void onBoundary(int charIndex) {
-        // return if no update required 
-//        if (0 == charIndex || null == visemeList) {
-//            return;
-//        }
-        
         this.charIndex = charIndex;
         isSpeaking = true;
 
