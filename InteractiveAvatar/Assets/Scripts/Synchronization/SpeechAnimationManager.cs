@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Models;
 using UnityEngine;
 
@@ -30,6 +31,9 @@ public class SpeechAnimationManager : MonoBehaviour {
     private int charIndex = 0;
     // amount of visemes in current set to play
     private int visemeAmount = 0;
+    private char[] textChars;
+    private string[] currentWords;
+    private bool shouldPause = false;
 
     // Unity interface field for visemeTimings script.
     [SerializeField] private VisemeTimings visemeTimings;
@@ -121,10 +125,21 @@ public class SpeechAnimationManager : MonoBehaviour {
             stopSpeechAnimation(charIndex);
             return;
         }
+        
         Viseme current = visemeList[currentVisemeInList];
         currentVisemeName = current.getVisemeCode().getName();
         currentVisemeLength = (float) current.getDuration();
         
+        
+        // if punctuation was encountered before this silence, pause untill next
+        // onboundary event
+        if (shouldPause && currentVisemeName == "Silence") {
+            isSpeaking = false;
+            shouldPause = false;
+            animator.CrossFade("Silence", 0, visemeLayer);
+            currentVisemeInList++;
+            return;
+        }
         // play the found viseme animation
         if (animator != null) {
             animator.CrossFade(currentVisemeName, 0, visemeLayer);
@@ -138,9 +153,49 @@ public class SpeechAnimationManager : MonoBehaviour {
         return visemeTimings;
     }
 
+    private int nthSpace(int index) {
+        int number = 1;
+        for (int i = 0; i < index; i++) {
+            if (textChars[i] == ' ') {
+                number++;
+            }
+        }
+
+        return number;
+    }
+
+    private int nthSilenceIndex(int nthSilence) {
+        int number = 0;
+        for (int i = 0; i < visemeAmount; i++) {
+            if (visemeList[i].getVisemeCode().getName().Equals("Silence")) {
+                number++;
+            }
+
+            if (number == nthSilence) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public void setText(string text) {
         // for local access to spoken text.
         currentText = text;
+        textChars = text.ToCharArray();
+        currentWords = text.Split(' ');
+    }
+
+    public Boolean isPauseMoment(string word) {
+        if (word.EndsWith(",")
+            || word.EndsWith("?")
+            || word.EndsWith(".")
+            || word.EndsWith(";")
+            || word.EndsWith("!")) {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -151,14 +206,60 @@ public class SpeechAnimationManager : MonoBehaviour {
     /// </summary>
     /// <param name="charIndex"></param>
     public void onBoundary(int charIndex) {
+        // return if no update required 
+//        if (0 == charIndex || null == visemeList) {
+//            return;
+//        }
+        
         this.charIndex = charIndex;
-        // TODO start animating the word
-				
-        // currentIndex specifies the start of the next word in the whole text
-				
-        // find set of viseme numbers for that word
-				
-        // call playVisemeList() with the set of visemes for a word
+        isSpeaking = true;
+
+        // averaging 1.185 characters per viseme
+        double vNumber = charIndex / 1.185;
+        int visemeNumber = Convert.ToInt32(vNumber);
+//        Debug.Log(charIndex + " " + visemeNumber);
+        
+        // if current viseme timing is off by more than 2 update the timing
+        if (Math.Abs(currentVisemeInList - visemeNumber) > 2) {
+            currentVisemeInList = visemeNumber;
+//            Debug.Log("Index updated to : "  + currentVisemeInList + " " + visemeList[currentVisemeInList].getVisemeCode().getName());
+        }
+        
+//        Debug.Log("boundary : " + charIndex + " : " + textChars[charIndex]);
+        if (0 == charIndex) {
+            if (isPauseMoment(currentWords[0])) {
+//                Debug.Log("Found punctuation.");
+                shouldPause = true;
+                return;
+            }
+        }
+        // look at char before this word
+        int index = charIndex - 1;
+        // if it's a space character (protected from array bounds by onboundary)
+        if (textChars[index] == ' ') {
+            // find out which space it is within the text (= also word number)
+            int spaceNumber = nthSpace(index);
+//            Debug.Log("spaceNumber : " + spaceNumber);
+            // stop animation if last word ended with a punctuation mark.
+            // stops untill the next onboundary event.
+            if (isPauseMoment(currentWords[spaceNumber])) {
+//                Debug.Log("Found punctuation.");
+                shouldPause = true;
+            }
+        
+            /*
+            // alternative method for timing, works without requiring an 
+            // approximation of average characters per viseme. Is unfortunately
+            // inaccurate due to the eSpeak engine occasionally leaving out word
+            // separators
+            int visemeNumber = nthSilenceIndex(spaceNumber);
+            if (visemeNumber != -1) {
+                currentVisemeInList = visemeNumber + 1;
+//                Debug.Log("Index updated to : "  + currentVisemeInList + " " + visemeList[currentVisemeInList].getVisemeCode().getName());
+            } else {
+//                Debug.Log("silence number " + spaceNumber + " not found");
+            }*/
+        }
     }
 
     /// <summary>
