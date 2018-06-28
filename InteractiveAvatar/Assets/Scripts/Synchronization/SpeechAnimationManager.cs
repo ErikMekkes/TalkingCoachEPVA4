@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Models;
 using UnityEngine;
 
@@ -13,10 +14,15 @@ public class SpeechAnimationManager : MonoBehaviour {
 
     // whether the speech animation is active
     private bool isSpeaking = false;
+    // whether the animation should pause for a punctuation sign
+    private bool shouldPause = false;
     
     // time elapsed since start of last viseme animation
     private float elapsedTime = 0;
     // full text that is currently being spoken
+    // as char array, word array and full string
+    private char[] textChars;
+    private string[] currentWords;
     private string currentText;
     // list of visemes that are currently playing
     private List<Viseme> visemeList;
@@ -121,10 +127,21 @@ public class SpeechAnimationManager : MonoBehaviour {
             stopSpeechAnimation(charIndex);
             return;
         }
+        
         Viseme current = visemeList[currentVisemeInList];
         currentVisemeName = current.getVisemeCode().getName();
         currentVisemeLength = (float) current.getDuration();
         
+        
+        // if punctuation was encountered before this silence, pause untill next
+        // onboundary event. Only applied if onboundary events are supported.
+        if (shouldPause && currentVisemeName == "Silence") {
+            isSpeaking = false;
+            shouldPause = false;
+            animator.CrossFade("Silence", 0, visemeLayer);
+            currentVisemeInList++;
+            return;
+        }
         // play the found viseme animation
         if (animator != null) {
             animator.CrossFade(currentVisemeName, 0, visemeLayer);
@@ -133,32 +150,98 @@ public class SpeechAnimationManager : MonoBehaviour {
         currentVisemeInList++;
     }
     
-    public VisemeTimings getVisemeTimingCalculator()
-    {
+    public VisemeTimings getVisemeTimingCalculator() {
         return visemeTimings;
+    }
+
+    /// <summary>
+    /// Returns how which nth space is at the specified index in the sentence.
+    ///
+    /// Can be used to find a word index from a given point in a sentence.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    private int nthSpace(int index) {
+        int number = 1;
+        for (int i = 0; i < index; i++) {
+            if (textChars[i] == ' ') {
+                number++;
+            }
+        }
+
+        return number;
     }
 
     public void setText(string text) {
         // for local access to spoken text.
         currentText = text;
+        textChars = text.ToCharArray();
+        currentWords = text.Split(' ');
+    }
+
+    /// <summary>
+    /// Returns whether or not the specified word ends with a punctuation sign,
+    /// which should result in some pause of speech.
+    /// </summary>
+    /// <param name="word"></param>
+    /// <returns></returns>
+    public Boolean isPauseMoment(string word) {
+        if (word.EndsWith(",")
+            || word.EndsWith("?")
+            || word.EndsWith(".")
+            || word.EndsWith(";")
+            || word.EndsWith("!")) {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
     /// Indicates that the next word is being spoken. Specified index is the
     /// index of the first character of that word in the full text string.
     /// 
-    /// To be called from the speech animation onboundary event.
+    /// To be called from the speech animation onboundary event. Is never called
+    /// when onboundary events are not supported.
     /// </summary>
     /// <param name="charIndex"></param>
     public void onBoundary(int charIndex) {
         this.charIndex = charIndex;
-        // TODO start animating the word
-				
-        // currentIndex specifies the start of the next word in the whole text
-				
-        // find set of viseme numbers for that word
-				
-        // call playVisemeList() with the set of visemes for a word
+        isSpeaking = true;
+
+        // averaging 1.185 characters per viseme
+        double vNumber = charIndex / 1.185;
+        int visemeNumber = Convert.ToInt32(vNumber);
+//        Debug.Log(charIndex + " " + visemeNumber);
+        
+        // if current viseme timing is off by more than 2 update the timing
+        if (Math.Abs(currentVisemeInList - visemeNumber) > 2) {
+            currentVisemeInList = visemeNumber;
+//            Debug.Log("Index updated to : "  + currentVisemeInList + " " + visemeList[currentVisemeInList].getVisemeCode().getName());
+        }
+        
+//        Debug.Log("boundary : " + charIndex + " : " + textChars[charIndex]);
+        if (0 == charIndex) {
+            if (isPauseMoment(currentWords[0])) {
+//                Debug.Log("Found punctuation.");
+                shouldPause = true;
+                return;
+            }
+        }
+        // look at char before this word
+        int index = charIndex - 1;
+        // if it's a space character (protected from array bounds by onboundary)
+        if (textChars[index] == ' ') {
+            // find out which space it is within the text (= also word number)
+            int spaceNumber = nthSpace(index);
+//            Debug.Log("spaceNumber : " + spaceNumber);
+            // stop animation if last word ended with a punctuation mark.
+            // stops untill the next onboundary event.
+            if (isPauseMoment(currentWords[spaceNumber])) {
+//                Debug.Log("Found punctuation.");
+                shouldPause = true;
+            }
+        }
     }
 
     /// <summary>

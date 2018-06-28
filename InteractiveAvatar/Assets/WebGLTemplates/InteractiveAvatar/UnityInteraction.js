@@ -75,5 +75,4 @@ function pauseSpeech() {
  */
 function resumeSpeech() {
     gameInstance.SendMessage('TalkingCoach', 'resumeSpeech');
-    //TODO : could make this work like startTalk if not in paused state.
 }
