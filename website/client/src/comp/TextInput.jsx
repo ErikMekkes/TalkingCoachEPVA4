@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/es/Button/Button";
+import Button from "@material-ui/core/Button";
 import {UnityEvent} from "react-unity-webgl";
 
 const styles = theme => ({
