@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class ApplicationManager : MonoBehaviour {
@@ -14,6 +15,14 @@ public class ApplicationManager : MonoBehaviour {
 	// field for screensaver timeOut setting in seconds
 	public float timeOut = 30.0f;
 	
+#if UNITY_WEBGL || UNITY_EDITOR
+		/// <summary>
+		/// Notifies client that Unity is ready.
+		/// </summary>
+		/// <returns></returns>
+		[DllImport("__Internal")]
+		private static extern string unityReady();
+#endif
 	
 	// cameras
 	private Camera[] cams;
@@ -68,7 +77,7 @@ public class ApplicationManager : MonoBehaviour {
 		on_load();
 		// load hostname for text to phoneme API calls, only available from web.
 		#if !UNITY_EDITOR && UNITY_WEBGL
-		TextManager.tmInstance.loadHostName();
+		unityReady();
 		#endif
 	}
 	

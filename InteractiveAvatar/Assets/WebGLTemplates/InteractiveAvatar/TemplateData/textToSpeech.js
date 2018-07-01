@@ -64,6 +64,54 @@ if (typeof textToSpeach != 'undefined') {
 
 			window.speechSynthesis.speak(msg);
     	};
+			
+			/*
+			 * Sets the host to use as Phoneme Server.
+			 *
+			 * The specified hostname must use the following format: protocol://hostname:port/route
+			 * Ensure that the specified hostname is active, a phoneme server is required for speech.
+			 * 
+			 * When Unity is ready this function is automatically executed once by textToSpeech.js to
+			 * make sure the hostName is set. The default hostName can be changed within this function.
+			 */
+			self.setPhonemeServerHost = function(hostName) {
+				// if the function was not called with a specified hostName, use default value.
+				if (!hostName) {
+					// The default hostName can be specified here, by changing the value of hostName.
+					
+					// current default = http://current_hostname:3001/api/v1/
+					var newUrl = "http://" + location.hostName + ":3001/api/v1/";
+					
+					hostName = newUrl;
+					
+					// Other location attributes are available to create a default hostName string,
+					// see https://www.w3schools.com/jsref/obj_location.asp for available options.
+				}
+				
+				gameInstance.SendMessage('TalkingCoach', 'setPhonemeServerHost', hostName);
+				console.log("hostName set to : " + hostName);
+			};
+			
+			/*
+			 * Specifies the host to use as Phoneme Server.
+			 * 
+			 * When Unity is ready this function is automatically called once to load the specified hostName
+			 * 
+			 * The specified hostname must use the standard location format: protocol://hostname:port/route
+			 * Ensure that the specified server is active, the phoneme server is required for speech.
+			 */
+			self.getPhonemeServerHost = function() {
+                // current default = http://current_hostname:3001/api/v1/
+			    var hostName = "http://" + location.hostName + ":3001/api/v1/";
+
+                console.log("Phoneme Server host set to : " + hostName);
+			    return hostName;
+            };
+
+			self.unityReady = function() {
+				console.log("Unity Ready!");
+				self.setPhonemeServerHost(false);
+			};
         
         self.checkAndCancelTimeout = function () {
             if (self.timeoutId != null) {

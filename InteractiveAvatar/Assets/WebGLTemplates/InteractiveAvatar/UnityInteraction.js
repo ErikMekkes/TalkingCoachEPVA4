@@ -31,12 +31,6 @@ function setLanguage() {
     gameInstance.SendMessage('TalkingCoach', 'setLanguage', language);
 }
 
-function setHostName() {
-    var hName = document.getElementById("hostName").value;
-    console.log(hName);
-    gameInstance.SendMessage('TalkingCoach', 'setHostName', hName);
-}
-
 function changeBackground(){
     gameInstance.SendMessage('TalkingCoach', 'changeBackround');
 }
