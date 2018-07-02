@@ -60,6 +60,13 @@ public class TextManager : MonoBehaviour {
 	/// <returns>Gets all the system voices.</returns>
 	[DllImport("__Internal")]
 	private static extern string getSystemVoices();
+	
+	/// <summary>
+	/// Returns the hostname of the webpage unity is currently loaded on.
+	/// </summary>
+	/// <returns>Hostname string with protocol prefix</returns>
+	[DllImport("__Internal")]
+	private static extern string loadPhonemeServer();
 	#endif
 
 	/// <summary>
@@ -91,6 +98,13 @@ public class TextManager : MonoBehaviour {
 	public void getVoices(){
 		Debug.Log("Get Voices");
 		Debug.Log(getSystemVoices());
+	}
+	/// <summary>
+	/// Updates local hostname variable with the hostname used of the current
+	/// webpage Unity is loaded in. Only useable from within the web page.
+	/// </summary>
+	public void loadPhonemeServerHost() {
+		phonemeServerHost = loadPhonemeServer();
 	}
 
 	/// <summary>
