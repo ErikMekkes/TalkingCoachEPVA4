@@ -2,7 +2,16 @@
 
 This project is based on [TalkingCoach](https://github.com/ruuddejong/TalkingCoach), a Unity based software framework to create a virtual character which can speak in a natural language. This project focuses on extending that framework by implementing lip-syncing functionalities in it.
 
+### EPVA4 members:
+- Emma Sala
+- Erik Mekkes
+- Joshua Slik
+- Lucile Nikkels
+- Muhammed Imran Özyar
+
 ## Backend server installation
+An installation package with all the required components and guidance has been included as talkingcoach_server_setup.zip
+
 The backend server depends on eSpeak NG version 1.49.2 or later.
 
 ### Installing eSpeak NG
