@@ -10,8 +10,8 @@ public class TextManager : MonoBehaviour {
 	private string voice = "Dutch Female";
 	// default language name, overwritten with setLanguage().
 	private string language = "en-US";
-	// default ESpeak text to phoneme API host, overwritten with loadHostName().
-	private string hostName = "http://test.emekkes.nl";
+	// default ESpeak text to phoneme API host if unspecified.
+	private string phonemeServerHost = "http://test.emekkes.nl:3001/api/v1/";
 
 	// Declarations for javascript text to speech callback functions
 	public delegate void StartDelegate(int lastword, float elapsedTime);
@@ -66,7 +66,7 @@ public class TextManager : MonoBehaviour {
 	/// </summary>
 	/// <returns>Hostname string with protocol prefix</returns>
 	[DllImport("__Internal")]
-	private static extern string getHostNameString();
+	private static extern string loadPhonemeServer();
 	#endif
 
 	/// <summary>
@@ -99,20 +99,19 @@ public class TextManager : MonoBehaviour {
 		Debug.Log("Get Voices");
 		Debug.Log(getSystemVoices());
 	}
-
 	/// <summary>
 	/// Updates local hostname variable with the hostname used of the current
 	/// webpage Unity is loaded in. Only useable from within the web page.
 	/// </summary>
-	public void loadHostName() {
-		hostName = getHostNameString();
+	public void loadPhonemeServerHost() {
+		phonemeServerHost = loadPhonemeServer();
 	}
 
 	/// <summary>
 	/// Sets the hostname variable to the specified hostname.
 	/// </summary>
-	public void setHostName(string hName) {
-		hostName = hName;
+	public void setPhonemeServerHost(string hName) {
+		phonemeServerHost = hName;
 	}
 
 	/// <summary>
@@ -120,8 +119,8 @@ public class TextManager : MonoBehaviour {
 	/// loadHostName, defaults to http://test.emekkes.nl otherwise
 	/// </summary>
 	/// <returns>Hostname string with protocol prefix</returns>
-	public string getHostName() {
-		return hostName;
+	public string getPhonemeServerHost() {
+		return phonemeServerHost;
 	}
 	
 	/// <summary>

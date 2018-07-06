@@ -14,7 +14,6 @@ public class ApplicationManager : MonoBehaviour {
 	// field for screensaver timeOut setting in seconds
 	public float timeOut = 30.0f;
 	
-	
 	// cameras
 	private Camera[] cams;
 	// elapsed time for time out
@@ -68,7 +67,7 @@ public class ApplicationManager : MonoBehaviour {
 		on_load();
 		// load hostname for text to phoneme API calls, only available from web.
 		#if !UNITY_EDITOR && UNITY_WEBGL
-		TextManager.tmInstance.loadHostName();
+        TextManager.tmInstance.loadPhonemeServerHost();
 		#endif
 	}
 	
